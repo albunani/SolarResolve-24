@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Startup Pitch</title>
+
+  <!-- Pretendard font – swap ensures text stays visible while loading -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    crossorigin="anonymous"
+  />
+
+  <style>
+    /* ================================================================
+       0. DESIGN TOKENS
+       ================================================================ */
+    :root {
+      /* surfaces */
+      --bg:              #0f1117;
+      --surface:         rgba(255, 255, 255, 0.04);
+      --surface-hover:   rgba(255, 255, 255, 0.07);
+      --border:          rgba(255, 255, 255, 0.08);
+      --border-focus:    rgba(56, 189, 248, 0.6);
+
+      /* text */
+      --text-primary:    #f0f0f3;
+      --text-secondary:  #9ca3af;
+      --text-muted:      #6b7280;
+
+      /* accent */
+      --accent:          #38bdf8;          /* sky-400 – energy / trust */
+      --accent-hover:    #7dd3fc;
+      --accent-pressed:  #0ea5e9;
+
+      /* spacing */
+      --gutter:          1rem;
+      --container-max:   960px;
+      --radius:          14px;
+      --radius-sm:       8px;
+
+      /* typography */
+      --font: "Pretendard Variable", "Pretendard", "Inter", system-ui,
+              -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    /* ================================================================
+       1. RESET & BASE
+       ================================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 100%;                    /* 16 px default */
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.65;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+
+    /* ================================================================
+       2. LAYOUT CONTAINER
+       ================================================================ */
+    .page {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 3rem var(--gutter) 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+    }
+
+    /* ================================================================
+       3. TOP — FOUNDER INTRODUCTION
+       ================================================================ */
+    .founder {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .founder__title {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--text-primary);
+    }
+
+    /* avatar placeholder */
+    .founder__avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .founder__avatar-icon {
+      width: 40px;
+      height: 40px;
+      color: var(--text-muted);
+    }
+
+    .founder__name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .founder__bio {
+      max-width: 540px;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* domain tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      list-style: none;
+    }
+
+    .tag {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      padding: 0.35em 0.9em;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--accent);
+      user-select: none;
+      cursor: default;             /* not clickable */
+    }
+
+    /* ================================================================
+       4. MIDDLE — PROBLEM & SOLUTION CARDS
+       ================================================================ */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.75rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card:hover {
+      background: var(--surface-hover);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .card__header {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 1rem;
+    }
+
+    .card__icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    .card__heading {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .card__body {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ================================================================
+       5. BOTTOM — CONTACT CTA
+       ================================================================ */
+    .cta {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .cta__heading {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .cta__text {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      max-width: 440px;
+    }
+
+    .cta__button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      padding: 0.85rem 2rem;
+      min-height: 44px;
+      min-width: 44px;
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    .cta__button:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .cta__button:active {
+      background: var(--accent-pressed);
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    /* strong keyboard-focus ring */
+    .cta__button:focus-visible {
+      outline: 3px solid var(--border-focus);
+      outline-offset: 3px;
+    }
+
+    .cta__button-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ================================================================
+       6. RESPONSIVE — TABLET+
+       ================================================================ */
+    @media (min-width: 640px) {
+      :root { --gutter: 2rem; }
+
+      .page   { gap: 4rem; padding-top: 4.5rem; padding-bottom: 5rem; }
+      .cards  { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* full-width CTA on narrow mobile */
+    @media (max-width: 480px) {
+      .cta__button { width: 100%; }
+    }
+
+    /* ================================================================
+       7. REDUCED MOTION
+       ================================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <!-- ============================================================
+         TOP — Founder Introduction
+         ============================================================ -->
+    <header class="founder">
+      <h1 class="founder__title">My Startup Pitch</h1>
+
+      <!-- Avatar placeholder -->
+      <div class="founder__avatar" aria-hidden="true">
+        <svg class="founder__avatar-icon" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+             stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 21c0-3.87 3.58-7 8-7s8 3.13 8 7"/>
+        </svg>
+      </div>
+
+      <!-- ✏️  Replace placeholder name before public deployment -->
+      <p class="founder__name">[Founder Name]</p>
+
+      <p class="founder__bio">
+        A Mechatronics Engineering student building responsible AI solutions for
+        practical clean-energy challenges in Nigeria.
+      </p>
+
+      <ul class="tags" aria-label="Core domain areas">
+        <li class="tag">Mechatronics</li>
+        <li class="tag">AI / Machine Learning</li>
+        <li class="tag">Clean Energy</li>
+      </ul>
+    </header>
+
+    <!-- ============================================================
+         MIDDLE — Problem & Solution Cards
+         ============================================================ -->
+    <section class="cards" aria-label="Venture introduction">
+
+      <!-- Card 1 — The Problem -->
+      <article class="card">
+        <div class="card__header">
+          <!-- icon: warning triangle (decorative) -->
+          <svg class="card__icon" aria-hidden="true" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 9v4m0 4h.01"/>
+            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0
+                     1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          </svg>
+          <h2 class="card__heading">The Problem</h2>
+        </div>
+        <p class="card__body">
+          Many Nigerian solar owners cannot independently understand why battery
+          performance declines or whether a proposed diagnosis is credible.
+          Fragmented technical information and conflicting advice can lead to
+          unsafe actions, unnecessary repairs, avoidable replacements, and wasted
+          money.
+        </p>
+      </article>
+
+      <!-- Card 2 — The Solution -->
+      <article class="card">
+        <div class="card__header">
+          <!-- icon: light-bulb (decorative) -->
+          <svg class="card__icon" aria-hidden="true" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6"/>
+            <path d="M10 22h4"/>
+            <path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>
+          </svg>
+          <h2 class="card__heading">The Solution</h2>
+        </div>
+        <p class="card__body">
+          SolarResolve turns user descriptions and solar-system evidence into a
+          structured assessment. It identifies plausible cause categories,
+          communicates uncertainty, recommends safe next steps, and creates a
+          technician-ready brief—without pretending to replace a qualified
+          professional.
+        </p>
+      </article>
+
+    </section>
+
+    <!-- ============================================================
+         BOTTOM — Contact CTA
+         ============================================================ -->
+    <section class="cta" aria-label="Contact">
+      <h2 class="cta__heading">Interested in the venture?</h2>
+      <p class="cta__text">
+        Let's discuss the idea, potential collaboration, or early feedback.
+      </p>
+
+      <!-- ✏️  Replace placeholder email before public deployment -->
+      <a class="cta__button"
+         href="mailto:[founder-email@example.com]?subject=SolarResolve%20Venture%20Introduction"
+         aria-label="Contact Me by Email">
+        <!-- envelope icon (decorative) -->
+        <svg class="cta__button-icon" aria-hidden="true" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+        Contact Me by Email
+      </a>
+    </section>
+
+  </main>
+</body>
+</html>
