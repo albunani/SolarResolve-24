@@ -131,49 +131,75 @@ def build_assessment(
     missing = _build_missing(evidence)
     
     # 3. LLM generation
-    from src.services.ai_provider import get_ai_provider, ProviderOutputError, ProviderUnavailableError
+    from src.services.ai_provider import (
+        ProviderOutputError,
+        ProviderUnavailableError,
+        get_ai_provider,
+    )
     from src.services.prompts import build_provider_prompt
     import logging
-    
+
     logger = logging.getLogger(__name__)
     provider = get_ai_provider()
-    
-    # D4-005: Build a typed provider input with exact untrusted data delimiters
+
     prompt = build_provider_prompt(evidence, clarifications, image_observations)
-    
-    max_attempts = 2  # Hard cap at 1 retry
+
+    max_attempts = 2  # Hard cap: 1 original + 1 retry
     draft = None
-    
+
     for attempt in range(max_attempts):
         try:
             draft = provider.generate_assessment_draft(prompt)
-            
-            # Validate the whole draft
-            full_text = f"{draft.summary} {draft.recommended_next_action} " + " ".join([c.description for c in draft.possible_causes] + draft.safe_checks)
-            if contains_prohibited_action(full_text) or contains_definitive_diagnosis(full_text):
-                raise ProviderOutputError("Draft contained prohibited actions or definitive diagnosis.")
-                
-            break # Valid!
-        except ProviderUnavailableError as e:
-            # D4-003: Do not retry timeout or unavailability
-            logger.error(f"Provider unavailable: {e.__class__.__name__}")
+
+            # D4V2-003: validate EVERY model-controlled field individually
+            fields_to_check: list[str] = [
+                draft.summary,
+                draft.recommended_next_action,
+            ]
+            for cause in draft.possible_causes:
+                fields_to_check.append(cause.description)
+                fields_to_check.append(cause.category)
+            for check in draft.safe_checks:
+                fields_to_check.append(check)
+
+            for field_text in fields_to_check:
+                if contains_prohibited_action(field_text):
+                    raise ProviderOutputError(
+                        "Draft field contained a prohibited action."
+                    )
+                if contains_definitive_diagnosis(field_text):
+                    raise ProviderOutputError(
+                        "Draft field contained a definitive diagnosis."
+                    )
+
+            break  # Valid draft
+
+        except ProviderUnavailableError:
+            # Never retry timeout/network/rate-limit errors
             raise
-        except ProviderOutputError as e:
+
+        except ProviderOutputError:
             if attempt == max_attempts - 1:
-                logger.error(f"AI generation failed after {max_attempts} attempts. Last error: {e.__class__.__name__}")
+                logger.error(
+                    "AI generation failed after %d attempts", max_attempts
+                )
                 raise
-            logger.warning(f"AI validation attempt {attempt + 1} failed, retrying: {e.__class__.__name__}")
-            
-    # Map the model output to our deterministic CauseAssessment
+            logger.warning("AI draft attempt %d rejected, retrying", attempt + 1)
+
+    # Map the validated draft to our deterministic CauseAssessment
     causes = [
         CauseAssessment(
             category=c.category,
             description=c.description,
-            confidence=c.confidence
-        ) for c in draft.possible_causes
+            confidence=c.confidence,
+        )
+        for c in draft.possible_causes
     ]
 
-    safe_checks = [SafeAction(action=check_text, reason="Recommended by AI assessment.") for check_text in draft.safe_checks]
+    safe_checks = [
+        SafeAction(action=check_text, reason="Recommended by AI assessment.")
+        for check_text in draft.safe_checks
+    ]
     rec_action_text = draft.recommended_next_action
 
     prohibited = [

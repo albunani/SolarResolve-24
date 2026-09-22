@@ -22,6 +22,34 @@ function validateResultSchema(data: unknown): data is AssessmentResult {
   return REQUIRED_RESULT_KEYS.every(key => key in obj);
 }
 
+/**
+ * Parse a backend error response into a clean user-facing message.
+ * Never exposes raw JSON or internal details.
+ */
+function parseErrorMessage(status: number, body: string): string {
+  // Try to extract `detail` from a JSON error body
+  try {
+    const parsed = JSON.parse(body);
+    if (typeof parsed?.detail === 'string') {
+      return parsed.detail;
+    }
+  } catch {
+    // Not JSON — fall through
+  }
+
+  // Fallback: clean status-based messages
+  if (status === 503) {
+    return 'The assessment service is temporarily unavailable. Please try again shortly.';
+  }
+  if (status === 502) {
+    return 'The assessment could not be completed. Please try again.';
+  }
+  if (status === 422) {
+    return 'Some evidence fields are invalid. Please review and correct your input.';
+  }
+  return 'An unexpected error occurred. Please try again.';
+}
+
 export async function generateAssessment(
   evidence: Record<string, unknown>,
   clarifications?: Array<{ question: string; answer: string }>,
@@ -41,10 +69,8 @@ export async function generateAssessment(
   });
 
   if (!response.ok) {
-    const detail = await response.text().catch(() => '');
-    throw new Error(
-      `Assessment service error (${response.status}): ${detail || 'Unknown error'}`,
-    );
+    const body = await response.text().catch(() => '');
+    throw new Error(parseErrorMessage(response.status, body));
   }
 
   const data: unknown = await response.json();

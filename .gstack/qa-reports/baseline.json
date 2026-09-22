@@ -1,24 +1,24 @@
 {
   "date": "2026-09-22",
   "url": "http://localhost:5173",
-  "healthScore": 73,
+  "healthScore": 71,
   "issues": [
-    { "id": "D4-001", "title": "Backend dependency state is not reproducible", "severity": "blocker", "category": "functional" },
-    { "id": "D4-002", "title": "Unsafe and definitive model output can be returned", "severity": "critical", "category": "functional" },
-    { "id": "D4-003", "title": "Provider errors and retry policy violate the contract", "severity": "high", "category": "functional" },
-    { "id": "D4-004", "title": "Timeout setting is not enforced and frontend aborts first", "severity": "high", "category": "performance" },
-    { "id": "D4-005", "title": "Provider input and prompt trust boundary are incomplete", "severity": "high", "category": "functional" },
-    { "id": "D4-006", "title": "Configuration, CORS, logging, and documentation are inconsistent", "severity": "high", "category": "content" },
-    { "id": "D4-007", "title": "Required Day 4 test and report evidence is missing", "severity": "high", "category": "functional" }
+    { "id": "D4V2-001", "title": "Gemini timeout is 1,000 times shorter than intended", "severity": "blocker", "category": "performance" },
+    { "id": "D4V2-002", "title": "Real network timeouts produce the wrong status and retry count", "severity": "high", "category": "functional" },
+    { "id": "D4V2-003", "title": "Definitive diagnosis can bypass the phrase list", "severity": "critical", "category": "functional" },
+    { "id": "D4V2-004", "title": "Prompt boundary is injectable and evidence is incomplete", "severity": "high", "category": "functional" },
+    { "id": "D4V2-005", "title": "Dependency and deployment declarations are inconsistent", "severity": "high", "category": "functional" },
+    { "id": "D4V2-006", "title": "Evidence report overstates completion", "severity": "medium", "category": "content" },
+    { "id": "D4V2-007", "title": "Recovery UI exposes raw response JSON", "severity": "low", "category": "ux" }
   ],
   "categoryScores": {
     "console": 100,
     "links": 100,
     "visual": 100,
-    "functional": 0,
-    "ux": 85,
-    "performance": 70,
-    "content": 60,
+    "functional": 45,
+    "ux": 82,
+    "performance": 20,
+    "content": 68,
     "accessibility": 100
   }
 }

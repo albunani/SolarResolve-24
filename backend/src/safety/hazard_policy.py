@@ -5,7 +5,6 @@ hazard strings across components.
 """
 
 import re
-from dataclasses import dataclass, field
 
 # ---------------------------------------------------------------------------
 # Hazard flag definitions
@@ -50,14 +49,18 @@ for _hid, _terms in _HAZARD_SYNONYMS.items():
     _compiled_patterns[_hid] = re.compile(_pattern, re.IGNORECASE)
 
 
-_NEGATION_PATTERN = re.compile(r"\b(?:no|not|without|never)\b(?:(?!except|but|however|only)[^\.,;!\?]){0,40}\s*$", re.IGNORECASE)
+_NEGATION_PATTERN = re.compile(
+    r"\b(?:no|not|without|never)\b(?:(?!except|but|however|only)[^\.,;!\?]){0,40}\s*$",
+    re.IGNORECASE,
+)
+
 
 def scan_text_for_hazards(text: str) -> list[str]:
     """Return list of hazard IDs found in free text via deterministic keyword matching."""
     found: list[str] = []
     if not text:
         return found
-        
+
     text_lower = text.lower()
     for hid, pattern in _compiled_patterns.items():
         for match in pattern.finditer(text_lower):
@@ -84,7 +87,7 @@ PROHIBITED_VERBS = [
 ]
 
 _prohibited_pattern = re.compile(
-    "|".join(re.escape(v) for v in PROHIBITED_VERBS), re.IGNORECASE
+    "|".join(re.escape(v) for v in PROHIBITED_VERBS), re.IGNORECASE,
 )
 
 
@@ -95,14 +98,30 @@ def contains_prohibited_action(text: str) -> bool:
     return bool(_prohibited_pattern.search(text))
 
 
+# ---------------------------------------------------------------------------
+# Definitive diagnosis detection  (D4V2-003: expanded coverage)
+# ---------------------------------------------------------------------------
 DEFINITIVE_DIAGNOSIS_TERMS = [
-    "is defective", "has failed", "is broken", "needs replacement", "is dead",
-    "battery failed", "inverter failed"
+    # State assertions
+    "is defective", "is faulty", "is broken", "is dead", "is damaged",
+    "is bad", "is worn out", "is degraded beyond",
+    # Failure claims
+    "has failed", "battery failed", "inverter failed",
+    "failure confirmed", "failure is confirmed",
+    # Replacement mandates
+    "needs replacement", "must be replaced", "should be replaced",
+    "requires replacement", "replace the battery", "replace the inverter",
+    "replace immediately",
+    # Definitive causality
+    "the cause is", "the problem is", "the fault is",
+    "confirmed diagnosis", "definitive diagnosis",
+    "certainly", "definitely failed", "without doubt",
 ]
 
 _definitive_pattern = re.compile(
-    "|".join(re.escape(v) for v in DEFINITIVE_DIAGNOSIS_TERMS), re.IGNORECASE
+    "|".join(re.escape(v) for v in DEFINITIVE_DIAGNOSIS_TERMS), re.IGNORECASE,
 )
+
 
 def contains_definitive_diagnosis(text: str) -> bool:
     """Return True if text contains definitive diagnosis claims."""
@@ -111,8 +130,11 @@ def contains_definitive_diagnosis(text: str) -> bool:
     return bool(_definitive_pattern.search(text))
 
 
+# ---------------------------------------------------------------------------
+# Convenience filter
+# ---------------------------------------------------------------------------
 def filter_safe_output(text: str) -> str:
-    """If text contains prohibited actions, replace with safe fallback."""
+    """If text contains prohibited actions or definitive diagnosis, replace."""
     if contains_prohibited_action(text) or contains_definitive_diagnosis(text):
         return (
             "This recommendation has been blocked because it may involve "
