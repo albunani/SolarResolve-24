@@ -41,3 +41,7 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 app.include_router(health_router, prefix="/api/v1")
 app.include_router(assessments_router, prefix="/api/v1")
+
+@app.get("/api/v1/version")
+def get_version():
+    return {"version": "CORS_FIX_DEPLOYED_12345"}
