@@ -89,20 +89,16 @@ export default function ImageEvidenceScreen() {
   const renderUploadState = () => (
     <>
       <section className="form-section">
-        <h2>Upload Image (Optional)</h2>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem', fontSize: '0.95rem' }}>
-          Uploading a clear photo of your inverter display, battery label, or error code can help improve the assessment.
-        </p>
-        
-        <div style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem' }}>
-          <h3 style={{ color: 'var(--accent-primary)', fontSize: '1rem', marginBottom: '0.5rem' }}>Privacy Notice</h3>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-            Please ensure no personal information, faces, or location-identifying details are visible in the photo. 
-            Images are processed automatically and temporarily for the purpose of this assessment.
+        <h2>Upload Image (Coming Soon)</h2>
+        <div style={{ backgroundColor: '#fffbeb', border: '1px solid #f59e0b', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem' }}>
+          <h3 style={{ color: '#b45309', fontSize: '1rem', marginBottom: '0.5rem' }}>Demo / Deferred Feature</h3>
+          <p style={{ fontSize: '0.85rem', color: '#92400e' }}>
+            The AI image processing capability is currently disabled in this environment. 
+            Please use "Continue Without Image" to proceed with a text-based assessment.
           </p>
         </div>
 
-        <div className="form-group">
+        <div className="form-group" style={{ opacity: 0.5, pointerEvents: 'none' }}>
           <label htmlFor="image-upload" className="sr-only">Choose image</label>
           <input 
             type="file" 
@@ -111,6 +107,7 @@ export default function ImageEvidenceScreen() {
             onChange={handleFileChange}
             ref={fileInputRef}
             className="file-input"
+            disabled
           />
         </div>
         
@@ -120,11 +117,11 @@ export default function ImageEvidenceScreen() {
       <div className="form-actions">
         <button type="button" className="secondary-btn" onClick={() => navigate('/intake')}>Back</button>
         {file ? (
-          <button type="button" className="primary-cta" onClick={handleUpload} disabled={loading}>
-            {loading ? 'Processing...' : 'Process Image'}
+          <button type="button" className="primary-cta" onClick={handleUpload} disabled>
+            {loading ? 'Processing...' : 'Process Image (Disabled)'}
           </button>
         ) : (
-          <button type="button" className="secondary-btn" onClick={handleSkip}>
+          <button type="button" className="primary-cta" onClick={handleSkip}>
             Continue Without Image
           </button>
         )}

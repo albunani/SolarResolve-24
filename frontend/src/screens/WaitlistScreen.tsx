@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { API_BASE_URL } from '../services/config';
 
@@ -7,8 +7,11 @@ type Role = 'buyer' | 'solar_owner' | 'installer' | 'cluster_partner' | '';
 export const WaitlistScreen: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [role, setRole] = useState<Role>('');
+  const initialInt = new URLSearchParams(location.search).get('interest');
+  const validRoles = ['buyer', 'solar_owner', 'installer', 'cluster_partner'];
+  const [role, setRole] = useState<Role | ''>(
+    validRoles.includes(initialInt || '') ? (initialInt as Role) : ''
+  );
   const [buyerContext, setBuyerContext] = useState('');
   const [knowsOwner, setKnowsOwner] = useState('');
   const [name, setName] = useState('');
@@ -20,14 +23,6 @@ export const WaitlistScreen: React.FC = () => {
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'error'>('idle');
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const int = params.get('interest');
-    if (int === 'buyer' || int === 'solar_owner' || int === 'installer' || int === 'cluster_partner') {
-      setRole(int as Role);
-    }
-  }, [location.search]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,6 +63,7 @@ export const WaitlistScreen: React.FC = () => {
       const data = await response.json();
       navigate(`/pilot/result?reference=${data.reference}`);
     } catch (err) {
+      console.error(err);
       setErrorMessages(['A network or server error occurred. Please try again.']);
       setStatus('error');
     }

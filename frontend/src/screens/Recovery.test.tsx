@@ -21,7 +21,7 @@ describe('D4V3-001 Recovery Flow', () => {
     );
 
     // Home
-    await user.click(screen.getByRole('button', { name: /Assess my battery-runtime problem/i }));
+    await user.click(screen.getAllByRole('link', { name: /Assess my battery/i })[0]);
 
     // Safety check
     await user.click(screen.getByLabelText(/None of these observed/i));

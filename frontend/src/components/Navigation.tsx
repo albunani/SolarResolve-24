@@ -44,8 +44,6 @@ export const Footer: React.FC = () => {
           <div>
             <h4>Contact</h4>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              <li>Phone: 0800 SOLARPEER</li>
-              <li>WhatsApp: +234 800 123 4567</li>
               <li>Email: pilot@solarpeer360.com</li>
             </ul>
           </div>
