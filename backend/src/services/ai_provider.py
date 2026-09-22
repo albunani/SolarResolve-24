@@ -166,6 +166,7 @@ class GeminiAssessmentProvider:
         )
 
     def generate_assessment_draft(self, prompt: str) -> ModelAssessmentDraft:
+        import time
         import httpx
         from google.genai import types
         from google.genai.errors import APIError
@@ -179,46 +180,48 @@ class GeminiAssessmentProvider:
             temperature=0.2,
         )
 
-        try:
-            interaction = self.client.models.generate_content(
-                model=self.model,
-                contents=prompt,
-                config=config,
-            )
-
-            if not interaction.text:
-                raise ProviderOutputError(
-                    "Provider returned empty or blocked response."
+        max_retries = 3
+        base_delay = 2.0
+        
+        for attempt in range(max_retries):
+            try:
+                interaction = self.client.models.generate_content(
+                    model=self.model,
+                    contents=prompt,
+                    config=config,
                 )
 
-            return ModelAssessmentDraft.model_validate_json(interaction.text)
+                if not interaction.text:
+                    raise ProviderOutputError(
+                        "Provider returned empty or blocked response."
+                    )
 
-        # D4V2-002: network / transport / timeout → 503, no retry
-        except (httpx.TimeoutException, httpx.ConnectError, httpx.TransportError) as exc:
-            raise ProviderUnavailableError(
-                "Provider timeout or network error"
-            ) from exc
+                return ModelAssessmentDraft.model_validate_json(interaction.text)
 
-        except APIError as exc:
-            error_str = str(exc)
-            if "429" in error_str or "quota" in error_str.lower() or "503" in error_str:
-                raise ProviderUnavailableError(
-                    "Rate limit or service unavailable"
+            except (httpx.TimeoutException, httpx.ConnectError, httpx.TransportError) as exc:
+                if attempt == max_retries - 1:
+                    raise ProviderUnavailableError(
+                        "Provider timeout or network error"
+                    ) from exc
+                time.sleep(base_delay * (2 ** attempt))
+
+            except APIError as exc:
+                error_str = str(exc)
+                if "429" in error_str or "quota" in error_str.lower() or "503" in error_str:
+                    if attempt == max_retries - 1:
+                        raise ProviderUnavailableError(
+                            "Rate limit or service unavailable"
+                        ) from exc
+                    time.sleep(base_delay * (2 ** attempt))
+                else:
+                    raise ProviderUnavailableError(
+                        "Provider API error"
+                    ) from exc
+
+            except Exception as exc:
+                raise ProviderOutputError(
+                    f"Failed to parse provider response: {exc.__class__.__name__}"
                 ) from exc
-            raise ProviderUnavailableError(
-                "Provider API error"
-            ) from exc
-
-        except ProviderOutputError:
-            raise
-
-        except ProviderUnavailableError:
-            raise
-
-        except Exception as exc:
-            raise ProviderOutputError(
-                f"Failed to parse provider response: {exc.__class__.__name__}"
-            ) from exc
 
 
 # ---------------------------------------------------------------------------
@@ -236,7 +239,7 @@ def get_ai_provider() -> AssessmentAIProvider:
             raise ProviderUnavailableError(
                 "GEMINI_API_KEY is required when AI_PROVIDER=gemini"
             )
-        model = "gemini-3.6-flash"
+        model = "gemini-2.5-flash"
         timeout_seconds = int(os.environ.get("AI_TIMEOUT_SECONDS", "20"))
         return GeminiAssessmentProvider(api_key, model, timeout_seconds)
 
