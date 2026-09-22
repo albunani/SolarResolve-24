@@ -1,4 +1,4 @@
-﻿/* Form specific styles for Safety Check and Evidence Intake */
+/* Form specific styles for Safety Check and Evidence Intake */
 
 .form-main {
   display: flex;
@@ -15,40 +15,40 @@
 .form-header h1 {
   font-size: 2.25rem;
   font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: var(--space-sm);
+  color: var(--color-forest-900);
+  margin-bottom: var(--space-2);
   line-height: 1.2;
 }
 
 .form-header p {
-  color: var(--text-secondary);
+  color: var(--color-ink-900);
   font-size: 1.1rem;
 }
 
 .form-section {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg);
+  background-color: var(--color-white);
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
-  box-shadow: var(--shadow-md);
+  gap: var(--space-4);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-section:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
 .form-section h2 {
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: var(--space-sm);
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: var(--space-sm);
+  color: var(--color-forest-900);
+  margin-bottom: var(--space-2);
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: var(--space-2);
 }
 
 /* Checkboxes */
@@ -64,27 +64,27 @@
   gap: 12px;
   cursor: pointer;
   padding: 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background-color: var(--color-white);
   transition: all 0.2s;
 }
 
 .checkbox-label:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-color: var(--text-secondary);
+  background-color: #f9fafb;
+  border-color: var(--color-forest-900);
 }
 
 .checkbox-text {
   font-size: 1rem;
-  color: var(--text-primary);
+  color: var(--color-ink-900);
   font-weight: 500;
 }
 
 /* Inputs */
 .form-row {
   display: flex;
-  gap: var(--space-md);
+  gap: var(--space-4);
 }
 
 .form-row > * {
@@ -99,7 +99,7 @@
 
 .form-group label {
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--color-forest-900);
   font-size: 0.9rem;
 }
 
@@ -107,9 +107,9 @@ input[type="text"],
 input[type="number"],
 select,
 textarea {
-  background-color: #0f172a; /* Darker than surface */
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  background-color: var(--color-white);
+  color: var(--color-ink-900);
+  border: 1px solid #ccc;
   border-radius: var(--radius-md);
   padding: 0.875rem 1rem;
   font-family: inherit;
@@ -121,8 +121,8 @@ input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+  border-color: var(--color-grid-green);
+  box-shadow: 0 0 0 3px rgba(11, 77, 59, 0.2);
 }
 
 textarea {
@@ -150,19 +150,19 @@ textarea {
 
 .secondary-btn {
   background-color: transparent;
-  color: var(--text-primary);
+  color: var(--color-grid-green);
   font-size: 1rem;
   font-weight: 600;
   padding: 0.875rem 2rem;
-  border: 1px solid var(--border-color);
-  border-radius: 9999px;
+  border: 2px solid var(--color-grid-green);
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .secondary-btn:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-color: var(--text-secondary);
+  background-color: var(--color-grid-green);
+  color: var(--color-white);
 }
 
 .secondary-btn:active {
