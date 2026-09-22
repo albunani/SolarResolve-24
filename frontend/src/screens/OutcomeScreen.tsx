@@ -11,7 +11,7 @@ const OutcomeScreen: React.FC = () => {
       <div className="card" style={{ maxWidth: '600px', margin: '0 auto' }}>
         <h1 style={{ color: 'var(--color-grid-green)' }}>You have joined the pilot waitlist</h1>
         <p style={{ fontSize: '18px', margin: 'var(--space-4) 0' }}>
-          Your reference is <strong>{reference || 'SP360-XXXX'}</strong>.
+          Your reference is <strong>{reference || 'SR-XXXX'}</strong>.
         </p>
         <p>
           We will review sign-ups by community before contacting participants. 

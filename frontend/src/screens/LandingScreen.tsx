@@ -11,7 +11,7 @@ const LandingScreen: React.FC = () => {
           <div>
             <h1 style={{ color: 'var(--color-solar-500)' }}>Reliable power from the solar system next door</h1>
             <p style={{ fontSize: '20px', marginBottom: 'var(--space-6)' }}>
-              Join the SolarPeer 360 pilot to buy measured, prepaid solar energy directly from your neighbors. No deposits. No hidden fees.
+              Join the SolarResolve pilot to buy measured, prepaid solar energy directly from your neighbors. No deposits. No hidden fees.
             </p>
             <div style={{ display: 'flex', gap: 'var(--space-4)' }}>
               <Link to="/pilot" className="primary-cta">Join the pilot</Link>
@@ -19,7 +19,7 @@ const LandingScreen: React.FC = () => {
             </div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <img src={logoStacked} alt="SolarPeer 360 logo" style={{ maxWidth: '80%', height: 'auto' }} />
+            <img src={logoStacked} alt="SolarResolve logo" style={{ maxWidth: '80%', height: 'auto' }} />
           </div>
         </div>
       </section>
@@ -53,7 +53,7 @@ const LandingScreen: React.FC = () => {
 
       {/* Audience Selector */}
       <section id="who-it-is-for" className="container" style={{ marginTop: 'var(--space-16)' }}>
-        <h2>Who is SolarPeer for?</h2>
+        <h2>Who is SolarResolve for?</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-6)' }}>
           <div className="card" style={{ borderTop: '4px solid var(--color-grid-green)' }}>
             <h3>For Buyers</h3>

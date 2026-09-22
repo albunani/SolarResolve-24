@@ -14,9 +14,9 @@ async def submit_waitlist(request: WaitlistRequest):
     # Log the submission
     logger.info(f"Received waitlist submission for role: {request.role} in {request.community}, {request.state}")
     
-    # Generate a simple reference format SP360-XXXX
+    # Generate a simple reference format SR-XXXX
     ref_id = str(uuid.uuid4())[:4].upper()
-    reference = f"SP360-{ref_id}"
+    reference = f"SR-{ref_id}"
 
     # In a real app, this would save to a database.
     # For the pilot MVP, we acknowledge the receipt and return the reference.

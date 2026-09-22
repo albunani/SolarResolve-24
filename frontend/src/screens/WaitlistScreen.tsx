@@ -77,7 +77,7 @@ export const WaitlistScreen: React.FC = () => {
     <div className="container" style={{ padding: 'var(--space-8) var(--space-4)', maxWidth: '800px' }}>
       <h1>Join the Pilot Waitlist</h1>
       <p style={{ marginBottom: 'var(--space-6)' }}>
-        Submit your interest to join the SolarPeer 360 pilot. Joining creates no payment obligation, 
+        Submit your interest to join the SolarResolve pilot. Joining creates no payment obligation, 
         and final terms precede any installation.
       </p>
 
@@ -196,7 +196,7 @@ export const WaitlistScreen: React.FC = () => {
           <label className="radio-option" style={{ alignItems: 'flex-start' }}>
             <input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} style={{ marginTop: '5px' }} />
             <span>
-              I consent to being contacted regarding the SolarPeer 360 pilot. 
+              I consent to being contacted regarding the SolarResolve pilot. 
               <br/><a href="/policies/privacy" target="_blank" rel="noreferrer">Read Privacy Notice</a>
             </span>
           </label>
