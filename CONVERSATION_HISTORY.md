@@ -586,3 +586,39 @@ Antigravity requested eight decisions before beginning Day 3 implementation.
 **User request:** Review `WORK_REPORT_REMEDIATION_V2.md`, independently revalidate the implementation, and skip anything already completed.
 
 **Outcome:** Performed a read-only audit against `PROJECT.md`. Confirmed 24 of 26 Must-Have acceptance criteria as Pass and left two as Manual Check. Backend tests passed 48/48 and the principal browser flows passed, including every hazard option, late-hazard escalation, validation, route protection, insufficient evidence, service-failure recovery, and technician brief rendering. The frontend release gates are not green: the production build has three TypeScript errors, the frontend suite passes 7/8 tests, and lint reports five warnings. Created `VALIDATION_REMEDIATION_V2.md` with evidence, reproduction steps, priorities, and an incremental revalidation plan that skips previously confirmed work.
+
+## 2026-09-22 — CODEX_HANDOFF review and current-state sync
+
+**User request:** Read `CODEX_HANDOFF.md` and come up to date.
+
+**Outcome:** Reviewed the handoff and independently checked the repository. Confirmed that the former V2 blockers are resolved: frontend lint reports no warnings, the production build succeeds, frontend tests pass 8/8, and backend tests pass 48/48 (with non-failing dependency/cache warnings). Confirmed the Vercel frontend loads and the Railway health endpoint returns HTTP success for SolarResolve API v0.1.0. The current backend still uses deterministic assessment generation in `backend/src/services/assessment_service.py`; Gemini is not integrated yet. Day 4 is therefore the active phase. Also noted that wildcard CORS is enabled for the synthetic MVP and that an untracked root-level `test_cors.py` deployment diagnostic remains in the working tree.
+
+## 2026-09-22 — Day 4 model-provider recommendation
+
+**User request:** Compare Gemini, OpenAI, and Anthropic for the Day 4 AI adapter and recommend which model SolarResolve should use.
+
+**Outcome:** Reviewed current official vendor documentation. Noted that the originally proposed Gemini 1.5 Flash, GPT-4o, and Claude 3.5 Sonnet are older-generation choices; all three current platforms now offer structured/schema-constrained output. Recommended OpenAI with `gpt-5.6-sol` as the initial Day 4 model because it balances professional reasoning quality, structured outputs, image input, a large context window, and MVP cost. Recommended retaining a provider-neutral adapter, benchmarking against a stronger model during evaluation, and preserving deterministic pre/post safety enforcement because schema compliance does not guarantee semantically safe or correct electrical guidance. This is a recommendation awaiting the user's confirmation, not yet an implementation decision.
+
+## 2026-09-22 — Day 4 specification and Antigravity prompt
+
+**User request:** Create the Day 4 AI-integration specification and implementation prompt for Antigravity.
+
+**Outcome:** Created `DAY4_AI_INTEGRATION.md` and `ANTIGRAVITY_DAY4_PROMPT.md`, and linked both from `README.md`. The specification selects OpenAI with configurable default model `gpt-5.6-sol`, preserves a provider-neutral adapter, retains the synthetic adapter for tests/local development, and keeps the public `AssessmentResult` contract stable. For safety, the model generates only a constrained internal draft while IDs, facts, missing evidence, escalation, prohibitions, disclaimer, and technician brief remain application-controlled. The prompt requires deterministic pre/post safety enforcement, bounded validation retry, recoverable provider failures, mocked tests with zero live calls, exact quality-gate reporting, environment-based secrets, CORS tightening, and a final `WORK_REPORT_DAY4.md` for independent Codex revalidation.
+
+## 2026-09-22 — Review of AI_INTEGRATION_PLAN.md
+
+**User request:** Read `AI_INTEGRATION_PLAN.md`.
+
+**Outcome:** Reviewed the proposed switch from OpenAI to Gemini under a strict zero-budget/no-card constraint. The plan conflicts with the approved Day 4 documents by naming the outdated Gemini 1.5 Flash model, directing removal of the synthetic adapter, promoting live image interpretation into the text-first Day 4 scope, and asking for an API key in conversation. Current Google documentation lists newer stable Flash models and describes the free tier as limited and quota-dependent, not permanently guaranteed. No implementation or Day 4 document was changed pending confirmation that this plan supersedes the earlier OpenAI decision. If approved, the safe revision is to use a current configurable Gemini Flash model, retain the synthetic adapter for tests/local development, keep image interpretation deferred unless separately promoted, and have the user place `GEMINI_API_KEY` directly in local/Railway secrets rather than sharing it in chat.
+
+## 2026-09-22 — Gemini zero-budget decision applied to Day 4 documents
+
+**User request:** Update `DAY4_AI_INTEGRATION.md`, `ANTIGRAVITY_DAY4_PROMPT.md`, and `AI_INTEGRATION_PLAN.md` for the zero-budget provider decision.
+
+**Outcome:** Updated all three documents to make Google Gemini the approved Day 4 provider with configurable default model `gemini-3.8-flash` and the official `google-genai` SDK. Removed outdated Gemini 1.5 and permanent-free claims, retained the synthetic adapter for tests/local development, prohibited silent production fallback, kept live image interpretation deferred until the text path passes validation, and added the free-tier privacy boundary requiring synthetic or deliberately anonymized evidence. The documents now instruct the user to place `GEMINI_API_KEY` directly in ignored local/Railway configuration and never share it in chat, source, logs, tests, or reports.
+
+## 2026-09-22 — Day 4 independent validation
+
+**User request:** Review `WORK_REPORT_DAY4.md` and independently validate Antigravity's Day 4 implementation.
+
+**Outcome:** Completed a report-only audit and created `VALIDATION_DAY4.md`. The existing synthetic browser flow, frontend lint, frontend production build, and all 8 frontend tests passed. Day 4 was not accepted: the required backend run reported 50 passed and 4 failed because the Gemini SDK is absent from the authoritative environment; the dependency is unpinned and missing from the lockfile; definitive diagnosis language can pass through model summaries and cause descriptions; unsafe drafts are filtered into a completed result instead of retried and rejected; missing configuration returns 500; simulated timeout returns 502; retry count is not capped at one; the configured backend timeout is unused while the frontend aborts at 15 seconds; confirmed image observations are omitted from the provider prompt; CORS/config examples conflict; and the required Day 4 test/report evidence is incomplete. Generic secret-pattern scanning found placeholders only, and no real credential was recorded or used. The selected `gemini-3.8-flash` identifier was confirmed against current official Google documentation. Application source was not modified.

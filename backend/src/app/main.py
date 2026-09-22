@@ -11,12 +11,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.health import router as health_router
 from src.api.assessments import router as assessments_router
 
+import os
+
 app = FastAPI(
     title="SolarResolve API",
     version="0.1.0",
     description=(
         "Decision-support service for Nigerian solar owners experiencing "
-        "declining battery runtime. Day 3 foundation — health endpoint only."
+        "declining battery runtime. Day 4 AI integration."
     ),
     # Disable the automatic OpenAPI docs in production when the AI phase is
     # added and credentials are present.
@@ -25,13 +27,15 @@ app = FastAPI(
 )
 
 # ---------------------------------------------------------------------------
-# CORS — allow the Vite dev server and future production origins.
-# (Force build commit to ensure Railway pulls latest)
+# CORS
 # ---------------------------------------------------------------------------
+allowed_origins_str = os.environ.get("ALLOWED_ORIGINS", "http://localhost:5173")
+allowed_origins = [o.strip() for o in allowed_origins_str.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
+    allow_origins=allowed_origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -41,7 +45,3 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 app.include_router(health_router, prefix="/api/v1")
 app.include_router(assessments_router, prefix="/api/v1")
-
-@app.get("/api/v1/version")
-def get_version():
-    return {"version": "CORS_FIX_DEPLOYED_12345"}

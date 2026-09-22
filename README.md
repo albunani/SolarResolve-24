@@ -39,6 +39,8 @@ For complete product and MVP definitions, see:
 
 - [Project concept](./PROJECT_CONCEPT.md)
 - [MVP requirements](./requirement.md)
+- [Day 4 AI integration specification](./DAY4_AI_INTEGRATION.md)
+- [Antigravity Day 4 implementation prompt](./ANTIGRAVITY_DAY4_PROMPT.md)
 - [Conversation and decision history](./CONVERSATION_HISTORY.md)
 
 ## Development principles

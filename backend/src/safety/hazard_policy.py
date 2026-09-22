@@ -95,12 +95,28 @@ def contains_prohibited_action(text: str) -> bool:
     return bool(_prohibited_pattern.search(text))
 
 
+DEFINITIVE_DIAGNOSIS_TERMS = [
+    "is defective", "has failed", "is broken", "needs replacement", "is dead",
+    "battery failed", "inverter failed"
+]
+
+_definitive_pattern = re.compile(
+    "|".join(re.escape(v) for v in DEFINITIVE_DIAGNOSIS_TERMS), re.IGNORECASE
+)
+
+def contains_definitive_diagnosis(text: str) -> bool:
+    """Return True if text contains definitive diagnosis claims."""
+    if not text:
+        return False
+    return bool(_definitive_pattern.search(text))
+
+
 def filter_safe_output(text: str) -> str:
     """If text contains prohibited actions, replace with safe fallback."""
-    if contains_prohibited_action(text):
+    if contains_prohibited_action(text) or contains_definitive_diagnosis(text):
         return (
             "This recommendation has been blocked because it may involve "
-            "an unsafe action. Please consult a qualified solar/electrical "
-            "professional for physical inspection or repair."
+            "an unsafe action or definitive diagnosis. Please consult a qualified "
+            "solar/electrical professional for physical inspection or repair."
         )
     return text

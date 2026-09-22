@@ -27,6 +27,7 @@ from src.models.assessment import (
 )
 from src.safety.hazard_policy import (
     ESCALATION_MESSAGE,
+    contains_definitive_diagnosis,
     contains_prohibited_action,
     filter_safe_output,
     scan_text_for_hazards,
@@ -128,26 +129,58 @@ def build_assessment(
     # --- Build normal assessment ---
     known_facts = _build_known_facts(evidence, image_observations)
     missing = _build_missing(evidence)
-    causes = _build_causes(evidence, clarifications)
-
-    safe_checks = [
-        SafeAction(action="Record the displayed battery percentage at sunset", reason="Determines if the battery is truly full when evening use begins."),
-        SafeAction(action="Temporarily unplug non-essential loads overnight", reason="Isolates whether a specific appliance is responsible for the faster drain."),
+    
+    # 3. LLM generation
+    from src.services.ai_provider import get_ai_provider, ProviderOutputError, ProviderUnavailableError
+    from src.services.prompts import build_provider_prompt
+    import logging
+    
+    logger = logging.getLogger(__name__)
+    provider = get_ai_provider()
+    
+    # D4-005: Build a typed provider input with exact untrusted data delimiters
+    prompt = build_provider_prompt(evidence, clarifications, image_observations)
+    
+    max_attempts = 2  # Hard cap at 1 retry
+    draft = None
+    
+    for attempt in range(max_attempts):
+        try:
+            draft = provider.generate_assessment_draft(prompt)
+            
+            # Validate the whole draft
+            full_text = f"{draft.summary} {draft.recommended_next_action} " + " ".join([c.description for c in draft.possible_causes] + draft.safe_checks)
+            if contains_prohibited_action(full_text) or contains_definitive_diagnosis(full_text):
+                raise ProviderOutputError("Draft contained prohibited actions or definitive diagnosis.")
+                
+            break # Valid!
+        except ProviderUnavailableError as e:
+            # D4-003: Do not retry timeout or unavailability
+            logger.error(f"Provider unavailable: {e.__class__.__name__}")
+            raise
+        except ProviderOutputError as e:
+            if attempt == max_attempts - 1:
+                logger.error(f"AI generation failed after {max_attempts} attempts. Last error: {e.__class__.__name__}")
+                raise
+            logger.warning(f"AI validation attempt {attempt + 1} failed, retrying: {e.__class__.__name__}")
+            
+    # Map the model output to our deterministic CauseAssessment
+    causes = [
+        CauseAssessment(
+            category=c.category,
+            description=c.description,
+            confidence=c.confidence
+        ) for c in draft.possible_causes
     ]
-    # Validate safe checks against prohibited policy
-    safe_checks = [s for s in safe_checks if not contains_prohibited_action(s.action)]
+
+    safe_checks = [SafeAction(action=check_text, reason="Recommended by AI assessment.") for check_text in draft.safe_checks]
+    rec_action_text = draft.recommended_next_action
 
     prohibited = [
         ProhibitedAction(action="Do NOT open the inverter casing", hazard="Risk of lethal electric shock. Contains high-voltage capacitors."),
         ProhibitedAction(action="Do NOT disconnect battery cables", hazard="Risk of severe arc flash and fire if under load."),
         ProhibitedAction(action="Do NOT bypass fuses or breakers", hazard="Removes critical overcurrent protection."),
     ]
-
-    rec_action_text = filter_safe_output(
-        "Run a 24-hour observation with non-essential loads removed. "
-        "If runtime does not improve with confirmed full charge, schedule "
-        "a qualified technician to inspect battery cell health and charge controller settings."
-    )
 
     brief = _build_technician_brief(evidence, known_facts, missing, causes, clarifications)
 
@@ -157,7 +190,7 @@ def build_assessment(
         status=AssessmentStatus.professional_inspection_recommended
             if any(c.confidence == CauseConfidenceLabel.more_consistent for c in causes)
             else AssessmentStatus.safe_observations_recommended,
-        summary="The system shows a significant decline in battery runtime. The available evidence is reviewed below.",
+        summary=draft.summary,
         known_facts=known_facts,
         missing_or_uncertain=missing,
         possible_causes=causes,

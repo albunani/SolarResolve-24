@@ -1,31 +1,59 @@
-# Day 4: AI Integration Plan
+# Day 4 AI Integration Plan
 
-**To: Codex**
-**From: Antigravity & User**
+## Decision
 
-We are officially ready to begin the **Day 4 AI Integration Phase**. The frontend-backend connection is live and verified, and the deterministic safety boundaries are in place. Your task is to rip out the synthetic demo adapter and wire up the real LLM.
+SolarResolve will use Google Gemini for the zero-budget synthetic MVP.
 
-## 1. The Chosen Model: Google Gemini (1.5 Flash)
+- **Provider:** Google Gemini behind a provider-neutral adapter
+- **Initial model:** `gemini-3.8-flash`
+- **SDK:** Official `google-genai` Python package
+- **Budget:** Free tier only; no payment method
+- **Public contract:** Existing `AssessmentResult`
+- **Live image interpretation:** Deferred until the text path passes independent validation
 
-After evaluating OpenAI, Anthropic, and open-source alternatives (DeepSeek, Qwen), the user has made the executive decision to use **Google Gemini (Gemini 1.5 Flash)**.
+This decision supersedes the earlier OpenAI default for Day 4. OpenAI, Anthropic, or another provider may be added later without changing the public API contract.
 
-### Why Gemini?
-- **Strict $0 Budget:** The user has a hard constraint of absolutely no money and no credit cards to put on file. Gemini offers a generous, permanently free tier via Google AI Studio.
-- **Multimodal (Vision) Needs:** The MVP requires reading photos of solar inverter displays. Gemini's vision capabilities are top-tier.
-- **Structured Outputs:** Gemini natively supports strict JSON schema enforcement, which is required to prevent our React frontend from crashing.
-- **Modular Future:** The architecture is model-agnostic. We are using Gemini for the $0 MVP, with the understanding that it can be cleanly swapped for OpenAI or Qwen later if funding is secured.
+## Why Gemini
 
----
+- The current Gemini free tier can support a zero-cost MVP, subject to model availability and quota limits.
+- Gemini supports schema-constrained output and multimodal inputs.
+- The provider-neutral boundary allows later migration without rewriting the assessment service or frontend.
 
-## 2. Your Implementation Instructions
+Free access must not be described as permanent. Rate limits, available models, and provider terms may change.
 
-You will be editing `backend/src/services/assessment_service.py` (and any necessary dependency files).
+## Privacy boundary
 
-1. **Install the SDK:** Use the official `google-genai` Python SDK (update the backend `requirements.txt`).
-2. **Environment Variable:** The app will use `GEMINI_API_KEY`. (Ensure this is documented so the user knows to add it to Railway).
-3. **Structured Output:** You MUST use Gemini's structured outputs feature (passing our `AssessmentResult` Pydantic model as the schema) to guarantee the API returns the exact JSON structure the frontend expects.
-4. **Multimodal Input:** If the user uploads an image (`EvidenceInput` / `ImageObservation`), you must pass the image data to Gemini along with the text prompt so it can read the screen/error codes.
-5. **Preserve Safety:** The deterministic keyword scanner (`scan_text_for_hazards` and `contains_prohibited_action`) MUST remain intact. Safety enforcement happens *before* and *after* the LLM generation. The LLM does not override the deterministic safety net.
+The free-tier MVP must use only synthetic or deliberately anonymized evidence. Do not send real customer records, faces, addresses, account identifiers, access codes, financial information, or other sensitive data until provider data use, consent, and retention have been reviewed.
 
-## 3. Next Steps for Codex
-Please begin by asking the user to provide their free Gemini API key from Google AI Studio, and then write the implementation for `assessment_service.py`.
+## Implementation boundaries
+
+1. Keep the deterministic synthetic adapter for automated tests and credential-free local development.
+2. Do not silently fall back to synthetic output after a Gemini production failure.
+3. Keep `scan_text_for_hazards` and `contains_prohibited_action` as application-controlled safety rules before and after model processing.
+4. Keep urgent escalation and insufficient-evidence decisions outside the model.
+5. Have Gemini return a schema-constrained internal `ModelAssessmentDraft`, not authoritative facts or metadata.
+6. Assemble the public `AssessmentResult` in application code.
+7. Keep known facts, evidence sources, missing evidence, prohibited actions, disclaimer, IDs, timestamps, and technician-brief formatting deterministic.
+8. Treat structured output as a shape guarantee, not a guarantee of correct or safe electrical reasoning.
+9. Permit at most one bounded retry for invalid or unsafe model output, then return a recoverable error.
+10. Make all automated tests use a fake adapter or mocked Gemini response. Tests must make zero live API calls.
+
+## Configuration
+
+```text
+AI_PROVIDER=synthetic|gemini
+GEMINI_API_KEY=<server-side secret>
+GEMINI_MODEL=gemini-3.8-flash
+AI_TIMEOUT_SECONDS=20
+AI_MAX_RETRIES=1
+```
+
+The user creates the key in Google AI Studio and enters it directly into an ignored local environment file and Railway secrets. Never request, paste, commit, log, or include the key in a work report.
+
+## Image scope
+
+Day 4 integrates the text assessment first. The current `ImageObservation` objects contain extracted text, not original image bytes, and the current upload endpoint returns synthetic observations. Confirmed, non-rejected observations may be supplied to the text model as evidence, but real Gemini vision integration is a later phase.
+
+## Implementation handoff
+
+Antigravity must follow `ANTIGRAVITY_DAY4_PROMPT.md` and `DAY4_AI_INTEGRATION.md`, then create `WORK_REPORT_DAY4.md`. Codex will perform independent revalidation afterward.

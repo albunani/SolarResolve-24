@@ -37,7 +37,7 @@ export async function generateAssessment(
       clarifications,
       image_observations: imageObservations,
     }),
-    signal: AbortSignal.timeout(15000),
+    signal: AbortSignal.timeout(30000),
   });
 
   if (!response.ok) {

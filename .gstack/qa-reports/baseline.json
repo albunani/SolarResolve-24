@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-22",
+  "url": "http://localhost:5173",
+  "healthScore": 73,
+  "issues": [
+    { "id": "D4-001", "title": "Backend dependency state is not reproducible", "severity": "blocker", "category": "functional" },
+    { "id": "D4-002", "title": "Unsafe and definitive model output can be returned", "severity": "critical", "category": "functional" },
+    { "id": "D4-003", "title": "Provider errors and retry policy violate the contract", "severity": "high", "category": "functional" },
+    { "id": "D4-004", "title": "Timeout setting is not enforced and frontend aborts first", "severity": "high", "category": "performance" },
+    { "id": "D4-005", "title": "Provider input and prompt trust boundary are incomplete", "severity": "high", "category": "functional" },
+    { "id": "D4-006", "title": "Configuration, CORS, logging, and documentation are inconsistent", "severity": "high", "category": "content" },
+    { "id": "D4-007", "title": "Required Day 4 test and report evidence is missing", "severity": "high", "category": "functional" }
+  ],
+  "categoryScores": {
+    "console": 100,
+    "links": 100,
+    "visual": 100,
+    "functional": 0,
+    "ux": 85,
+    "performance": 70,
+    "content": 60,
+    "accessibility": 100
+  }
+}

@@ -112,6 +112,11 @@ def process_evidence(
     }
 
 
+from src.services.ai_provider import ProviderUnavailableError, ProviderOutputError
+import logging
+
+logger = logging.getLogger(__name__)
+
 # ---------------------------------------------------------------------------
 # Generate Assessment
 # ---------------------------------------------------------------------------
@@ -122,12 +127,19 @@ def generate_assessment(
     clarifications: list[ClarificationAnswer] | None = None,
     image_observations: list[ImageObservation] | None = None,
 ) -> AssessmentResult:
-    result = build_assessment(evidence, clarifications, image_observations)
-    return result
+    try:
+        result = build_assessment(evidence, clarifications, image_observations)
+        return result
+    except ProviderUnavailableError as e:
+        logger.error(f"AI timeout/rate limit: {e.__class__.__name__}")
+        raise HTTPException(status_code=503, detail="AI Provider is temporarily overloaded. Please try again.")
+    except ProviderOutputError as e:
+        logger.error(f"AI provider error: {e.__class__.__name__}")
+        raise HTTPException(status_code=502, detail="AI Provider encountered an error. Please try again later.")
 
 
 # ---------------------------------------------------------------------------
-# Inline Generate — frontend calls this directly with evidence in body
+# Inline Generate ?" frontend calls this directly with evidence in body
 # ---------------------------------------------------------------------------
 @router.post("/inline/generate", response_model=AssessmentResult)
 def inline_generate_assessment(
@@ -135,5 +147,12 @@ def inline_generate_assessment(
     clarifications: list[ClarificationAnswer] | None = None,
     image_observations: list[ImageObservation] | None = None,
 ) -> AssessmentResult:
-    result = build_assessment(evidence, clarifications, image_observations)
-    return result
+    try:
+        result = build_assessment(evidence, clarifications, image_observations)
+        return result
+    except ProviderUnavailableError as e:
+        logger.error(f"AI timeout/rate limit: {e.__class__.__name__}")
+        raise HTTPException(status_code=503, detail="AI Provider is temporarily overloaded. Please try again.")
+    except ProviderOutputError as e:
+        logger.error(f"AI provider error: {e.__class__.__name__}")
+        raise HTTPException(status_code=502, detail="AI Provider encountered an error. Please try again later.")
