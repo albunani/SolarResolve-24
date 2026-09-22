@@ -5,13 +5,13 @@ Day 3 scope: health endpoint only.
 No AI service, database, authentication, or payment flow is present.
 """
 
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.api.health import router as health_router
 from src.api.assessments import router as assessments_router
-
-import os
+from src.api.health import router as health_router
 
 app = FastAPI(
     title="SolarResolve API",
@@ -29,7 +29,7 @@ app = FastAPI(
 # ---------------------------------------------------------------------------
 # CORS
 # ---------------------------------------------------------------------------
-allowed_origins_str = os.environ.get("ALLOWED_ORIGINS", "http://localhost:5173")
+allowed_origins_str = os.environ.get("ALLOWED_ORIGINS", "https://solar-resolve-24.vercel.app")
 allowed_origins = [o.strip() for o in allowed_origins_str.split(",") if o.strip()]
 
 app.add_middleware(

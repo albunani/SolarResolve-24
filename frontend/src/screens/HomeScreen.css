@@ -24,21 +24,24 @@
 .disclaimer-section,
 .urgent-safety-reminder {
   background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: var(--space-lg);
+  box-shadow: 4px 4px 0px var(--border-color);
 }
 
 .scope-section h2,
 .disclaimer-section h3,
 .urgent-safety-reminder h3 {
-  color: var(--accent-primary);
+  color: var(--text-primary);
   margin-bottom: var(--space-sm);
   font-size: 1.25rem;
+  font-weight: 800;
 }
 
 .urgent-safety-reminder {
-  border-color: rgba(248, 113, 113, 0.4);
+  border-color: #f87171;
+  box-shadow: 4px 4px 0px #f87171;
 }
 
 .urgent-safety-reminder h3 {
@@ -53,14 +56,15 @@
 
 .primary-cta {
   background-color: var(--accent-primary);
-  color: #000;
+  color: #fff;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 800;
   padding: 1rem 2rem;
-  border: none;
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-md);
+  box-shadow: 4px 4px 0px var(--border-color);
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .primary-cta:hover {
@@ -68,5 +72,6 @@
 }
 
 .primary-cta:active {
-  transform: translateY(2px);
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--border-color);
 }

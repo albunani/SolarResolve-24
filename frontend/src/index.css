@@ -1,24 +1,24 @@
 :root {
   /* Colors */
-  --bg-main: #080d14;
-  --bg-surface: #0f1826;
-  --text-primary: #e8f0fe;
-  --text-secondary: #7ea8cc;
-  --text-muted: #3e5a78;
-  --accent-primary: #38bdf8;
-  --accent-hover: #7dd3fc;
-  --accent-focus: rgba(56, 189, 248, 0.6);
-  --border-color: rgba(56, 189, 248, 0.15);
+  --bg-main: #f4f4f0;
+  --bg-surface: #ffffff;
+  --text-primary: #111111;
+  --text-secondary: #333333;
+  --text-muted: #666666;
+  --accent-primary: #ff5722; /* Vibrant solar amber */
+  --accent-hover: #ff784e;
+  --accent-focus: #111111;
+  --border-color: #111111;
   
   /* Typography */
-  --font-sans: 'Pretendard Variable', 'Pretendard', system-ui, -apple-system, sans-serif;
+  --font-sans: system-ui, -apple-system, sans-serif;
   
   /* Layout & Spacing */
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 2rem;
   --space-xl: 4rem;
-  --radius-md: 12px;
+  --radius-md: 4px;
   
   --max-width: 800px;
 }
