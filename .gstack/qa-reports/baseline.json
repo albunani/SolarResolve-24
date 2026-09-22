@@ -1,24 +1,20 @@
 {
   "date": "2026-09-22",
   "url": "http://localhost:5173",
-  "healthScore": 71,
+  "healthScore": 94,
   "issues": [
-    { "id": "D4V2-001", "title": "Gemini timeout is 1,000 times shorter than intended", "severity": "blocker", "category": "performance" },
-    { "id": "D4V2-002", "title": "Real network timeouts produce the wrong status and retry count", "severity": "high", "category": "functional" },
-    { "id": "D4V2-003", "title": "Definitive diagnosis can bypass the phrase list", "severity": "critical", "category": "functional" },
-    { "id": "D4V2-004", "title": "Prompt boundary is injectable and evidence is incomplete", "severity": "high", "category": "functional" },
-    { "id": "D4V2-005", "title": "Dependency and deployment declarations are inconsistent", "severity": "high", "category": "functional" },
-    { "id": "D4V2-006", "title": "Evidence report overstates completion", "severity": "medium", "category": "content" },
-    { "id": "D4V2-007", "title": "Recovery UI exposes raw response JSON", "severity": "low", "category": "ux" }
+    { "id": "D4V4-001", "title": "Definitive causal diagnoses bypass post-model safety", "severity": "critical", "category": "functional" },
+    { "id": "D4V4-002", "title": "Edit Evidence does not navigate directly to Evidence Intake", "severity": "medium", "category": "ux" },
+    { "id": "D4V4-003", "title": "The V4 work report is malformed and incomplete", "severity": "medium", "category": "content" }
   ],
   "categoryScores": {
     "console": 100,
     "links": 100,
     "visual": 100,
-    "functional": 45,
-    "ux": 82,
-    "performance": 20,
-    "content": 68,
+    "functional": 75,
+    "ux": 92,
+    "performance": 100,
+    "content": 92,
     "accessibility": 100
   }
 }

@@ -628,3 +628,27 @@ Antigravity requested eight decisions before beginning Day 3 implementation.
 **User request:** Review `WORK_REPORT_DAY4_V2.md` and independently validate Antigravity's committed V2 remediation.
 
 **Outcome:** Completed a report-only audit and created `VALIDATION_DAY4_V2.md`. Confirmed material progress: the authoritative backend run passes 60/60 outside the restricted sandbox, frontend tests pass 8/8, lint and build pass, dependency integrity checks pass, and local synthetic and 503-recovery browser flows work without console errors. V2 was not accepted for live Gemini: the SDK receives a 20-millisecond timeout instead of 20 seconds; an actual HTTP timeout is mapped to a retried 502 instead of a one-attempt 503; alternate definitive-diagnosis language bypasses the safety detector; the prompt boundary can be injected and omits relevant evidence; synthetic prompt parsing regressed; deployment dependency/Python declarations conflict; and `requirements_locked.txt` is empty despite the work report claiming an export. No real provider call or credential was used. Application source was not modified, and all audit servers were stopped.
+
+## 2026-09-22 — Day 4 V3 independent validation
+
+**User request:** Review `WORK_REPORT_DAY4_V3.md` and independently revalidate Antigravity's committed V3 implementation.
+
+**Outcome:** Completed a report-only regression audit and created `VALIDATION_DAY4_V3.md`. Confirmed that the original V2 technical blockers are resolved: backend tests pass 104/104, frontend tests pass 8/8, lint/build/dependency checks pass, 20 seconds reaches the Gemini SDK as 20,000 ms, real HTTP timeouts return one-attempt 503 responses, unsafe drafts are rejected without leakage, synthetic cause behavior is restored, and browser happy/error paths render without console errors or raw JSON. V3 was not accepted for production Gemini because Edit Evidence after a provider failure clears the entire intake form, reproduced twice, and the expanded diagnosis detector rejects some explicitly uncertain and professional-verification statements, which can cause avoidable 502 errors. The V3 work report's exact file inventory also omits audit artifacts included in its implementation commit. No real key or live Gemini call was used, application source was not modified, and all audit processes were stopped.
+
+## 2026-09-22 — Day 4 V4 independent validation
+
+**User request:** Review `WORK_REPORT_DAY4_V4.md` and independently revalidate Antigravity's committed V4 implementation.
+
+**Outcome:** Completed a report-only regression audit and created `VALIDATION_DAY4_V4.md`. Confirmed 109/109 backend tests, 9/9 frontend tests, clean lint/build/dependency gates, separate implementation/report commits, complete preservation of representative intake and clarification values, successful direct Retry with retained evidence, and correction of the two V3 uncertainty false positives. V4 was not accepted for production Gemini because affirmative causal diagnoses such as “The battery is the cause” and “The battery caused the shutdown” bypass the detector and reached a completed HTTP 200 response unchanged. Browser testing also showed that Edit Evidence navigates to Image Evidence rather than directly to the populated intake screen, although no data is lost, and the V4 work report contains five control characters and omits required evidence. No real credential or live Gemini request was used, application source was not modified by the audit, and all audit processes were stopped. Six concurrent uncommitted backend source changes appeared after committed V4 testing completed; they were preserved and explicitly excluded from the V4 verdict.
+
+## 2026-09-22 — Phase 3 production configuration runbook
+
+**User request:** Kick off Phase 3 Production Configuration while Antigravity completes V5, with specific instructions, requirements, and documentation.
+
+**Outcome:** Created `PHASE3_PRODUCTION_CONFIGURATION.md` as the operator runbook. It defines the exact Railway and Vercel variables, backend health-check path, CORS and secret-handling rules, synthetic-mode production verification, the mandatory independent V5 approval gate, controlled Gemini activation, zero-budget safeguards, sanitized evidence requirements, rollback steps, troubleshooting, and Definition of Done. Live Gemini remains disabled until `VALIDATION_DAY4_V5.md` records an overall Pass with no unresolved Critical or High findings. No application source or active deployment configuration was changed.
+
+## 2026-09-22 — Phase 3 production validation
+
+**User request:** Review Antigravity's committed `WORK_REPORT_PHASE3.md` and determine whether the project is ready for Phase 4.
+
+**Outcome:** Created `VALIDATION_PHASE3.md`. Independently confirmed that the Vercel frontend is live, its deployed bundle points to the Railway production origin, the Railway health endpoint returns HTTP 200, and the inspected frontend screens produce no browser warnings or errors. Phase 3 did not pass because production CORS returns `Access-Control-Allow-Origin: *` for both the intended Vercel origin and an unrelated origin, contradicting the exact-origin requirement. The live Gemini result and sealed-key state remain manual claims because the report omitted sanitized provider-response evidence and deployment metadata, and no unnecessary second live request was made. Phase 4 remains locked pending the focused CORS correction and revalidation.
