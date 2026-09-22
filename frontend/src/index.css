@@ -1,24 +1,37 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&display=swap');
+
 :root {
-  /* Colors */
-  --bg-main: #f4f4f0;
-  --bg-surface: #ffffff;
-  --text-primary: #111111;
-  --text-secondary: #333333;
-  --text-muted: #666666;
-  --accent-primary: #ff5722; /* Vibrant solar amber */
-  --accent-hover: #ff784e;
-  --accent-focus: #111111;
-  --border-color: #111111;
+  /* SolarPeer360 Inspired Palette */
+  --bg-main: #0b1120; /* Deep dark slate */
+  --bg-surface: #1e293b; /* Slightly lighter card bg */
+  --bg-white: #ffffff;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-dark: #0f172a;
+  
+  --accent-primary: #f59e0b; /* Amber energy */
+  --accent-hover: #fbbf24;
+  --accent-focus: #fcd34d;
+  
+  --border-color: #334155;
+  --border-light: #e2e8f0;
   
   /* Typography */
-  --font-sans: system-ui, -apple-system, sans-serif;
+  --font-sans: 'Source Sans 3', system-ui, -apple-system, sans-serif;
   
   /* Layout & Spacing */
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 2rem;
   --space-xl: 4rem;
-  --radius-md: 4px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   
   --max-width: 800px;
 }
@@ -40,32 +53,68 @@ body {
 a {
   color: var(--accent-primary);
   text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: var(--accent-hover);
 }
 
-button:focus-visible, a:focus-visible {
-  outline: 2px solid var(--accent-focus);
-  outline-offset: 4px;
-}
-
-#root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.container {
-  width: 100%;
+.app-container {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--space-lg) var(--space-md);
-}
-
-.screen-container {
-  flex: 1;
+  padding: var(--space-lg);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* Base Card Utility */
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Typography utilities */
+.eyebrow {
+  color: var(--accent-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.small-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Icon Badges */
+.icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--accent-primary);
+  margin-bottom: 1rem;
 }
