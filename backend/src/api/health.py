@@ -7,7 +7,7 @@ Returns a simple status payload so the service can be verified locally and
 by deployment health checks. No AI service, database, or external call is made.
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from fastapi import APIRouter
 from pydantic import BaseModel
@@ -36,5 +36,5 @@ def get_health() -> HealthResponse:
         status="ok",
         service="SolarResolve API",
         version="0.1.0",
-        timestamp=datetime.now(timezone.utc).isoformat(),
+        timestamp=datetime.now(UTC).isoformat(),
     )

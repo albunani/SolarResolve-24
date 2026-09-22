@@ -9,8 +9,8 @@ Exception contract:
   - ProviderOutputError      → 502 (empty, malformed, or unsafe model output)
 """
 
-import os
 import logging
+import os
 from typing import Protocol
 
 from pydantic import BaseModel
@@ -169,6 +169,7 @@ class GeminiAssessmentProvider:
         import httpx
         from google.genai import types
         from google.genai.errors import APIError
+
         from src.services.prompts import DAY4_SYSTEM_INSTRUCTION
 
         config = types.GenerateContentConfig(

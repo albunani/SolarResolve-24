@@ -6,8 +6,6 @@ inside a machine-generated envelope that the user cannot close or escape.
 """
 
 import hashlib
-import json
-from typing import Optional
 
 from src.models.assessment import (
     ClarificationAnswer,
@@ -55,8 +53,8 @@ def _sanitize(value: str) -> str:
 
 def build_provider_prompt(
     evidence: EvidenceInput,
-    clarifications: Optional[list[ClarificationAnswer]],
-    image_observations: Optional[list[ImageObservation]],
+    clarifications: list[ClarificationAnswer] | None,
+    image_observations: list[ImageObservation] | None,
 ) -> str:
     """Build a complete prompt with all decision-relevant evidence.
 

@@ -10,8 +10,7 @@ from __future__ import annotations
 
 import uuid
 
-from fastapi import APIRouter, HTTPException, UploadFile, File, Form
-from pydantic import ValidationError
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
 from src.models.assessment import (
     AssessmentResult,
@@ -112,8 +111,9 @@ def process_evidence(
     }
 
 
-from src.services.ai_provider import ProviderUnavailableError, ProviderOutputError
 import logging
+
+from src.services.ai_provider import ProviderOutputError, ProviderUnavailableError
 
 logger = logging.getLogger(__name__)
 
