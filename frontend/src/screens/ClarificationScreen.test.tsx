@@ -16,11 +16,13 @@ describe('ClarificationScreen', () => {
     vi.spyOn(ContextModule, 'useAssessment').mockReturnValue({
       state: {
         step: 'image_complete',
-        hazardsReported: [],
-        noneObserved: true,
-        evidence: { original_description: 'Test', loads: [] } as any,
+        hazardSafe: true,
+        triggeredHazards: [],
+        evidence: { originalDescription: 'Test', loads: [] } as any,
         imageObservations: [],
-        clarifications: [{ question: 'Q1', answer: null }],
+        clarificationAnswers: [{ question: 'Q1', answer: '' }],
+        processing: false,
+        lateHazardIds: [],
         result: null,
         error: null
       },
@@ -47,7 +49,7 @@ describe('ClarificationScreen', () => {
     expect(await screen.findByText(/Network error/i)).toBeInTheDocument();
     
     // Verify input is preserved
-    expect(select).toHaveValue('Yes');
+    expect((select as HTMLSelectElement).value).toBe('Yes');
 
     // Verify retry works
     const retryBtn = screen.getByRole('button', { name: /Retry/i });

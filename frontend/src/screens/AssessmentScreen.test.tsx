@@ -63,11 +63,13 @@ describe('AssessmentScreen', () => {
     vi.spyOn(ContextModule, 'useAssessment').mockReturnValue({
       state: {
         step: 'result_ready',
-        hazardsReported: [],
-        noneObserved: true,
-        evidence: null,
+        hazardSafe: true,
+        triggeredHazards: [],
+        evidence: {} as any,
         imageObservations: [],
-        clarifications: [],
+        clarificationAnswers: [],
+        processing: false,
+        lateHazardIds: [],
         result: mockResult as any,
         error: null
       },
