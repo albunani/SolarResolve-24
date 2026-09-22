@@ -1,28 +1,22 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* SolarPeer360 Exact Brand Palette */
-  --bg-main: #FBF8F3; /* Warm Cream */
-  --bg-surface: #FFFFFF; /* Surface White */
+  /* SolarPeer360 Inspired Palette */
+  --bg-main: #0b1120; /* Deep dark slate */
+  --bg-surface: #1e293b; /* Slightly lighter card bg */
+  --bg-white: #ffffff;
   
-  --text-primary: #13231D; /* Energy Ink */
-  --text-secondary: #627069; /* Market Grey */
-  --text-muted: #627069;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-dark: #0f172a;
   
-  --primary-brand: #0B4D3B; /* Grid Green */
-  --primary-dark: #07372B; /* Deep Grid */
+  --accent-primary: #f59e0b; /* Amber energy */
+  --accent-hover: #fbbf24;
+  --accent-focus: #fcd34d;
   
-  --accent-primary: #F4B43A; /* Solar Amber */
-  --accent-hover: #E3A329;
-  --accent-focus: #FCD34D;
-  
-  --border-color: #D9E2DC; /* Soft Line */
-  --border-light: #D9E2DC;
-  
-  --color-success: #16875A; /* Confirmed Green */
-  --color-warning: #B96B00; /* Warning Amber */
-  --color-error: #C23B3B; /* Fault Red */
-  --color-info: #2867B2; /* Utility Blue */
+  --border-color: #334155;
+  --border-light: #e2e8f0;
   
   /* Typography */
   --font-sans: 'Source Sans 3', system-ui, -apple-system, sans-serif;
@@ -32,12 +26,12 @@
   --space-md: 1rem;
   --space-lg: 2rem;
   --space-xl: 4rem;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
   
-  --shadow-sm: 0 1px 2px 0 rgba(11, 77, 59, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(11, 77, 59, 0.08), 0 2px 4px -1px rgba(11, 77, 59, 0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(11, 77, 59, 0.1), 0 4px 6px -2px rgba(11, 77, 59, 0.05);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   
   --max-width: 800px;
 }
@@ -57,14 +51,14 @@ body {
 }
 
 a {
-  color: var(--primary-brand);
+  color: var(--accent-primary);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: var(--primary-dark);
+  color: var(--accent-hover);
 }
 
 .app-container {
@@ -82,18 +76,18 @@ a:hover {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-lift:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Typography utilities */
 .eyebrow {
-  color: var(--primary-brand);
+  color: var(--accent-primary);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -120,7 +114,7 @@ a:hover {
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background-color: rgba(244, 180, 58, 0.15); /* Solar Amber tint */
+  background-color: rgba(245, 158, 11, 0.1);
   color: var(--accent-primary);
   margin-bottom: 1rem;
 }
