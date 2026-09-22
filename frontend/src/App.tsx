@@ -1,47 +1,48 @@
-import { Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Navigation, Footer } from './components/Navigation';
+import LandingScreen from './screens/LandingScreen';
+import WaitlistScreen from './screens/WaitlistScreen';
+import OutcomeScreen from './screens/OutcomeScreen';
+import HelpScreen from './screens/HelpScreen';
+import PolicyScreen from './screens/PolicyScreen';
+import AppAvailabilityScreen from './screens/AppAvailabilityScreen';
+import NotFoundScreen from './screens/NotFoundScreen';
+
+// Keeping the old assessment screens available under a separate path
 import HomeScreen from './screens/HomeScreen';
 import SafetyCheckScreen from './screens/SafetyCheckScreen';
 import EvidenceIntakeScreen from './screens/EvidenceIntakeScreen';
-import ImageEvidenceScreen from './screens/ImageEvidenceScreen';
 import ClarificationScreen from './screens/ClarificationScreen';
 import AssessmentScreen from './screens/AssessmentScreen';
-import { AssessmentProvider } from './context/AssessmentContext';
-import { RouteGuard } from './context/RouteGuard';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <AssessmentProvider>
+    <BrowserRouter>
+      <Navigation />
       <Routes>
-        <Route path="/" element={<HomeScreen />} />
-        
-        <Route path="/safety-check" element={<SafetyCheckScreen />} />
-        
-        <Route path="/intake" element={
-          <RouteGuard requiredStep="hazard_complete">
-            <EvidenceIntakeScreen />
-          </RouteGuard>
-        } />
+        {/* SolarPeer 360 Public Routes */}
+        <Route path="/" element={<LandingScreen />} />
+        <Route path="/pilot" element={<WaitlistScreen />} />
+        <Route path="/pilot/result" element={<OutcomeScreen />} />
+        <Route path="/help" element={<HelpScreen />} />
+        <Route path="/about" element={<HelpScreen />} /> {/* Placeholder for about */}
+        <Route path="/policies/:document" element={<PolicyScreen />} />
+        <Route path="/app" element={<AppAvailabilityScreen />} />
 
-        <Route path="/image-evidence" element={
-          <RouteGuard requiredStep="intake_complete">
-            <ImageEvidenceScreen />
-          </RouteGuard>
-        } />
-        
-        <Route path="/clarification" element={
-          <RouteGuard requiredStep="image_complete">
-            <ClarificationScreen />
-          </RouteGuard>
-        } />
-        
-        <Route path="/assessment" element={
-          <RouteGuard requiredStep="result_ready">
-            <AssessmentScreen />
-          </RouteGuard>
-        } />
+        {/* Legacy Battery Assessment Routes */}
+        <Route path="/assessment" element={<HomeScreen />} />
+        <Route path="/assessment/safety-check" element={<SafetyCheckScreen />} />
+        <Route path="/assessment/evidence" element={<EvidenceIntakeScreen />} />
+        <Route path="/assessment/clarification" element={<ClarificationScreen />} />
+        <Route path="/assessment/results" element={<AssessmentScreen />} />
+
+        {/* 404 */}
+        <Route path="*" element={<NotFoundScreen />} />
       </Routes>
-    </AssessmentProvider>
+      <Footer />
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

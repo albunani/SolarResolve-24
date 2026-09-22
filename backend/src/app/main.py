@@ -43,5 +43,8 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 # Routers
 # ---------------------------------------------------------------------------
+from src.api.waitlist import router as waitlist_router
+
 app.include_router(health_router, prefix="/api/v1")
 app.include_router(assessments_router, prefix="/api/v1")
+app.include_router(waitlist_router, prefix="/api/waitlist")

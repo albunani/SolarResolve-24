@@ -1,0 +1,2556 @@
+# Accessibility Requirements
+
+## Target
+
+Meet WCAG 2.2 Level AA for all public pages, waitlist flows, and support content. Accessibility testing must include keyboard use, screen readers, zoom, reflow, high contrast, reduced motion, and touch input.
+
+## Current strengths observed
+
+- The document language is `en-NG`.
+- Reviewed pages have one H1 and logical heading order.
+- A skip-to-content link is present.
+- Keyboard focus rings are visible.
+- Mobile navigation exposes expanded and collapsed state.
+- Form controls have accessible names.
+- Field photographs use descriptive alternative text.
+- The 390px layout did not produce horizontal overflow.
+
+These are observations, not a certification.
+
+## Required standards
+
+### Structure
+
+- Use landmarks for header, navigation, main content, and footer.
+- Keep heading levels sequential.
+- Give each page a unique title and H1.
+- Use lists for grouped steps, benefits, FAQs, and navigation.
+
+### Keyboard
+
+- Every interactive element must work without a pointer.
+- Focus order follows the visual and reading order.
+- Focus must never become trapped in the mobile menu, carousel, or form.
+- Skip links become visible on focus.
+- Sticky elements must not obscure the focused control.
+
+### Controls
+
+- Minimum target size: 44 by 44 CSS pixels where practical.
+- Use radios for one-of-many choices and checkboxes for independent choices.
+- Change the pricing presets from toggle-button semantics to a labelled radio group.
+- Preserve native semantics instead of recreating inputs with generic containers.
+
+### Forms
+
+- Every field has a persistent label.
+- Hints and errors use `aria-describedby` or equivalent relationships.
+- Invalid fields expose `aria-invalid="true"` after validation.
+- Submission errors receive focus through an error summary.
+- Required status is expressed in text and programmatically.
+- Consent remains unchecked by default.
+
+### Images and media
+
+- Decorative images use empty alternative text.
+- Evidence photographs describe the activity, not unverifiable interpretation.
+- The energy-flow diagram includes an accessible text description.
+- Carousel position is announced without excessive live-region updates.
+
+### Visual presentation
+
+- Normal text contrast is at least 4.5:1.
+- Large text and essential graphical objects meet applicable 3:1 thresholds.
+- Content reflows at 400% zoom without two-dimensional scrolling, except necessary diagrams.
+- Information does not depend on colour alone.
+- Focus indicators remain visible against both forest-green and cream surfaces.
+
+### Motion and timing
+
+- Respect `prefers-reduced-motion`.
+- Do not auto-advance field photographs.
+- Do not impose a time limit on the waitlist form.
+
+## Test matrix
+
+- Keyboard-only in current Chrome, Edge, Firefox, and Safari
+- NVDA with Firefox or Chrome on Windows
+- VoiceOver with Safari on iOS and macOS
+- TalkBack with Chrome on Android
+- 320px viewport and 400% browser zoom
+- Windows High Contrast Mode
+- Reduced-motion preference
+
+## Release gate
+
+No release may ship with a keyboard trap, inaccessible required field, missing page title/H1, non-dismissible overlay, or critical contrast failure.
+
+## Related documents
+
+See [Components](COMPONENTS.md), [Form specification](FORM_SPECIFICATION.md), and [QA test plan](QA_TEST_PLAN.md).
+# Analytics Plan
+
+## Goals
+
+Measure whether visitors understand the proposition, reach relevant evidence, start the waitlist, complete it, and form usable pilot clusters. Analytics must not create a shadow copy of personal or location data.
+
+## Funnel
+
+```text
+Landing view
+  -> Role or information engagement
+  -> Waitlist view
+  -> Role selected
+  -> Form started
+  -> Form submitted
+  -> Submission accepted
+  -> Operational qualification
+```
+
+## Event catalogue
+
+| Event | Trigger | Allowed properties |
+|---|---|---|
+| `page_view` | Page becomes active | Page name, referrer class, campaign tags |
+| `primary_cta_click` | Waitlist CTA activated | Page, placement, audience context |
+| `whatsapp_click` | WhatsApp contact activated | Page, placement |
+| `section_view` | Key section meaningfully enters view | Section ID, page |
+| `pricing_change` | Preset or range value changes | Amount band, control type; no user identifier |
+| `faq_open` | Question expanded | Stable question ID |
+| `waitlist_role_select` | Role selected | Role |
+| `waitlist_start` | First field interaction | Entry context |
+| `waitlist_validation_error` | Validation blocks progress | Field ID and error category only |
+| `waitlist_submit_attempt` | Valid submission begins | Role and state category |
+| `waitlist_submit_success` | Server accepts submission | Role and state category; never phone or reference |
+| `waitlist_submit_failure` | Submission fails | Error category, not server payload |
+
+## Prohibited analytics data
+
+Do not send name, phone number, free-text notes, precise coordinates, submission reference, full IP address, or field values to product analytics. Do not record session replay on the waitlist form unless a privacy and security review explicitly approves redaction.
+
+## Key metrics
+
+- CTA click-through rate by page and placement
+- Waitlist start and completion rate
+- Completion rate by role and broad state category
+- Validation failure rate by field
+- Mobile versus desktop completion rate
+- WhatsApp-to-form preference
+- Percentage of submissions that become qualified leads and viable clusters
+- Time from accepted submission to first operational contact
+
+## Experiment rules
+
+- Define one hypothesis and one primary metric before launch.
+- Guard against lower consent quality, higher support confusion, or misleading claims.
+- Do not experiment with required safety warnings, consent meaning, or material price qualifications.
+- Set a stopping rule and retain variant wording with the result.
+
+## Implementation requirements
+
+- Use a consent approach appropriate to selected vendors and applicable law.
+- Document data region, retention, access, deletion, and vendor terms.
+- Create a stable event schema and version breaking changes.
+- Test analytics in a non-production stream.
+- Filter staff and automated test traffic where practical.
+
+Analytics vendor, consent mechanism, event transport, and retention are `TBD`.
+
+## Reporting cadence
+
+- Weekly during active acquisition: funnel health, errors, location distribution, and channel quality.
+- Monthly: qualification, cluster viability, content questions, and experiment results.
+- Immediate alerts: submission failure spike, missing consent records, or suspicious traffic.
+
+## Related documents
+
+See [Privacy and data](PRIVACY_AND_DATA.md), [User flows](USER_FLOWS.md), and [QA test plan](QA_TEST_PLAN.md).
+# SolarPeer 360 Brand and Colour Guide
+
+**Status:** Approved and locked on 9 September 2026  
+**Brand concept:** **Market Sun + Grid Green**  
+**Applies to:** Android mobile app, SolarPeer staff/admin PWA, public landing page, smart-meter labels, installation materials, receipts, presentations, and field uniforms.
+
+## 1. Brand Position
+
+SolarPeer 360 should feel like a **trusted energy-payment utility**, not a solar-equipment catalogue or an open marketplace.
+
+The product connects a known solar seller (an **Energy CEO**) to nearby buyers through unique smart-meter IDs. Buyers purchase metered energy without buying a complete solar system. Sellers monitor connected buyers, sellable energy, commission credits, energy sold, and earnings. The brand therefore has to communicate four things quickly:
+
+1. Electricity is available and controlled.
+2. Every kilowatt-hour and naira is visible.
+3. The local seller and linked meter are trustworthy.
+4. The experience is simple for people who may prefer cash, assisted onboarding, or familiar mobile-payment patterns.
+
+### Core expression
+
+> **Dependable neighbourhood infrastructure with the warmth of the Nigerian market.**
+
+### Recommended customer-facing promise
+
+> **Reliable power from the solar system next door.**
+
+Supporting line:
+
+> Buy metered electricity without purchasing an entire solar system.
+
+## 2. Reference Review
+
+- [Arnergy](https://www.arnergy.com/) communicates premium solar reliability effectively, but its experience is primarily equipment-led.
+- [d.light](https://www.dlight.com/) uses warm solar orange, human imagery, and impact messaging well, although it can feel like a solar-product or development brand.
+- [M-KOPA](https://www.m-kopa.com/) demonstrates bold visibility, simple steps, prominent numbers, and accessible communication for everyday earners.
+- [OPay](https://www.opayweb.com/about-us/) demonstrates transactional clarity familiar to Nigerian users: balances, transfers, confirmations, security, and receipts.
+- [Moniepoint](https://www.moniepoint.com/) is a useful reference for business-payment confidence and clear operational information.
+
+### Design implication
+
+SolarPeer should combine solar warmth with payment-grade clarity. It should not copy the bright green identity used by established fintech brands. A deeper green paired with solar amber and the existing SolarPeer bronze creates clearer differentiation.
+
+## 3. Recommended Colour System
+
+| Role | Token | Hex | Main use |
+|---|---|---:|---|
+| Primary | Grid Green | `#0B4D3B` | Primary navigation, buttons, links, and brand recognition |
+| Primary dark | Deep Grid | `#07372B` | Hero backgrounds, major headers, and dark surfaces |
+| Energy | Solar Amber | `#F4B43A` | Energy balance, live supply, active power, and highlights |
+| Signature | Solar Bronze | `#B8895D` | Logo details, illustrations, and physical-brand accents |
+| Emphasis | Market Rust | `#C4471C` | Important emphasis and urgent notices |
+| Background | Warm Cream | `#FBF8F3` | Main application and website ground |
+| Surface | Surface White | `#FFFFFF` | Cards, forms, receipts, and transaction panels |
+| Text | Energy Ink | `#13231D` | Primary text and dark text on amber |
+| Secondary text | Market Grey | `#627069` | Labels, captions, and supporting copy |
+| Border | Soft Line | `#D9E2DC` | Dividers, fields, tables, and card borders |
+| Success | Confirmed Green | `#16875A` | Successful payments and connected meters |
+| Warning | Warning Amber | `#B96B00` | Low balance, capacity warnings, and delayed actions |
+| Error | Fault Red | `#C23B3B` | Failed payments, meter faults, and overload events |
+| Information | Utility Blue | `#2867B2` | Help, neutral system information, and pending review |
+
+### Optional dark-mode tokens
+
+| Role | Hex |
+|---|---:|
+| Background | `#071A14` |
+| Surface | `#0E2A20` |
+| Primary text | `#F5FBF7` |
+| Secondary text | `#B9C8C1` |
+| Interactive green | `#3DBF8B` |
+| Energy amber | `#F4C15D` |
+
+## 4. Colour Rules
+
+- Use white text on Grid Green and Deep Grid.
+- Use Energy Ink, not white, on Solar Amber.
+- Reserve Solar Amber for electricity, energy balance, active supply, and high-value calls to action.
+- Avoid covering every screen in green. Use cream and white surfaces to keep information readable and to prevent confusion with OPay or M-KOPA.
+- Keep money state and energy state visually distinct: green for confirmed earnings or transactions; amber for energy and kWh.
+- Never communicate payment, connection, or meter status using colour alone. Pair colour with a plain-language label and an icon.
+- Keep Fault Red for real failure or safety conditions. Do not use it decoratively.
+- Check all final text/background combinations against WCAG AA contrast requirements before release.
+
+## 5. Product Application
+
+### Buyer mobile app
+
+Prioritize:
+
+- Available energy balance in kWh and estimated naira value
+- Connected seller name
+- Unique tenant-meter ID
+- Meter connection and power status
+- Current power ceiling
+- Latest purchase or receipt
+- One primary **Buy energy** action
+
+Use Warm Cream or white as the background, Grid Green for the primary action, Solar Amber for energy values, and semantic colours for transaction and meter states.
+
+### Energy CEO seller app
+
+Keep electricity, revenue, and commission visibly separate:
+
+- Solar Amber: sellable energy and kWh transferred
+- Grid/Confirmed Green: earnings and successful sales
+- Market Rust or Warning Amber: low prepaid commission balance
+- Utility Blue: reconciliation, pending links, and neutral meter information
+
+Primary actions include **Record cash sale**, **Approve buyer**, **Top up commission wallet**, and **View connected meters**.
+
+### Staff and installer PWA
+
+Use a restrained operational interface: white surfaces, dark text, thin borders, compact tables, and semantic status colours. The admin experience should feel auditable rather than promotional.
+
+### Public landing page
+
+Use a Deep Grid hero with real photography of Nigerian merchants, refrigeration businesses, provision stores, local solar installations, and meter installation. Alternate Warm Cream and white content sections. Use Solar Amber for one primary CTA such as **Join the pilot**, with dark text.
+
+### Physical and assisted channels
+
+Apply the same hierarchy to:
+
+- Smart-meter ID labels and QR stickers
+- Installer identification and field uniforms
+- Printed or WhatsApp receipts
+- Agent onboarding cards
+- Shop-window pilot signage
+- Presentation and investor materials
+
+Meter IDs must use high-contrast ink on a light surface and remain readable without relying on colour.
+
+## 6. Typography
+
+| Role | Typeface | Recommended weights |
+|---|---|---|
+| Brand and major headlines | General Sans | 600–700 |
+| App interface and body | Source Sans 3 | 400–700 |
+| Meter IDs and technical values | Geist Mono | 500–600 |
+
+Source Sans 3 is recommended for small Android screens, naira values, transaction descriptions, and clear labels. Use tabular numerals for balances, kWh readings, tariff values, and transaction history.
+
+Fallback stack:
+
+```css
+--font-display: "General Sans", "Segoe UI", sans-serif;
+--font-ui: "Source Sans 3", "Segoe UI", sans-serif;
+--font-data: "Geist Mono", "Cascadia Mono", monospace;
+```
+
+## 7. Layout and Interaction
+
+- Use a base spacing unit of 8 px.
+- Use minimum 48 px touch targets for primary mobile controls.
+- Prefer one obvious primary action per screen.
+- Use 8–12 px card radii; avoid excessive pill-shaped containers.
+- Present balances and meter status above secondary analytics.
+- Write short labels in plain language and pair unfamiliar icons with text.
+- Design for long customer names, long meter IDs, zero balances, offline meters, failed payments, pending confirmation, and first-time users.
+- Keep motion short and functional: payment confirmation, balance change, meter connection, and loading feedback.
+- Respect reduced-motion settings.
+
+## 8. Photography and Illustration
+
+Prefer real, documentary-style images showing:
+
+- Nigerian shop owners at work
+- Cold-drink, fish, frozen-food, and provision businesses
+- Solar installations within the same local cluster
+- Meter installation and visible buyer/seller relationships
+- Daylight trading and practical appliance use
+
+Avoid generic rooftop-only solar imagery, futuristic energy grids, neon effects, and staged corporate handshakes. Illustrations should explain the seller-to-hub-to-tenant flow using the brand palette and clear labels.
+
+## 9. Avoid
+
+- Bright fintech green as the entire identity
+- Green-to-purple or generic technology gradients
+- Glassmorphism and glowing neon energy graphics
+- Oversized rounded pills on every component
+- Colour-only status indicators
+- Dense dashboards for first-time buyers
+- Generic solar-panel stock photographs without people or businesses
+- Promotional language inside payment, meter, or safety alerts
+
+## 10. Implementation Tokens
+
+```css
+:root {
+  --sp-grid-green: #0B4D3B;
+  --sp-deep-grid: #07372B;
+  --sp-solar-amber: #F4B43A;
+  --sp-solar-bronze: #B8895D;
+  --sp-market-rust: #C4471C;
+  --sp-warm-cream: #FBF8F3;
+  --sp-surface: #FFFFFF;
+  --sp-energy-ink: #13231D;
+  --sp-market-grey: #627069;
+  --sp-soft-line: #D9E2DC;
+  --sp-success: #16875A;
+  --sp-warning: #B96B00;
+  --sp-error: #C23B3B;
+  --sp-info: #2867B2;
+
+  --sp-radius-control: 8px;
+  --sp-radius-card: 12px;
+  --sp-touch-target: 48px;
+  --sp-space-unit: 8px;
+}
+```
+
+## 11. Approved Direction
+
+**Market Sun + Grid Green** is the approved SolarPeer identity. In the design-shotgun review, Market Sun received 5/5 and was selected over five alternatives. Use it consistently across the mobile product, admin PWA, public website, receipts, meter labels, and field operations. Any future replacement requires a documented design review; normal product work should extend these tokens rather than introduce a new palette.
+
+## 12. Page-by-Page Design Specification
+
+The screens below describe how the approved identity should appear in the pilot. They define presentation and interaction hierarchy, not new business rules. Product behavior remains governed by `PROJECT.md` and `CORE_FLOW.md`.
+
+### 12.1 Start and role selection
+
+**Purpose:** Help a user immediately choose the correct path without reading an explanation of the whole platform.
+
+**Visual structure:**
+
+1. Deep Grid header with the SolarPeer mark and short promise: **Reliable power from the solar system next door.**
+2. Two large white role cards: **I buy energy** and **I sell energy**.
+3. Each role uses a simple line icon, a one-sentence description, and a visible chevron.
+4. A smaller **Installer or staff sign-in** text link sits below the two customer choices.
+
+**Colour use:** Deep Grid for the header; Warm Cream page ground; Surface White role cards; Grid Green buyer selection; Solar Amber seller/Energy CEO marker; Energy Ink text.
+
+**Required states:** normal, pressed, loading, offline warning, and returning-user sign-in.
+
+### 12.2 Buyer onboarding and meter linking
+
+**Purpose:** Create the buyer account and link the unique tenant-meter ID to a known seller.
+
+**Visual structure:**
+
+1. Short three-step progress indicator: **Your details → Meter → Seller approval**.
+2. One form group per screen instead of one long registration form.
+3. Meter ID shown in Geist Mono with a scan-QR option and an assisted-entry option.
+4. Seller confirmation card shows seller name, business/location, tariff, and distance before the request is sent.
+5. Pending state clearly says **Waiting for Mr. Adewale to approve this meter**.
+
+**Colour use:** Grid Green for completed steps and the primary CTA; Solar Amber for the active step; Utility Blue for pending approval; Fault Red only for invalid or already-linked meter IDs.
+
+**Required states:** empty field, invalid ID, already-linked ID, seller not found, pending approval, approved, offline submission, and retry.
+
+### 12.3 Buyer home and energy dashboard
+
+**Purpose:** Answer two questions in under three seconds: **Do I have power? How much energy remains?**
+
+**Visual structure:**
+
+1. Greeting, buyer name, and a plain-language meter status line.
+2. Large Deep Grid balance panel containing remaining kWh and estimated naira value.
+3. Full-width Solar Amber **Buy energy** button inside the balance panel.
+4. Two small metrics: power ceiling and current load.
+5. Known seller card with seller name, Energy CEO label, and meter relationship.
+6. Simple daily-use chart and the latest transaction receipt.
+7. Bottom navigation: Home, Energy, History, Profile.
+
+**Colour use:** Warm Cream background; Deep Grid balance panel; Solar Amber purchase CTA; Confirmed Green connected status; Utility Blue pending state; Warning Amber low balance; Fault Red offline or authorization failure.
+
+**Required states:** healthy supply, low balance, zero balance, meter offline, authorization pending, power-ceiling warning, and no recent usage.
+
+### 12.4 Buy energy and payment confirmation
+
+**Purpose:** Let a buyer understand exactly what they will pay and receive before confirming.
+
+**Visual structure:**
+
+1. Seller and meter identity remain visible at the top.
+2. Large naira amount selector with familiar presets such as ₦250, ₦500, ₦1,000, and custom amount.
+3. Calculated energy appears immediately: **₦500 gives you 2.0 kWh at ₦250/kWh**.
+4. Payment choices use plain language: **Pay online**, **Bank transfer**, or **Pay seller with cash**.
+5. Final review panel lists amount, kWh, tariff, seller, meter ID, and payment method.
+6. Success receipt uses a strong confirmation mark, transaction ID, date, amount, kWh, and updated balance.
+
+**Colour use:** Solar Amber for selected energy amount; Grid Green for the confirmation action and success; Utility Blue for pending gateway/manual confirmation; Fault Red for failed payments; Surface White for the review panel.
+
+**Required states:** input, method selection, review, processing, awaiting seller confirmation, successful, failed, duplicate payment protected, and receipt.
+
+### 12.5 Usage and receipts
+
+**Purpose:** Give the buyer evidence of consumption, purchases, and balance changes.
+
+**Visual structure:**
+
+1. Current balance stays visible in a compact header.
+2. Day/week toggle with a simple bar chart rather than technical energy analytics.
+3. Transaction list separates **Energy bought** from **Energy used**.
+4. Each receipt shows status, payment method, seller, kWh, naira amount, and transaction ID.
+5. A clear **Report a problem** action is available from the receipt detail.
+
+**Colour use:** Solar Bronze chart bars; Confirmed Green completed purchases; Utility Blue pending activity; Market Grey secondary metadata; Fault Red failed or reversed transactions.
+
+**Required states:** empty history, loading, offline cached history, pending receipt, completed, failed, and reversed.
+
+### 12.6 Energy CEO seller dashboard
+
+**Purpose:** Show whether the seller can sell now, how much has been sold, and what requires attention.
+
+**Visual structure:**
+
+1. Hub-meter status and seller name in the header.
+2. Two distinct headline balances: **Commission wallet** and **Sellable energy**.
+3. Primary actions: **Record cash sale** and **Top up commission wallet**.
+4. Connected-buyer list shows buyer name, tenant-meter ID, power ceiling, connection status, and today’s use.
+5. Earnings summary separates today, this week, and total energy sold.
+6. Pending buyer approvals and operational warnings appear before analytics.
+
+**Colour use:** Grid Green for earnings and completed sales; Solar Amber for sellable energy; Market Rust for low commission credits; Confirmed Green connected buyers; Fault Red overload, offline, or authorization failure.
+
+**Required states:** healthy operation, empty wallet, low wallet, no sellable energy, pending buyer approval, meter offline, buyer suspended, and reconciliation warning.
+
+### 12.7 Record cash or transfer sale
+
+**Purpose:** Support real pilot payment behavior without allowing the seller to edit kWh balances directly.
+
+**Visual structure:**
+
+1. Search or select an already-linked buyer by name or tenant-meter ID.
+2. Show the selected buyer, meter status, tariff, and power ceiling before amount entry.
+3. Choose **Cash** or **Direct transfer**.
+4. Enter naira amount and show calculated kWh automatically.
+5. Review panel shows the commission that will be consumed from the seller wallet.
+6. Seller confirms with PIN or OTP.
+7. Success page states that SolarPeer, not the seller’s phone, updated and authorized the meter.
+
+**Colour use:** Surface White form groups; Solar Amber calculated kWh; Grid Green confirmation; Utility Blue transfer awaiting confirmation; Fault Red insufficient wallet, unsafe meter, or failed authorization.
+
+**Required states:** no buyer selected, invalid meter ID, insufficient commission credit, insufficient sellable energy, invalid PIN/OTP, processing, success, failed meter authorization, reversal, and retry.
+
+### 12.8 Buyer links and approvals
+
+**Purpose:** Let a seller control which known buyer meters are connected to the hub.
+
+**Visual structure:**
+
+1. Tabs for **Pending**, **Active**, and **Suspended**.
+2. Each request shows buyer identity, tenant-meter ID, requested power ceiling, and installer verification state.
+3. Approval uses a review screen rather than a one-tap action from the list.
+4. Suspend and restore actions require a reason and show the operational effect.
+
+**Colour use:** Utility Blue pending badge; Confirmed Green active badge; Warning Amber suspended badge; Fault Red invalid/tampered meter state.
+
+**Required states:** no requests, pending, approved, rejected, suspended, seller not authorized, meter already linked, and offline retry.
+
+### 12.9 Commission wallet
+
+**Purpose:** Make SolarPeer’s prepaid ₦25-per-kWh revenue mechanism understandable to the seller.
+
+**Visual structure:**
+
+1. Show both naira credits and the equivalent kWh authorized for sale.
+2. Explain the conversion beside the balance: **₦2,500 commission credit authorizes 100 kWh at ₦25/kWh**.
+3. Provide familiar top-up amounts and a custom amount.
+4. History distinguishes top-ups, consumed commission, refunds, reversals, and pending entries.
+5. Refund eligibility is displayed without promising rules that have not been confirmed.
+
+**Colour use:** Grid Green wallet balance; Solar Amber authorized kWh; Market Rust low-balance warning; Utility Blue pending top-up; Confirmed Green completed top-up; Fault Red failed top-up.
+
+**Required states:** zero balance, low balance, input, pending top-up, completed, failed, refund pending, refunded, and duplicate reference protected.
+
+### 12.10 Admin and installer operations PWA
+
+**Purpose:** Operate the pilot, find exceptions quickly, and preserve an audit trail.
+
+**Visual structure:**
+
+1. Deep Grid left navigation with Operations, Users, Meters, Transactions, Reconciliation, and Alerts.
+2. White operational workspace with a restrained density and strong table headers.
+3. Pilot-health strip shows active sellers, connected buyers, online meters, completed kWh, and unresolved exceptions.
+4. Exceptions and actions appear above general analytics.
+5. Search accepts user name, phone, seller ID, meter ID, payment reference, or transaction ID.
+6. Detail drawers preserve context while reviewing users, meters, or transactions.
+
+**Colour use:** Mostly white and neutral surfaces; Grid Green navigation and confirmed actions; Solar Amber energy KPIs; Utility Blue pending review; Warning Amber reconciliation mismatches; Fault Red tamper, offline, and authorization failures.
+
+**Required states:** empty pilot, healthy operation, loading, partial data, search with no results, offline meters, reconciliation mismatch, failed authorization, reversal review, and role-based access denial.
+
+### 12.11 Public landing page
+
+**Purpose:** Explain the product in plain language and convert qualified sellers, buyers, and installers into pilot leads.
+
+**Visual structure:**
+
+1. Deep Grid hero with the customer promise, concise supporting text, and one Solar Amber **Join the pilot** CTA.
+2. Real pilot story featuring a Nigerian merchant and the cost of unreliable power.
+3. A labelled seller-to-hub-to-buyer diagram showing how energy and payments move.
+4. Two audience paths: **I own a solar system** and **I need reliable power**.
+5. Transparent pilot explanation covering the meter, tariff assumption, payment choices, and known-seller model.
+6. Installer partnership section and a simple lead form.
+
+**Colour use:** Deep Grid hero/footer; Warm Cream story sections; Surface White forms; Solar Amber CTA and energy flow; Solar Bronze physical-hardware illustrations; Grid Green trust statements.
+
+**Required states:** default, form validation, submission success, submission failure, and low-bandwidth/mobile layout.
+
+## 13. Cross-Screen Component Rules
+
+### Balance panels
+
+- The primary number must be the largest element on the screen.
+- Always label the unit (`kWh`, `W`, or `₦`) beside the number.
+- Do not combine wallet commission, seller earnings, and buyer energy into one balance.
+
+### Status labels
+
+- Use icon + label + colour.
+- Preferred language: **Supplying power**, **Waiting for confirmation**, **Meter offline**, **Payment failed**, and **Action required**.
+- Avoid vague labels such as **Active**, **Issue**, or **Error** without context.
+
+### Buttons
+
+- Grid Green: normal primary action.
+- Solar Amber: energy-purchase action on a dark or neutral surface.
+- White/outline: secondary action.
+- Fault Red: destructive or safety action only.
+- Keep one primary button visible per decision step.
+
+### Forms
+
+- Labels remain visible above fields after typing.
+- Naira, kWh, meter ID, phone number, PIN, and OTP use the correct mobile keyboard/input type.
+- Preserve entered data after recoverable validation or network failure.
+- Show calculations before the final confirmation.
+
+### Receipts and audit information
+
+- Always show transaction ID, date/time, meter ID, seller/buyer identity, naira amount, kWh, payment method, and status.
+- Never communicate success before the backend ledger confirms the transaction.
+- Manual cash confirmation must identify the seller or authorized agent who recorded it.
+# Brand Guidelines
+
+## Brand promise
+
+SolarPeer 360 makes nearby solar energy measurable, understandable, and accessible. The brand should communicate useful power, neighbour-to-neighbour participation, and disciplined operating controls.
+
+## Positioning
+
+**For** shops, students, households, solar owners, installers, and community organisers in Nigeria, **SolarPeer 360** is a local energy-access service that enables measured prepaid solar sharing from a verified nearby provider. Unlike generator fuel or an unaffordable complete solar system, it is designed around metered energy, safe power limits, and local clusters.
+
+This is a proposed positioning statement, not public copy.
+
+## Personality
+
+- Practical, not futuristic
+- Hopeful, not promotional
+- Local, not stereotypical
+- Clear, not technical for its own sake
+- Candid about pilot limitations
+- Serious about safety and money
+
+## Voice
+
+Use short sentences and familiar examples. Explain technical terms at first use. Prefer “buy 4 kWh” over “receive an energy allocation”. Prefer “an installer checks your site” over “technical validation is performed”.
+
+Do not claim guaranteed savings, continuous supply, verified performance, signed partnerships, or regulatory approval unless evidence is current and publishable.
+
+## Name and tagline
+
+- Product name: `SolarPeer 360`
+- Current descriptive line: `Measured, prepaid solar energy between neighbours.`
+- Current campaign proposition: `Reliable power from the solar system next door.`
+
+The campaign line is memorable but can be read as an astronomy reference. Always pair it with a plain-language explanation on first exposure.
+
+## Logo
+
+- Preserve the approved clear space around the sun-and-lightning mark.
+- Use the reverse horizontal logo on forest-green surfaces.
+- Do not recolour individual logo elements outside approved files.
+- Do not use the logo as evidence of certification or installer approval.
+- Provide accessible link text such as “SolarPeer 360 home”; the image may be decorative inside that link.
+
+## Colour and typography
+
+The forest green signals stability and local infrastructure. Solar yellow signals energy and action. Cream reduces glare and keeps long pages approachable. Source Sans 3 is the primary typeface because it remains legible at small sizes and supports the site’s direct tone.
+
+Exact tokens live in [Design system](DESIGN.md).
+
+## Photography
+
+Every field photograph should include location, date, activity, consent status, and an evidence classification. Avoid captions that imply performance results when the photo only proves attendance or installation activity.
+
+## Terminology
+
+Use consistently:
+
+- `solar owner`, not host, prosumer, or generator
+- `buyer`, when discussing the energy transaction
+- `participant`, when discussing the pilot generally
+- `community cluster`, for geographically viable groups
+- `kWh`, for energy purchased
+- `power limit`, for the simultaneous wattage allowed
+
+## Related documents
+
+See [Content guide](CONTENT_GUIDE.md), [Trust and safety](TRUST_AND_SAFETY.md), and [Design system](DESIGN.md).
+# Changelog
+
+All notable changes to this documentation set should be recorded here. This file tracks documentation and public-product decisions, not private operational records.
+
+The format follows Keep a Changelog principles with `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, and `Security` headings as needed.
+
+## Unreleased
+
+### Proposed
+
+- Add named team, company, verification, and safety information to the public experience.
+- Add WhatsApp as an above-the-fold secondary action.
+- Reduce homepage length while preserving price, safety, and pilot qualifications.
+- Add appliance examples to make kWh and power limits easier to understand.
+- Add Pricing to primary navigation.
+- Add canonical URLs, social images, sitemap, and structured data.
+- Replace pricing toggle-button semantics with a radio group.
+- Define community-selection criteria, contact timing, and deployment constraints.
+
+## 2026-09-22
+
+### Added
+
+- `README.md` documentation index and public baseline.
+- `PRODUCT_REQUIREMENTS.md` for goals, users, requirements, and success measures.
+- `DESIGN.md` and `BRAND_GUIDELINES.md` for the visual and verbal system.
+- `UX_GUIDELINES.md`, `USER_FLOWS.md`, and `INFORMATION_ARCHITECTURE.md` for the visitor experience.
+- `CONTENT_GUIDE.md` for voice, claims, terminology, dates, units, and CTAs.
+- `ACCESSIBILITY.md` for WCAG 2.2 AA requirements and testing.
+- `COMPONENTS.md` and `FORM_SPECIFICATION.md` for interface behaviour.
+- `TRUST_AND_SAFETY.md`, `PRIVACY_AND_DATA.md`, and `PILOT_OPERATIONS.md` for operational safeguards.
+- `SEO_AND_DISCOVERY.md` and `ANALYTICS_PLAN.md` for acquisition and measurement.
+- `QA_TEST_PLAN.md` for functional, responsive, accessibility, performance, security, privacy, and content checks.
+- `ROADMAP.md` and `DECISIONS.md` for prioritisation and decision history.
+
+### Notes
+
+- This baseline was derived from the public SolarPeer 360 website as reviewed on 22 September 2026.
+- Unverified implementation, legal, regulatory, safety, and operational details are marked `TBD`.
+- No production source code or internal policy was available in this workspace for verification.
+
+## Maintenance
+
+For every release:
+
+1. Move completed items from `Unreleased` into a dated version.
+2. Link the changed requirement, decision, or operating policy.
+3. Identify public claims that need a new evidence or review date.
+4. Record privacy, safety, and pricing changes explicitly.
+5. Keep historical entries; correct mistakes with a new note rather than rewriting history silently.
+
+## Related documents
+
+See [Decisions](DECISIONS.md) and [Roadmap](ROADMAP.md).
+# Component Inventory
+
+## Purpose
+
+This document defines the public website's reusable UI components and their required behaviour. Component names are product-level names; implementation names may differ.
+
+## Global components
+
+### Site header
+
+- Contains the home logo, primary navigation, and waitlist CTA.
+- Desktop navigation includes How it works, Who it is for, Pricing, About, and Help.
+- Mobile uses a button with an accessible expanded state and a visible menu panel.
+- Header links must retain visible keyboard focus.
+
+### Site footer
+
+- Contains product description, About, Help, Privacy, Terms, App, and contact methods.
+- Contact links must identify phone, WhatsApp, and email destinations.
+- Time-sensitive pilot-location text must come from one shared content source.
+
+## Marketing components
+
+### Hero
+
+Required fields: eyebrow/status, H1, supporting sentence, primary CTA, secondary CTA, three benefit points, and image. The hero must fit the primary proposition and CTA within the first mobile screen as far as practical.
+
+### Evidence strip
+
+Shows dated pilot-preparation evidence. Each item needs a claim, evidence owner, evidence date, and public wording approval. It must not visually resemble audited performance certification.
+
+### Problem card
+
+Contains an icon, audience-specific problem heading, and one short explanation. Limit to three cards in the primary problem section.
+
+### Process step
+
+Contains an ordered step, action heading, and result. The complete set must explain assessment, metering, prepayment, usage measurement, and receipts.
+
+### Audience card
+
+Contains audience title, up to four benefits or constraints, and a role-specific CTA. Query parameters may preselect the corresponding waitlist role.
+
+### Pilot-status notice
+
+Consolidates current locations, stage, evidence date, price status, and non-customer-outcome disclaimers.
+
+### Energy-flow diagram
+
+Shows energy moving from solar owner through the hub meter to the buyer meter, and payment returning to the solar owner. Provide an accessible text equivalent.
+
+### Pricing calculator
+
+- Displays the assumed price per kWh.
+- Supports preset amounts and a continuous amount control.
+- Updates currency and kWh output immediately.
+- Presets should use a radio-group pattern because only one amount is active.
+- Never present the pilot assumption as a final tariff.
+
+### Field-photo carousel
+
+- Supports previous and next controls, touch scrolling, keyboard operation, and captions.
+- Controls are disabled at boundaries unless the carousel loops.
+- Announce the active item and total count to assistive technology.
+
+### FAQ accordion
+
+- Uses native buttons with expanded state.
+- Supports keyboard navigation and visible focus.
+- Questions must remain readable with JavaScript unavailable where feasible.
+
+## Form components
+
+### Choice card
+
+Wraps a radio input, title, and explanation. The full card is clickable, and the native input remains available to assistive technology.
+
+### Text field and text area
+
+Include a persistent label, optional hint, validation message, and programmatic relationship between them.
+
+### Location request
+
+Explains what is saved before asking for browser permission. Failure must leave manual locality entry usable.
+
+### Consent checkbox
+
+Uses explicit consent wording and links to the privacy notice. It must never be preselected.
+
+### Submission status
+
+Supports idle, validating, submitting, success, duplicate, network-error, and server-error states. Success includes a reference and clear next steps.
+
+## Related documents
+
+See [Form specification](FORM_SPECIFICATION.md), [Accessibility](ACCESSIBILITY.md), and [QA test plan](QA_TEST_PLAN.md).
+# Content Guide
+
+## Purpose
+
+SolarPeer content must help a visitor make an informed pilot decision. It should clarify the model, state uncertainty, and avoid promises the pilot cannot yet support.
+
+## Voice and tone
+
+Use Nigerian English, short sentences, and concrete examples. Write with confidence about confirmed process and with precision about assumptions.
+
+| Situation | Tone |
+|---|---|
+| Explaining the service | Direct and practical |
+| Asking for personal data | Respectful and specific |
+| Describing safety | Calm, explicit, and non-dismissive |
+| Reporting evidence | Dated and factual |
+| Handling an error | Helpful and accountable |
+| Discussing future availability | Hopeful without promising |
+
+## Message hierarchy
+
+1. Reliable power from a nearby solar system.
+2. Energy is prepaid, measured, and limited for safety.
+3. A qualified installer assesses each site before connection.
+4. Solar owners retain a reserve for their own needs.
+5. The service is at pilot-waitlist stage in selected locations.
+
+## Required language patterns
+
+- Introduce `kWh` as “the amount of energy you buy”.
+- Introduce a `power limit` as “the appliances you can run at the same time”.
+- Pair price figures with their status and effective date.
+- Pair field claims with location, date, and what the evidence proves.
+- Use `FCT Abuja` when listing states or state-equivalent regions; use `Abuja` in general audience copy where appropriate.
+
+## Claims policy
+
+Every quantitative or trust-sensitive claim needs:
+
+- A named internal owner
+- Evidence location
+- Evidence date
+- Expiry or review date
+- Approved public wording
+
+Never infer customer outcomes from installation photos. Never turn pilot conversations into market acceptance without the sample, method, and limits.
+
+## CTA language
+
+Preferred labels:
+
+- Join the pilot waitlist
+- Join as a shop
+- Join as a solar owner
+- Join as an installer
+- Partner with us
+- Chat on WhatsApp
+- Get help
+
+Avoid `Learn more` when a specific destination can be named. Avoid `Submit` because it describes the system rather than the visitor’s outcome.
+
+## Dates, money, and units
+
+- Dates: `11 September 2026`
+- Currency: `₦250 per kWh`, not `250 NGN/kWh` in consumer copy
+- Examples: `₦1,000 buys 4 kWh at the pilot price assumption`
+- Power: `500 W`, `1,000 W`, `1,500 W`
+- Phone numbers: use a readable local format in text and an international format in the link destination
+
+## Disclaimers
+
+Place a concise disclaimer beside the claim it qualifies. Consolidate repeated pilot-wide caveats into a visible Pilot status component. Do not move material qualifications into a footer.
+
+## Error and success copy
+
+Good error: `Enter a Nigerian mobile number, for example 0803 123 4567.`
+
+Good success: `You have joined the pilot waitlist. Your reference is SP360-XXXX. We will review sign-ups by community before contacting participants.`
+
+The reference format above is illustrative and must be replaced with the implemented format.
+
+## Related documents
+
+See [Brand guidelines](BRAND_GUIDELINES.md), [SEO and discovery](SEO_AND_DISCOVERY.md), and [Trust and safety](TRUST_AND_SAFETY.md).
+# Decision Log
+
+This log records decisions inferred from the public website or recommended by the documentation baseline. `Observed` means the public implementation already reflects the decision. `Proposed` requires internal approval.
+
+## D-001: Use a waitlist before service activation
+
+- Status: Observed
+- Date recorded: 22 September 2026
+- Decision: The public website collects interest and does not activate service, take payment, or create an app account.
+- Reason: The service is preparing pilot deployments and needs clustered demand and technical assessment first.
+- Trade-off: Adds delay between interest and access, but prevents premature commitments.
+
+## D-002: Support four participant roles in one intake
+
+- Status: Observed
+- Decision: Buyers, solar owners, installers, and cluster partners use one waitlist with role selection and conditional buyer questions.
+- Reason: One entry point simplifies acquisition while preserving basic segmentation.
+- Trade-off: A shared form cannot perform full role-specific qualification.
+
+## D-003: Use cash or transfer in the proposed pilot design
+
+- Status: Observed assumption
+- Decision: The public explanation supports cash or bank transfer rather than requiring a bank card.
+- Reason: Reduces payment-access barriers.
+- Trade-off: Cash increases reconciliation, receipt, fraud, and dispute complexity.
+
+## D-004: Prioritise communities with clustered interest
+
+- Status: Observed, policy details TBD
+- Decision: Sign-up concentration influences early deployment priority.
+- Reason: Local energy sharing requires geographically close supply and demand.
+- Trade-off: A popularity-only rule could exclude viable or high-need communities, so technical and safety criteria must also apply.
+
+## D-005: Keep the app private until a participant's meter is ready
+
+- Status: Observed
+- Decision: Do not publish the Android app for general download during the current stage.
+- Reason: Access is tied to approved pilot participation and meter readiness.
+- Trade-off: Reduces public product visibility but avoids unusable or misleading downloads.
+
+## D-006: Label AI illustrations and field evidence separately
+
+- Status: Observed
+- Decision: AI imagery is identified as illustrative and real field photography is dated and captioned.
+- Reason: Visitors must be able to distinguish explanation from evidence.
+- Trade-off: Labels add copy, but protect credibility.
+
+## D-007: Consolidate public documentation in a standalone directory
+
+- Status: Approved by user request and workspace constraints
+- Date: 22 September 2026
+- Decision: Store the 20 SolarPeer documents in `solarpeer360-docs/`.
+- Reason: The current workspace contains another project and an existing root `README.md`; isolation prevents accidental overwrite.
+- Trade-off: The documents are not yet integrated into the SolarPeer source repository.
+
+## Proposed decisions awaiting approval
+
+- D-008: Put WhatsApp beside the primary hero CTA.
+- D-009: Reduce homepage length by 25–35%.
+- D-010: Add a public safety and verification page.
+- D-011: Use radio-group semantics for pricing presets.
+- D-012: Add Pricing to primary navigation.
+
+When approving a proposed decision, add owner, date, rationale, alternatives, and consequences. Do not delete superseded decisions; mark them superseded and link the replacement.
+
+## Related documents
+
+See [Roadmap](ROADMAP.md), [Product requirements](PRODUCT_REQUIREMENTS.md), and [Changelog](CHANGELOG.md).
+# Design System
+
+## Design intent
+
+SolarPeer 360 should feel local, practical, safe, and technically competent. The interface should avoid the visual language of speculative technology products. Real installations, straightforward language, strong contrast, and familiar controls should do most of the trust-building work.
+
+## Foundations
+
+### Colour roles
+
+Observed values from the public website should be treated as the initial tokens:
+
+| Token | Approximate value | Use |
+|---|---:|---|
+| `color-forest-900` | `#07372B` | Header, hero, footer, high-emphasis surfaces |
+| `color-solar-500` | `#F4B43A` | Primary actions, highlights, energy cues |
+| `color-ink-900` | `#13231D` | Body text on light surfaces |
+| `color-cream-050` | `#FBF8F3` | Page background |
+| `color-white` | `#FFFFFF` | Text on dark surfaces and card backgrounds |
+| `color-focus-blue` | approximately `#2867B2` | Focus ring on light backgrounds |
+
+Every new colour must define text contrast, interactive states, and dark/light usage. Yellow must not carry meaning without text or an icon.
+
+### Typography
+
+- Primary family: Source Sans 3 with Segoe UI, Roboto, Arial, and sans-serif fallbacks.
+- Default body size: 17px with approximately 1.6 line height.
+- Desktop H1 baseline: 60px/69px, bold.
+- Use sentence case for headings and buttons.
+- Keep paragraph width near 60–72 characters.
+- Avoid light font weights for essential information.
+
+### Spacing
+
+Use an 8px base grid with 4px available for compact internal alignment.
+
+| Token | Value | Typical use |
+|---|---:|---|
+| `space-1` | 4px | Icon adjustments |
+| `space-2` | 8px | Tight label gaps |
+| `space-3` | 12px | Compact component padding |
+| `space-4` | 16px | Default gaps |
+| `space-6` | 24px | Card padding |
+| `space-8` | 32px | Section subgroups |
+| `space-12` | 48px | Mobile section separation |
+| `space-16` | 64px | Desktop section separation |
+
+## Layout
+
+- Use one centered content container with consistent gutters.
+- Keep primary reading content narrower than data or card grids.
+- Desktop hero: two-column copy and image composition.
+- Mobile hero: image first, then proposition and CTAs.
+- Prefer two or three cards per desktop row and one card per mobile row.
+- Prevent horizontal overflow at 320px and above.
+
+## Components and states
+
+All interactive components require default, hover, active, focus-visible, disabled, loading, success, and error states where relevant. Minimum target size is 44 by 44 CSS pixels. Buttons should use verbs and preserve one dominant action per region.
+
+## Imagery
+
+- Prefer dated, captioned field photography.
+- Label AI illustrations explicitly and never use them as evidence.
+- Use empty alternative text for purely decorative images.
+- Use descriptive alternative text when an image communicates field activity or a process.
+- Avoid stock imagery that implies a SolarPeer deployment or customer relationship.
+
+## Motion
+
+Motion should explain state changes, not decorate the page. Keep transitions below 250ms for menus, disclosure panels, calculator updates, and form feedback. Respect `prefers-reduced-motion`.
+
+## Responsive breakpoints
+
+Treat 375px, 768px, and 1280px as required test widths, not device assumptions. Components should respond to available space rather than device names.
+
+## Related documents
+
+See [Brand guidelines](BRAND_GUIDELINES.md), [Components](COMPONENTS.md), [UX guidelines](UX_GUIDELINES.md), and [Accessibility](ACCESSIBILITY.md).
+# Pilot Waitlist Form Specification
+
+## Objective
+
+Collect enough information to group and contact potential pilot participants while keeping the form understandable, mobile-friendly, and explicitly non-transactional.
+
+## Entry states
+
+The form may receive query parameters from audience CTAs. Supported public intents should map to visible selections rather than silently setting hidden values.
+
+| Intent | Suggested parameter | Initial selection |
+|---|---|---|
+| Buyer | `interest=buyer` | I need reliable power |
+| Solar owner | `interest=solar_owner` | I own a solar system |
+| Installer | `interest=installer` | I install solar or electrical systems |
+| Cluster partner | `interest=cluster_partner` | I represent a community, campus, or estate |
+| Shop context | `context=shop` | Shop or small business |
+| Campus context | `context=campus` | Campus or student residence |
+| Home context | `context=home` | Home or residential street |
+
+Unknown or malformed parameters must be ignored without breaking the form.
+
+## Fields
+
+| Field | Type | Required | Rules |
+|---|---|---:|---|
+| Interest | Radio group | Yes | One of four supported roles |
+| Buyer context | Radio group | Conditional | Required only for buyers |
+| Knows solar owner | Radio group | Conditional | Yes, No, or Not sure; buyer only |
+| Name | Text | Yes | Trim whitespace; limits and character policy TBD |
+| Mobile number | Tel | Yes | Accept common Nigerian local and international formats; normalise server-side |
+| State | Radio group | Yes | Lagos, Niger, FCT Abuja, or Another state |
+| Community or area | Text | Yes | Human-readable locality; do not require a street address |
+| Map point | Geolocation | No | Save only after permission and explicit form submission |
+| Notes | Text area | No | Appliance needs, timing, or relevant context; length limit TBD |
+| Contact consent | Checkbox | Yes | Unchecked by default; link privacy notice |
+
+## Conditional behaviour
+
+- Buyer selection reveals Buyer context and Knows solar owner.
+- Changing away from Buyer hides those fields and excludes their values from submission.
+- State `Another state` should clearly label the entry as expansion interest.
+- Location denial or browser failure must not block submission.
+
+## Validation
+
+- Display an error summary above the form after an invalid submit attempt.
+- Move focus to the summary, then link each item to its field.
+- Show an inline message beside every invalid field.
+- Preserve all valid values.
+- Do not reveal whether a mobile number belongs to an existing person.
+- Prevent duplicate requests while a submission is in progress.
+
+## Submission states
+
+1. Idle
+2. Validating
+3. Submitting
+4. Success with reference
+5. Duplicate or previously registered
+6. Recoverable network error
+7. Server error
+
+The success page or panel should state that the team reviews sign-ups by community, that joining creates no payment obligation, and that final terms precede installation.
+
+## Data contract
+
+The implemented API contract, reference format, duplicate key, retention period, encryption, and CRM destination are `TBD`. Until confirmed, no documentation should invent field names or response codes.
+
+## Abuse controls
+
+Use rate limiting, server-side validation, bot detection that does not exclude assistive technology, and audit logging. Do not introduce a CAPTCHA unless observed abuse justifies the accessibility and conversion cost.
+
+## Related documents
+
+See [Privacy and data](PRIVACY_AND_DATA.md), [Accessibility](ACCESSIBILITY.md), [Analytics plan](ANALYTICS_PLAN.md), and [QA test plan](QA_TEST_PLAN.md).
+# Information Architecture
+
+## Goals
+
+The site structure must help visitors understand an unfamiliar energy model, locate role-specific information, judge trust, and take one safe next step.
+
+## Proposed sitemap
+
+```text
+/
+├── /pilot
+├── /about
+├── /help
+├── /app
+├── /policies/privacy
+└── /policies/website-terms
+```
+
+Future public pages should be added only when content cannot remain clear within this structure. Candidate pages are `/safety`, `/installers`, and `/pilot-status`.
+
+## Homepage structure
+
+Recommended order:
+
+1. Header and primary navigation
+2. Hero proposition and CTAs
+3. Pilot status and dated evidence
+4. How it works in three or four steps
+5. Audience selector
+6. Pricing and appliance examples
+7. Trust, safety, and field evidence
+8. Short FAQ
+9. Final waitlist and WhatsApp CTA
+10. Footer
+
+The current problem-story and partner sections can be shortened or merged into audience and trust content.
+
+## Navigation model
+
+### Primary navigation
+
+- How it works: homepage anchor
+- Who it is for: homepage anchor
+- Pricing: homepage anchor
+- About: separate page
+- Help: separate page
+- Join the pilot waitlist: primary action
+
+### Footer navigation
+
+- About SolarPeer 360
+- Help and contact
+- Privacy notice
+- Website terms
+- The SolarPeer app
+- Phone, WhatsApp, and email
+
+### Contextual navigation
+
+- Audience cards link to `/pilot` with a role or context query parameter.
+- Pricing links to the buyer flow.
+- Trust and evidence link to About or future Safety content.
+- App page links to the waitlist and Help while download is unavailable.
+
+## Content ownership
+
+| Content | Owner | Review trigger |
+|---|---|---|
+| Pilot locations and status | Pilot operations | Deployment or eligibility change |
+| Pricing and commission | Commercial owner | Any assumption or term change |
+| Safety process | Technical/safety owner | Equipment, installer, or policy change |
+| Privacy and consent | Privacy owner | Data-flow or vendor change |
+| Field evidence | Evidence owner | New evidence or claim expiry |
+| SEO metadata | Growth/content owner | Page proposition change |
+
+Names for these owners are `TBD`.
+
+## Findability requirements
+
+- Pricing must be reachable from primary navigation.
+- Safety and provider verification must be reachable within one click from the homepage once published.
+- Privacy must be reachable from the form before consent.
+- Every page must offer a path to waitlist, Help, and home.
+- No document in this directory should be more than two links away from [README](README.md).
+
+## Related documents
+
+See [UX guidelines](UX_GUIDELINES.md), [SEO and discovery](SEO_AND_DISCOVERY.md), and [Content guide](CONTENT_GUIDE.md).
+# SolarPeer 360 — Independent Landing Website Screen Specification
+
+**Status:** Reviewed specification; final public copy/contact destination/distribution links require owner verification.
+**Product boundary:** Public company and pilot website. Independent of the Android app and operations interface.
+**Source:** User correction, 10 September 2026; PROJECT.md, BRAND_GUIDE.md and the design review.
+**Related:** [SCREEN_SPECIFICATIONS.md](SCREEN_SPECIFICATIONS.md) (index), [DESIGN_REVIEW.md](DESIGN_REVIEW.md) (findings).
+
+## 1. Independent purpose and completion
+
+The website explains SolarPeer, establishes credibility and collects buyer, solar-owner and installer interest. A visitor must complete these tasks without installing the app, signing in, owning a meter, or waiting for the mobile app to be released.
+
+Its navigation, forms, state, acceptance tests and release checklist belong to this document. Reuse approved brand assets; do not reuse the mobile account shell or mobile payment journey. Sharing a framework or repository does not make the products one user experience.
+
+Static content stays available if application authentication, wallet, payment or IoT services fail. Website submissions need a small durable submission boundary with acknowledgement and an assigned review owner. Select its storage/hosting during implementation; do not force the public site to load the app's user session or financial APIs. Operations may later consume website submissions through O13, but a functioning dashboard is not a prerequisite for receiving them. An approved operator export/inbox can cover launch; email delivery alone is not proof of durable submission.
+
+**Success:** Visitor understands the known-neighbour energy model, selects the appropriate interest, submits once, gets a reference and next-step explanation, and can contact the team later. A lead is not an activated buyer or a confirmed installation booking.
+
+## 2. Inventory and navigation
+
+Seven view templates; the homepage contains sections rather than many unnecessary marketing routes.
+
+| ID | View | Route | Main outcome |
+|---|---|---|---|
+| L01 | Homepage | / | Understand product and choose Join the pilot |
+| L02 | Pilot interest form | /pilot | Submit buyer/seller/installer interest |
+| L03 | Submission outcome | /pilot/result or /contact/result | Know received / not sent / uncertain and what next |
+| L04 | Help and contact | /help | Find answer or submit/reach a contact |
+| L05 | Policy/document reader | /policies/:document | Read the published website/privacy/service document |
+| L06 | App availability | /app | Obtain approved Android access or understand it is not yet available |
+| L07 | Not found / unavailable page | unknown route or server fallback | Return to a useful public destination |
+
+```text
+Header: SolarPeer 360 | How it works | For buyers | For solar owners | Help | Join the pilot
+Homepage sections: Story -> How sharing works -> Buyer / seller fit -> Installer interest
+                   -> Pilot pricing context -> Evidence/about -> FAQ -> Final CTA/footer
+Join the pilot -> L02 -> L03
+Help -> L04 -> L03 for a submitted contact request
+Footer -> L05; app link if appropriate -> L06
+Invalid public URL -> L07 -> L01/L04
+```
+
+About/company story, hardware explanation, pricing, buyer/seller paths and installer partnerships earn sections on L01, not separate duplicated pages for this pilot. A blog, careers page, investor portal, referral program and seller marketplace are not required.
+
+## 3. Homepage section composition
+
+| Section | First -> second -> third | Action / evidence requirement |
+|---|---|---|
+| Header/hero | SolarPeer identity -> “Reliable power from the solar system next door” -> explanation and Join the pilot | One primary CTA; no Sign up/Buy now labels that imply app account/payment |
+| Problem/story | Merchant need -> real everyday situation -> how local shared access helps | Consent-cleared story/image; a named interview is not a testimonial of completed service |
+| How it works | Existing solar owner -> hub and connected tenant meter -> prepaid energy and receipt | Label physical energy connection and payment as different paths |
+| Buyer path | Who qualifies -> known nearby supply/site assessment -> cash/direct transfer support | L02 with buyer interest; no guarantee a seller exists everywhere |
+| Solar-owner path | Protect own supply -> metering and approved limits -> prepaid commission model | L02 with seller interest; self-reported capacity is not verified surplus |
+| Installer path | Partner role -> site assessment/commissioning responsibility -> interest CTA | L02 with installer interest, no installer/admin account provisioning |
+| Pricing context | Pilot tariff assumption -> what kWh and watt limit mean -> final terms before activation | Current ₦250/kWh only with pilot context; no fixed unapproved deposit or tier prices |
+| Evidence/about | What company does -> verified team/product evidence -> concrete stage of pilot | Publish only approved current claims; no automatic import of historical award/uptime/funding claims |
+| FAQ/footer | Access/cash/installation/availability answers -> Help -> policy/contact | No hidden costs or 24/7 guarantee; show contact alternatives |
+
+**Hero sketch (design intent, not approved visual mockup):**
+
+```text
+Full-width Deep Grid surface
+[Brand]                  [How it works] [Help] [Join the pilot]
+[One clear headline]          [One contextual merchant + meter image]
+[One supporting sentence]    [Useful caption if needed]
+[Join the pilot]
+```
+
+On narrow screens: logo + labelled Menu; headline, short support sentence, CTA, then image. Keep text on a calm surface, never over a busy photograph. Use asymmetry and section-specific rhythm instead of a repeated three-card feature grid. The flow diagram earns its space because it explains the product. No decorative dashboard cards or animated fake balances.
+
+## 4. Detailed views
+
+### L01 — Homepage
+
+- **Entry/purpose:** Public search, shared link, word of mouth. First three priorities are product identity, benefit, action.
+- **Components:** Section composition above, labelled navigation, one primary CTA, responsive image, FAQ disclosures and footer.
+- **Input -> processing -> result:** Anchor selection moves to section; buyer/seller/installer interest goes to L02 with that value selected. App link goes to L06, never a broken store badge.
+- **Data:** Approved content and publication status, pilot availability/locality, image permission, policy versions, approved contact and app-link configuration. No meter/account/financial reads.
+- **States:** Missing image preserves explanation; limited/closed pilot changes CTA copy consistently; static page remains usable without client JavaScript; service issue affecting contact forms does not blank the whole site.
+- **Acceptance:** Visitor can explain how to participate by scanning headings; every CTA has a working public destination; unavailable app does not block Join the pilot.
+
+### L02 — Pilot interest form
+
+- **Entry/purpose:** Any L01 audience CTA. First show intended interest, then essential fields, then submit.
+- **Components:** Interest (buyer/solar owner/installer), name, phone, locality, privacy notice, optional contextual notes, Submit interest, Help. Do not require email or account password.
+- **Input -> processing -> result:** Validate and normalize -> durable deduplicated submission -> L03 with result reference. Do not remove data on a validation/network error.
+- **Data:** Submission ID/type, interest, name/contact/locality, optional notes, consent/version, submission time, owner-review status. No sensitive documents or appliance inventory needed to express interest.
+- **States:** Empty field, invalid number, changed role, unsupported area, duplicate request, no network, response lost after save, storage failure. Unsupported area allows clearly labelled interest/waitlist submission if team accepts it; otherwise explain unavailability before collecting details.
+- **Acceptance:** One logical request is stored once; acknowledgement does not reveal someone else's existing record. Buying/selling/installing interest never provisions an app role. No deposit or payment is collected.
+
+### L03 — Submission outcome
+
+- **Entry/purpose:** Successful or interrupted L02/L04 submission. First show actual outcome, then reference, then next action.
+- **Components:** Received / not sent / checking submission heading, non-sensitive reference, plain next-step description, Back home, Contact team; retained draft on confirmed failure.
+- **Input -> processing -> result:** Reference/result token -> bounded server status lookup -> confirmed acknowledgement or retry existing request. A reference alone must not expose personal contact details publicly.
+- **Data:** Submission state, non-sensitive reference, permitted confirmation text; private lookup needs an unguessable scoped capability or verified contact, finalized by engineering.
+- **States:** Response unknown, expired result link, refresh/direct URL without reference, duplicate submit, storage accepted but notification failed, rejected form.
+- **Acceptance:** Shows Received only after durable acceptance; notification failure does not request duplicate submission; public visitor never needs to open the app to find what happened. No guaranteed appointment or response SLA unless operations has approved it.
+
+### L04 — Help and contact
+
+- **Entry/purpose:** Header/footer, failed form, return visitor or app-access issue.
+- **Components:** Topic list, short FAQs, approved email/phone/messaging actions, optional contact form (name, contact method/value, topic, message), privacy notice, existing-reference field optional.
+- **Input -> processing -> result:** Select topic -> answer; send enquiry -> website submission boundary -> L03. Copy/email/phone remains available if messaging app missing.
+- **Data:** Published support contacts, help copy; contact submission and reply destination. App incident references may be supplied, but no private receipt is fetched publicly.
+- **States:** Empty message, invalid contact, service failure, opening external channel fails, previous enquiry follow-up, no reference.
+- **Acceptance:** A visitor can ask about an earlier enquiry using the reference without registering; staff response is routed to the chosen contact through the approved workflow. Do not collect PIN/OTP, card data or device credentials.
+
+### L05 — Policy/document reader
+
+- **Entry/purpose:** Footer, privacy notices or a shared public policy link.
+- **Components:** Document title/version/date, readable body, contents for long documents, Back and Help.
+- **Input -> processing -> result:** Choose public published policy -> read document -> return to originating form with draft intact.
+- **Data:** Public document ID, version, effective date, content, publication status.
+- **States:** Missing/retired version, offline cache, unavailable current policy. No implicit agreement merely from opening the page.
+- **Acceptance:** Website privacy/submission terms are sufficient for public interest; joining a waitlist does not accept seller financial terms. Mobile users read commercial terms in the app's own reader, which may share approved content but not depend on website availability.
+
+### L06 — App availability
+
+- **Entry/purpose:** Optional Get the Android app link or approved public app link.
+- **Components:** Android availability state, official distribution destination when released, device support guidance, pilot-access explanation, Help/Join the pilot fallback.
+- **Input -> processing -> result:** Choose approved access -> official store/controlled distribution route; unavailable release -> public interest/help remains usable.
+- **Data:** Release availability, official URL/version, supported platform text approved by CTO; no store rating/download claims without verification.
+- **States:** Not released, invitation-only, non-Android device, expired distribution link, store unavailable, download interrupted.
+- **Acceptance:** Website works with no downloadable app; no invented iOS link. No mandatory install prompt, automatic download or simulated phone screen passed off as released software.
+
+### L07 — Not found / unavailable
+
+- **Entry/purpose:** Broken URL or public page failure.
+- **Components:** Brand, plain missing/unavailable message, Home and Help links; retry on temporary service failure.
+- **Input -> processing -> result:** Choose recovery -> public page. Keep actual 404/appropriate error HTTP status for missing/unavailable pages.
+- **Data:** Non-sensitive error category and known public routes.
+- **States:** Invalid page, missing policy, expired result link, service unavailable. Do not expose stack traces or classify network outage as “application rejected.”
+- **Acceptance:** Broken deep link never strands visitor or redirects them into mobile sign-in; navigation works via plain links.
+
+## 5. Visible interaction-state matrix
+
+| View | Loading | Empty | Error | Success | Partial |
+|---|---|---|---|---|---|
+| L01 | Text/CTA first, reserved image space | Missing optional proof section omitted | Page still offers Help | Product explanation and Join CTA | Image unavailable, readable caption/text |
+| L02 | Submitting, button disabled | Labelled empty fields + what is required | Inline correction, values retained | Move to L03 after save | “Checking whether your request was received” |
+| L03 | “Checking submission” | “No submission reference” + Contact | “Not sent” + retry saved request | “Interest received” + reference/next step | “Received; confirmation message delayed” |
+| L04 | Sending message | “What do you need help with?” | Message preserved + direct contact | L03 acknowledgement | External app unavailable -> email/phone |
+| L05 | Document title/loader | Document unpublished -> Help | Cannot load, retry | Versioned readable terms | Cached version explicitly labelled |
+| L06 | Checking link availability | App not yet released -> pilot interest | Link unavailable -> Help | Open approved distribution | Unsupported device -> useful explanation |
+| L07 | Short retry indication | Missing page -> Home | Temporary unavailable -> Retry | Return to public content | Help link still reachable |
+
+## 6. Public journey and emotional arc
+
+| Moment | Visitor does | Likely feeling | Design response |
+|---|---|---|---|
+| First 5 seconds | Scans headline | Curious, sceptical | Name product, local power promise, one action |
+| Understands sharing | Checks suitability | “Is this available to me?” | Known seller/site assessment and limited pilot clearly explained |
+| Before form | Checks costs/trust | Concern about a hidden deposit | Published pilot context; final terms before activation |
+| Five-minute task | Enters interest | Wants quick completion | Few fields, cash-compatible language, no account or app demand |
+| Submission | Waits for response | Uncertain if accepted | Durable acknowledgement, reference and realistic next step |
+| Later return | Follows up | Wants accountability | Help/contact with reference; no forced reapplication |
+| Long-term relationship | Visits again | Wants continuity | Stable help and accurate release/pilot status; no repeated forced onboarding |
+
+## 7. Responsive, accessibility and content rules
+
+- Design at 360/390 px mobile, 768 px tablet and 1280+ px desktop; also verify 320 px and 200% text zoom.
+- Desktop header stays navigable; mobile menu uses an explicit labelled toggle, focus handling, Escape dismissal and return to trigger.
+- Use General Sans headings and Source Sans 3 body with the brand's system fallbacks during loading. Body text at least 16 CSS px. Text contrast and focus must be verified in implementation.
+- Grid Green/Deep Grid with Warm Cream surfaces; Solar Amber CTA with Energy Ink text. Tokens come from BRAND_GUIDE.md. No new gradients/palette required by this review.
+- Form errors use text plus field associations; completion announces politely; page changes update document title and focus.
+- Links are identifiable without hover; informational visited links may use Deep Grid versus Grid Green with underline, subject to contrast checks. Navigation uses current-page indication.
+- No autoplay video, compulsory carousel or motion required to understand content. Brief optional entrance and disclosure transitions respect reduced motion and slow devices.
+- Hero image has meaningful alt text or is explicitly decorative; energy-flow explanation has equivalent text.
+- No analytics/cookie banner added solely as decoration. If nonessential tracking is later selected, specify its real consent requirements before enabling it.
+- Proposed acceptance target: static content renders without app APIs or client JS; optimized responsive images have dimensions; no third-party tracking, unverified testimonials or decorative video blocks first-use tasks. Measure page performance on representative low-cost phones before claiming load times.
+
+## 8. Website acceptance tests and publication gates
+
+1. Disable app auth/financial/IoT endpoints: L01/L04/L05 still render and navigate.
+2. App unreleased: lead submission and confirmation still complete.
+3. Submit each of buyer, solar owner and installer interest; correct interest is retained.
+4. Double click/reload after submission: one request, same non-sensitive reference.
+5. Lose response after storage succeeds: resolve existing result; no instruction to blindly resubmit.
+6. Notification delivery fails: acknowledgement remains correct and operator still has stored request.
+7. Invalid phone/empty message: inline error retains values and focus is useful.
+8. Invalid/expired result link: no contact data disclosure; useful follow-up path.
+9. Non-Android visitor and broken download link: public help/interest still work.
+10. Keyboard/mobile/large-text test: menu, form, errors, result and policy navigation work.
+11. Staff processes an enquiry and records reply/outcome through approved inbox or O13 without app account creation.
+12. Confirm homepage pricing, locality, evidence, real contact details, privacy copy and official download links before public release.
+
+Unresolved publication choices: final approved content/contact recipient, durable form storage/owner handoff, accepted localities/waitlist wording, official app link if available, retention and privacy text. They do not justify adding mobile financial screens to the website.
+
+## 9. What already exists / not in scope
+
+Reuse Market Sun + Grid Green, current company promise, existing page preview as visual reference only, and approved assets. Logo concepts remain an exploration. Historical site reviews mention Jabi/Abuja, AI advice and ₦200 minimums; they are not current pilot promises.
+
+Out of scope: customer login/dashboard, energy checkout, commission wallet, meter linking/control, public lead directory, live private receipt lookup, admin tools, seller marketplace and independent legal/commercial claims research. The site can link outward to approved products without incorporating their screen specifications.
+
+## GSTACK REVIEW REPORT
+
+| Review | Runs | Status | Findings |
+|---|---:|---|---|
+| Plan design review | 1 | Revised; publication choices open | Independent visitor journey, seven views, explicit confirmation/contact/download/error paths and responsive states |
+| Visual/runtime QA | 0 | Not run | Document review only; no new approved mockup or deployed site |
+
+VERDICT: Website specification separated and reviewed. Publication values must be verified; no dependency on mobile app readiness.
+
+**UNRESOLVED DECISIONS:**
+- Public content/contact, form persistence/handoff, supported locality wording, release link and privacy/retention need owner verification before publishing.
+
+# SolarPeer 360 Logo Design Directions
+
+**Document status:** **Approved** — Concept G (Market Sun Bolt) selected; production files generated  
+**Brand direction:** Market Sun + Grid Green  
+**Prepared for:** Founders, product designers, mobile engineers, web engineers, installers, and print vendors  
+**Last updated:** 10 September 2026
+
+## 1. Purpose
+
+This document defines the six proposed SolarPeer 360 logo directions and the requirements for turning the selected direction into a production-ready identity.
+
+It should be used together with:
+
+- `BRAND_GUIDE.md` for approved colours, typography, interface rules, and brand positioning.
+- `PROJECT.md` for product scope and business rules.
+- `TECH_STACK.md` for implementation technologies.
+
+The logo must communicate trusted neighbourhood energy sharing, metered electricity, and payment-grade reliability. SolarPeer is not an open energy marketplace or a solar-equipment catalogue.
+
+## 2. Brand Foundation
+
+### Brand promise
+
+> **Reliable power from the solar system next door.**
+
+### Brand character
+
+- Dependable and transparent
+- Warm and locally relevant
+- Simple for first-time digital users
+- Operationally credible
+- Modern without appearing futuristic or expensive
+
+### Core audiences
+
+- Low-income Nigerian SME merchants buying metered energy
+- Solar owners acting as Energy CEOs
+- Installers linking physical smart meters
+- SolarPeer operations and support staff
+
+### Required environments
+
+The selected identity must work on:
+
+1. Android launcher icons and splash screens
+2. Buyer and seller mobile-app headers
+3. Staff and installer dashboards
+4. Public website and social media
+5. Smart-meter labels and QR stickers
+6. WhatsApp or printed receipts
+7. Installer uniforms, shop signage, and presentations
+
+## 3. Approved Colour Palette
+
+| Role | Name | Hex | Logo use |
+|---|---|---:|---|
+| Primary | Grid Green | `#0B4D3B` | Main wordmark, symbol, or dark background |
+| Primary dark | Deep Grid | `#07372B` | Dark logo surface and premium applications |
+| Energy | Solar Amber | `#F4B43A` | Sun, energy, or active-power accent |
+| Signature | Solar Bronze | `#B8895D` | Supporting physical or human-market accent |
+| Emphasis | Market Rust | `#C4471C` | Small `360` detail or controlled emphasis |
+| Background | Warm Cream | `#FBF8F3` | Primary light background |
+| Text | Energy Ink | `#13231D` | Dark text and one-colour applications |
+| Surface | White | `#FFFFFF` | Reverse logo background and cards |
+
+### Colour rules
+
+- Use no more than three brand colours in the primary logo.
+- Keep the symbol recognizable in one colour.
+- Use Energy Ink rather than white over Solar Amber.
+- Do not use gradients in the master logo.
+- Do not use bright fintech green as the dominant identity.
+- Do not use colour alone to represent a meter or payment status.
+
+## 4. Logo Concepts
+
+### A. Solar Neighbourhood
+
+**Idea:** A central Solar Amber sun connected to six Grid Green neighbour nodes. The six nodes reference a solar seller serving up to six nearby shops or tenants.
+
+**Meaning:** Shared local generation, one trusted hub, connected buyers, and energy radiating through a neighbourhood.
+
+**Wordmark:** `SolarPeer` in bold General Sans, with `360` as a controlled Market Rust accent.  
+**Suggested supporting line:** `POWER SHARED LOCALLY`
+
+**Strengths:**
+
+- Explains the network model quickly.
+- Friendly and understandable for non-technical users.
+- Strong connection to SolarPeer's six-buyer pilot model.
+- Converts naturally into an Android app icon.
+
+**Risks to refine:**
+
+- The network symbol must not resemble a virus or generic technology hub.
+- Small nodes must remain visible on meter labels and favicons.
+- The symbol should remain balanced if the six-buyer limit changes later.
+
+### B. SP Energy Circuit
+
+**Idea:** Interlocking `S` and `P` letterforms form a compact electrical path.
+
+**Meaning:** SolarPeer technology, controlled energy routing, and a connected smart-meter system.
+
+**Wordmark:** Uppercase `SOLARPEER` with a compact `ENERGY 360` descriptor.  
+**Suggested type direction:** Space Grotesk or a custom geometric sans serif.
+
+**Strengths:**
+
+- Distinctive monogram for Android and hardware.
+- Scales well at small sizes.
+- Feels like a modern energy-technology company.
+
+**Risks to refine:**
+
+- The letters must remain readable and not appear like `CP`, a plug, or a payment-card logo.
+- It communicates technology more strongly than community.
+
+### C. Shared Roof
+
+**Idea:** Two neighbouring market roofs connected beneath a rising Solar Amber sun.
+
+**Meaning:** Real shops, next-door power, shared infrastructure, and local economic activity.
+
+**Wordmark:** `SolarPeer` with the supporting line `ENERGY NEXT DOOR · 360`.  
+**Suggested type direction:** Source Sans 3.
+
+**Strengths:**
+
+- Human and locally understandable.
+- Closely matches the customer-facing promise.
+- Suitable for field materials and merchant onboarding.
+
+**Risks to refine:**
+
+- May look like a housing, roofing, or property company.
+- The roof detail can become unclear at favicon size.
+- Must avoid looking informal or charity-led.
+
+### D. Meter Pulse
+
+**Idea:** A precision meter dial containing a Solar Amber power indicator and `360` detail.
+
+**Meaning:** Every kilowatt-hour is measured, controlled, and visible.
+
+**Wordmark:** Strong uppercase `SOLARPEER` with `MEASURED POWER`.  
+**Suggested type direction:** IBM Plex Sans Condensed.
+
+**Strengths:**
+
+- Communicates metering and operational control immediately.
+- Strong on physical smart meters and installer materials.
+- Feels trustworthy and infrastructure-oriented.
+
+**Risks to refine:**
+
+- Could appear like a vehicle gauge, utility company, or equipment manufacturer.
+- Less explicit about neighbour-to-neighbour sharing.
+- Small tick marks may disappear in reduced sizes.
+
+### E. Power Loop 360
+
+**Idea:** A continuous circular loop represents energy moving from seller to buyer, with the loop also suggesting `360` and controlled exchange.
+
+**Meaning:** Renewable circulation, reusable prepaid capacity, and a complete energy transaction.
+
+**Wordmark:** Modern mixed-case `SolarPeer 360`.  
+**Suggested type direction:** Manrope.
+
+**Strengths:**
+
+- Simple and highly scalable.
+- Works well for app icons and motion graphics.
+- Suggests energy exchange without showing complex hardware.
+
+**Risks to refine:**
+
+- Circular energy marks are common and may be difficult to protect.
+- Could resemble recycling, synchronization, or charging brands.
+- Requires a distinctive internal shape or cut.
+
+### F. Energy CEO Wordmark
+
+**Idea:** A confident custom SolarPeer wordmark with an integrated sun or power detail and a strong `360` signature.
+
+**Meaning:** A scalable technology company that helps local solar owners become energy businesses.
+
+**Wordmark:** Custom bold lettering based on Archivo or General Sans.  
+**Suggested supporting line:** `LOCAL POWER. CLEAR VALUE.`
+
+**Strengths:**
+
+- Professional and flexible across investor, product, and commercial use.
+- Can become highly distinctive through custom lettering.
+- Avoids dependence on a complicated illustrative symbol.
+
+**Risks to refine:**
+
+- A wordmark alone may be weak at Android launcher size.
+- It needs a strong standalone monogram or initial for meter and app use.
+- It communicates the operating model less directly.
+
+### G. Market Sun Bolt — **SELECTED**
+
+**Idea:** A ~70%-round sun built from short, thick, irregular flame rays, opening at the base, with a bold lightning bolt driven vertically through its centre. The bolt does not sit on top of the sun — it is traced out of it, so a clean gap separates the two wherever they cross and the bolt reads as genuinely passing through.
+
+**Meaning:** Solar generation (the flame sun) converted into delivered, metered electricity (the bolt). The open base is where the energy leaves the hub and reaches the buyer.
+
+**Wordmark:** `SolarPeer 360` in bold Grid Green, set below the mark, with the supporting line `POWER SHARED LOCALLY` in tracked Solar Amber capitals.
+
+**Strengths:**
+
+- The bolt is unmistakably electricity — it reads at a glance to a non-technical merchant.
+- The traced channel means the mark survives as a single flat colour: bolt and sun stay separate even in one-colour print and on thermal receipts.
+- The open base gives the mark direction; it is not another closed circular badge.
+- Sun + bolt is a distinct pairing against Lumos, Arnergy, and fintech-green identities.
+- The flame rays carry the Nigerian market warmth the brand position asks for.
+
+**Risks accepted:**
+
+- More energetic than the restrained "payment utility" tone argued for in `BRAND_GUIDE.md` §1. This is a deliberate founder decision, recorded here.
+- The thin ring band and fine flame tips soften below roughly 24 px. Mitigated by the dedicated icon lockup, which uses a shortened bolt tail and a tighter crop.
+- The sun-plus-bolt combination is common in generic solar clip art. The irregular ray rhythm, the 70% opening, the traced bolt channel, and the brand palette are what separate it — do not let a future redraw regularise the rays into even triangles.
+
+### Construction spec
+
+The mark is generated, not hand-drawn, so it can be rebuilt exactly.
+
+| Parameter | Value |
+|---|---|
+| Sun centre | `(256, 204)` in a `0 0 512 512` viewBox |
+| Ray/core angular span | `153°` to `387°` (234°, leaving a ~126° opening centred on the base) |
+| Outer ring radius | `100` |
+| Inner ring radius (void) | `84` — band is **16 units, ~5% of the mark width** |
+| Ray seat radius | `94` |
+| Ray count | 18, with the four arc-end rays shortened to a `+22` stub |
+| Ray lengths (cycled) | `46, 28, 54, 34, 24, 48, 30, 42, 50, 26` |
+| Ray base half-angles (cycled) | `4.8, 3.4, 5.6, 3.8, 3.0, 5.2, 3.6, 4.4` degrees |
+| Bolt (lockup) | `M278 104 L202 220 L250 220 L232 332 L310 198 L258 198 Z` |
+| Bolt (icon, short tail) | `M278 108 L206 218 L250 218 L236 306 L306 200 L258 200 Z` |
+| Trace channel | bolt path stroked at width `18` (9 units of clearance per side), round joins, knocked out of the sun |
+
+The sun is drawn as a filled wedge, then a mask removes the central void and the traced bolt channel. The bolt is painted last, inside its own channel.
+
+## 5. Evaluation Criteria
+
+Rate each direction from 1 to 5 against the following criteria:
+
+| Criterion | Evaluation question |
+|---|---|
+| Immediate meaning | Does it suggest reliable local energy or metering without explanation? |
+| Trust | Would a Lagos merchant trust it on a meter, receipt, or payment screen? |
+| App-icon strength | Is it recognizable at 48 px and without the wordmark? |
+| Hardware legibility | Does it print clearly on a small meter label in one colour? |
+| Distinctiveness | Is it meaningfully different from solar, utility, and fintech competitors? |
+| Scalability | Can it support future products without depending on the six-buyer pilot limit? |
+| Cultural fit | Does it feel warm, practical, and locally relevant without using stereotypes? |
+
+The preferred concept should not be finalized from the desktop wordmark alone. Test it with at least three target users, one seller, and one installer using the app-icon and meter-label versions.
+
+## 6. Recommended Validation Questions
+
+Show each participant the marks without concept names and ask:
+
+1. What type of company do you think this is?
+2. Which mark would you trust most on an electricity meter?
+3. Which icon would be easiest to find on your phone?
+4. Which looks most like reliable power rather than a loan, bank, or solar shop?
+5. What does the selected symbol mean to you?
+
+Record the first answer before explaining SolarPeer. Avoid asking whether the participant merely “likes” the logo.
+
+## 7. Production Deliverables for the Selected Concept
+
+Status against the original deliverable list (see §12 for paths):
+
+| Deliverable | Status |
+|---|---|
+| Primary horizontal logo | Done |
+| Stacked logo | Done — this is the primary lockup |
+| Standalone symbol or app icon | Done — shortened bolt tail, tighter crop |
+| Full-colour light-background version | Done |
+| Full-colour dark-background version | Done (`-reverse`) |
+| One-colour dark version | Done (`-mono-green`) |
+| One-colour white/reversed version | Done (`-mono-white`) |
+| Favicon at 16, 32, and 48 px | Done |
+| Social avatar at 512 px | Done |
+| Smart-meter label version | Done — use `icon-mono-green` |
+| Receipt / monochrome thermal-printer version | Done — same mono file; **still needs a physical test print** |
+| PNG exports | Done — 44 files, transparent background |
+| Android adaptive icon foreground and background | **Outstanding** — needs safe-zone testing per §8 |
+| Clear-space and minimum-size rules | **Outstanding** — define after field legibility testing |
+| SVG masters with outlined type | **Outstanding** — blocked on licensing General Sans |
+| PDF/EPS print exports | **Outstanding** — produce on demand per vendor |
+
+### File naming convention
+
+Pattern: `solarpeer360-<lockup>[-<colourway>].svg`
+
+- **lockup** — `logo-stacked` (primary), `logo-horizontal`, or `icon`
+- **colourway** — omitted for full colour; otherwise `reverse` (for dark surfaces), `mono-green`, or `mono-white`
+
+```text
+solarpeer360-logo-stacked.svg
+solarpeer360-logo-stacked-reverse.svg
+solarpeer360-logo-horizontal.svg
+solarpeer360-icon.svg
+solarpeer360-icon-mono-green.svg
+```
+
+Raster exports append the pixel width: `png/solarpeer360-icon-512.png`.
+
+Variants are named by **colourway**, not by background (`-light` / `-dark`), because the reverse lockup changes several colours at once rather than just inverting one. Any future asset must follow this pattern.
+
+## 8. Technical Implementation Rules
+
+- Use SVG for product and website interfaces whenever possible.
+- Give meaningful inline SVG titles or accessible image labels.
+- Do not embed the full wordmark inside the small Android launcher icon.
+- Preserve a simple silhouette at 24 px.
+- Keep the master SVG free of unnecessary masks, raster images, and external fonts.
+- Convert custom wordmark lettering to vector outlines only in distribution copies; retain an editable master.
+- Provide Android adaptive-icon safe-zone testing so important details are not cropped into circles or rounded squares.
+- Test one-colour output on low-cost label printers and photocopiers.
+- Verify colour contrast when a logo is used near buttons, balances, or alerts.
+
+## 9. Usage Guardrails
+
+Do not:
+
+- Stretch, rotate, outline, or add shadows to the logo.
+- Recolour the logo with unrelated fintech greens or generic gradients.
+- place a detailed full-colour mark on a busy photograph without a controlled holding shape.
+- Use the logo as a meter-status or payment-status indicator.
+- Add `Energy CEO` to the corporate master logo; use it as a seller-role label.
+- Claim a concept is trademark-safe before a proper Nigerian and international trademark search.
+
+## 10. Decision Status
+
+The approved **Market Sun + Grid Green** colour system remains fixed. **Concept G — Market Sun Bolt** is the selected identity as of 10 September 2026.
+
+Concepts A–F remain in this document as the exploration record. None was carried forward. The route to G ran through three rounds:
+
+1. Six concepts explored (A–F); none convincing enough to lock.
+2. A circular seal with a central bolt was explored, then rejected in favour of a sun burst after the founder supplied a visual reference.
+3. The reference was translated into brand colours and then corrected in four passes: bolt enlarged and centred, flames shortened and thickened, the flat half-sun baseline removed in favour of a ~70%-round open base, and finally the bolt traced out of the sun rather than overlaid on it, with the ring band thinned to ~5%.
+
+Colour rule §3 ("no more than three brand colours in the primary logo") is satisfied: the mark uses Solar Amber and Grid Green only, with Energy Ink reserved for the horizontal lockup's wordmark.
+
+**Still outstanding before the mark is used in the field:**
+
+- Field validation with real users has **not** been run. Section 6's questions remain open — test with at least three merchants, one seller, and one installer using the icon and meter-label versions before printing hardware labels at volume.
+- A Nigerian and international trademark search has **not** been performed. Do not claim the mark is protected (see §9).
+- The wordmark is currently set in Helvetica/Arial as a stand-in for General Sans. Reset it in licensed General Sans and convert to outlines before print production.
+
+## 11. Review Record
+
+```yaml
+preferred_concept: G  # Market Sun Bolt
+ratings:
+  A: 3   # clear story, but reads as a generic network hub
+  B: 2   # S+P monogram read as a blob; abandoned
+  C: null
+  D: 3   # metering was legible but felt like a utility meter vendor
+  E: 3   # became the circular-seal round; superseded by G
+  F: null
+  G: 5   # selected
+elements_to_keep:
+  - irregular flame-ray rhythm (varied length and width)
+  - bolt driven vertically through the centre
+  - traced channel separating bolt from sun
+  - open base rather than a closed circle or flat half-sun
+  - "POWER SHARED LOCALLY" tagline in tracked Solar Amber
+elements_to_change:
+  - reset wordmark in licensed General Sans before print
+  - simplify ray count for sub-24px use if the icon proves fragile in the field
+field_test_result: pending   # not yet run with merchants, seller, or installer
+trademark_search: not started
+final_approval_date: 2026-09-10
+approved_by: Umar Adetola Abdulganiyy (founder)
+```
+
+## 12. Produced Files
+
+All logo assets live in `logos/` alongside this document.
+
+```text
+logos/
+├── export/                                     <- production masters, use these
+│   ├── solarpeer360-logo-stacked.svg              primary lockup (mark over wordmark)
+│   ├── solarpeer360-logo-stacked-reverse.svg      for Deep Grid / dark surfaces
+│   ├── solarpeer360-logo-stacked-mono-green.svg   one-colour Grid Green
+│   ├── solarpeer360-logo-stacked-mono-white.svg   one-colour reversed
+│   ├── solarpeer360-logo-horizontal.svg           app headers, nav bars, letterhead
+│   ├── solarpeer360-logo-horizontal-reverse.svg
+│   ├── solarpeer360-icon.svg                      square mark, shortened bolt tail
+│   ├── solarpeer360-icon-reverse.svg
+│   ├── solarpeer360-icon-mono-green.svg           meter labels, engraving, thermal receipts
+│   ├── solarpeer360-icon-mono-white.svg
+│   └── png/                                       44 raster exports, transparent background
+│                                                  icons at 16/32/48/192/512/1024/2048
+│                                                  stacked at 512/1024/2048
+│                                                  horizontal at 1024/2048
+└── preview.html  open in a browser for side-by-side, background, and size checks
+```
+
+The intermediate exploration files (round-one concepts and the 18 refinement steps) were deleted on 10 September 2026 once Concept G was approved. Nothing unique was lost — the selected mark's geometry is preserved exactly in `solarpeer360-logo-stacked.svg`, and the written record of Concepts A–F remains in §4 of this document. The mark is fully reproducible from the construction spec in §4G.
+
+### Which file to use
+
+| Context | File |
+|---|---|
+| Landing page hero, pitch deck, signage | `solarpeer360-logo-stacked.svg` |
+| Deep Grid hero, dark app surfaces | `*-stacked-reverse.svg` |
+| Mobile app header, admin PWA nav, letterhead | `solarpeer360-logo-horizontal.svg` |
+| Android launcher, favicon, social avatar | `solarpeer360-icon.svg` → `png/solarpeer360-icon-*.png` |
+| Smart-meter labels, QR stickers, thermal receipts | `solarpeer360-icon-mono-green.svg` |
+| Photography or busy backgrounds | `*-mono-white.svg` inside a controlled holding shape |
+
+### Rebuilding or adjusting the mark
+
+The geometry is parametric — see the construction spec in §4G. Changing ray count, ray length, ring thickness, or the opening angle means regenerating all ten SVGs together so the family stays consistent. Never edit one variant in isolation.
+
+Filenames follow the convention recorded in §7.
+# Pilot Operations
+
+## Objective
+
+Turn public interest into safe, geographically viable, and commercially understandable pilot clusters without promising service before assessment and signed terms.
+
+## Operating stages
+
+```text
+Waitlist
+  -> Data quality review
+  -> Community clustering
+  -> Buyer and solar-owner qualification
+  -> Technical assessment
+  -> Commercial and consent confirmation
+  -> Installation and commissioning
+  -> Controlled activation
+  -> Monitoring, support, and review
+```
+
+## Intake
+
+- Review new entries for completeness, duplicates, consent, location, and role.
+- Keep unsupported-state entries on an expansion list with separate expectations.
+- Do not contact a person through a channel outside the consent and privacy policy.
+- Record source, date, reference, owner, and next action.
+
+## Community clustering
+
+A viable cluster requires enough compatible demand, a technically suitable nearby solar owner, safe cable routes, installer availability, and an approved operating model. Public sign-up volume may influence priority but must not be the only criterion.
+
+Publish the selection method before inviting communities to compete. Thresholds, distance rules, review cadence, and tie-breaking are `TBD`.
+
+## Qualification
+
+### Buyer
+
+Confirm premises, intended appliances, operating schedule, ability to understand prepaid energy and power limits, preferred payment method, and willingness to sign pilot terms.
+
+### Solar owner
+
+Confirm ownership or authority, system condition, reserve requirements, available capacity, expected generation and load patterns, equipment compatibility, and willingness to accept settlement terms.
+
+### Installer
+
+Follow the verification requirements in [Trust and safety](TRUST_AND_SAFETY.md). Maintain assignment, assessment, installation, commissioning, and maintenance records.
+
+## Assessment and approval
+
+Each proposed connection needs a documented assessment, design decision, capacity allocation, power limit, equipment list, cable route, protection plan, participant sign-off, and approval by the designated technical owner.
+
+## Commercial readiness
+
+Before activation, provide signed terms covering price, commission, meter or hub terms, deposits if any, receipts, refunds, supply limitations, maintenance, suspension, complaints, and exit. Public assumptions must be reconciled with the final terms.
+
+## Activation checklist
+
+- Approved assessment and installation record
+- Commissioning tests passed
+- Meter identifiers linked to correct participants
+- Initial balance and power limit confirmed
+- Receipt channels tested
+- Emergency isolation explained
+- Support contacts provided
+- Privacy and monitoring notices acknowledged
+- Pilot agreement signed
+
+## Support and incidents
+
+Use one case reference across call, WhatsApp, email, app, and installer work. Electrical hazards follow the incident process immediately. Commercial or meter disputes preserve transaction and device records before investigation.
+
+## Pilot metrics
+
+- Qualified clusters and participants
+- Assessment pass rate
+- Installation and activation cycle time
+- Delivered kWh and availability
+- Meter or settlement discrepancies
+- Safety events and near misses
+- Support volume and resolution time
+- Participant retention and satisfaction
+
+Metric definitions, owners, and review cadence are `TBD`.
+
+## Related documents
+
+See [Product requirements](PRODUCT_REQUIREMENTS.md), [Trust and safety](TRUST_AND_SAFETY.md), and [Analytics plan](ANALYTICS_PLAN.md).
+# Privacy and Data
+
+## Purpose
+
+This document describes the minimum privacy and data-governance requirements for the public website and pilot waitlist. It is a product specification, not legal advice. A qualified Nigerian privacy professional must review the final implementation and notice.
+
+## Data inventory
+
+| Data | Purpose | Required? |
+|---|---|---:|
+| Participant role | Route and qualify interest | Yes |
+| Buyer context | Understand demand type | Buyer only |
+| Nearby solar-owner knowledge | Support cluster formation | Buyer only |
+| Name | Contact and identify the submission | Yes |
+| Mobile number | Pilot communication | Yes |
+| State | Eligibility and expansion planning | Yes |
+| Community or area | Cluster analysis | Yes |
+| Map coordinates | Help an installer locate the area | No |
+| Notes | Capture appliances and contact context | No |
+| Consent record | Prove permission to contact | Yes |
+| Technical and security logs | Reliability, fraud prevention, and investigation | As necessary |
+
+Do not ask for a precise street address, government identifier, payment information, or app password on the public waitlist.
+
+## Consent
+
+- Consent must be specific to pilot communication.
+- The checkbox remains unselected until the participant acts.
+- The privacy notice is available before consent.
+- Record consent wording version and timestamp.
+- Provide a practical method to withdraw from future pilot contact.
+
+Consent is not the only possible lawful basis for every operational record. The final lawful-basis mapping is `TBD` pending legal review.
+
+## Geolocation
+
+Explain the purpose before invoking browser permission. Save coordinates only when the visitor submits the form. Do not retain permission-denial telemetry tied to the person. Provide manual community entry as the default alternative.
+
+## Minimisation and access
+
+- Collect only fields needed for pilot qualification.
+- Restrict access by role.
+- Use individual staff accounts and multi-factor authentication.
+- Keep access and export logs.
+- Do not export participant lists to personal devices or unmanaged spreadsheets.
+- Redact personal data from analytics, error monitoring, screenshots, and support examples.
+
+## Retention
+
+The retention schedule is `TBD`. Define separate periods for active pilot leads, expansion-waitlist leads, rejected or unreachable entries, consent evidence, incident records, financial records, and backups. Deletion must cover downstream systems and scheduled backup expiry.
+
+## Vendors and transfers
+
+Document the form host, database, analytics provider, error-monitoring provider, messaging services, CRM, and backup locations. Complete vendor agreements and cross-border-transfer review before production processing.
+
+## Rights handling
+
+Provide a documented path for access, correction, deletion, objection, withdrawal, and complaints. Verify identity proportionately before disclosing or changing records.
+
+## Security baseline
+
+- TLS in transit and encryption at rest
+- Secrets outside source control
+- Server-side validation and rate limiting
+- Least-privilege service accounts
+- Backups with restore testing
+- Incident detection and breach-response procedure
+- No personal data in URL query parameters
+
+## Related documents
+
+See [Form specification](FORM_SPECIFICATION.md), [Analytics plan](ANALYTICS_PLAN.md), and [Trust and safety](TRUST_AND_SAFETY.md).
+# Product Requirements
+
+## Purpose
+
+SolarPeer 360 helps people and small businesses buy measured, prepaid solar energy from a nearby solar owner. The public website must explain the model, establish trust, qualify pilot participants, and collect usable waitlist interest without implying that service is already generally available.
+
+## Product goals
+
+1. Explain local solar sharing in language a shop owner, student, household, or solar owner can understand.
+2. Convert qualified visitors into pilot waitlist entries or direct conversations.
+3. Collect enough location and role information to identify viable community clusters.
+4. Set accurate expectations about pricing, availability, installation, safety, and the pilot stage.
+5. Give installers and community organisers a clear path to express interest.
+
+## Non-goals
+
+- Selling electricity or collecting payment through the public website.
+- Promising continuous power, fixed savings, or a deployment date.
+- Publishing the Android application before participants are approved and their meters are ready.
+- Treating a waitlist submission as a supply agreement, installation booking, or account creation.
+
+## Primary users
+
+| User | Main need | Primary action |
+|---|---|---|
+| Shop or small business | Keep lights, refrigeration, and small equipment running | Join as a buyer |
+| Student residence | Coordinate reliable light and charging for a residence | Join as a buyer or cluster |
+| Household | Run fans, lights, and small appliances | Join as a buyer |
+| Solar owner | Earn from measured spare energy without risking household supply | Join as a solar owner |
+| Installer | Assess sites, fit meters, and support clusters | Join as an installer |
+| Cluster partner | Organise a street, estate, campus, or community | Join as a cluster partner |
+
+## Core requirements
+
+### Public explanation
+
+- State that energy travels by cable and usage is measured in kWh.
+- Distinguish energy purchased in kWh from the buyer's power limit in watts.
+- Explain that a site assessment occurs before any connection.
+- State that a solar owner's own supply reserve comes first.
+- Explain payment, receipt, metering, and commission at a high level.
+
+### Waitlist
+
+- Ask for the participant role first.
+- Show buyer-only questions only when the buyer role is selected.
+- Collect name, Nigerian mobile number, state, community or area, optional notes, and explicit contact consent.
+- Offer optional location capture with a clear purpose statement.
+- Confirm that no payment, deposit, or app account is required.
+- Return a reference after successful submission.
+
+### Trust
+
+- Date all pilot evidence and assumptions.
+- Distinguish field activity from customer outcomes.
+- Identify the company, responsible team, provider-verification process, installer standards, and support route before public launch.
+
+## Success measures
+
+- Waitlist completion rate by acquisition source and user role.
+- Percentage of valid, contactable submissions.
+- Number of sign-ups per usable community cluster.
+- Time from submission to first contact.
+- Percentage of qualified solar owners and buyer sites after assessment.
+- Support-contact rate caused by unclear pricing, eligibility, or process.
+
+## Constraints and open questions
+
+- Final pilot price, meter terms, hub terms, commissions, deposits, and installation charges are not confirmed publicly.
+- Community-selection thresholds and review dates are not published.
+- Provider-verification, fault response, equipment ownership, warranties, and dispute handling require internal confirmation.
+- Regulatory and electrical-safety requirements must be reviewed by qualified Nigerian professionals before deployment.
+
+## Related documents
+
+See [User flows](USER_FLOWS.md), [Form specification](FORM_SPECIFICATION.md), [Pilot operations](PILOT_OPERATIONS.md), and [Trust and safety](TRUST_AND_SAFETY.md).
+# QA Test Plan
+
+## Scope
+
+Test the public homepage, pilot waitlist, About, Help, App, Privacy, and Website Terms pages across supported browsers, viewports, input methods, network conditions, and failure states.
+
+## Release environments
+
+- Local or preview environment with test data
+- Production-like staging environment
+- Production smoke test using non-mutating checks and an approved test-submission process
+
+Do not send test leads into operational systems without clear tagging and cleanup procedures.
+
+## Functional tests
+
+### Navigation
+
+- Every internal link reaches the correct page or anchor.
+- Mobile menu opens, closes, reports state, and retains visible focus.
+- Skip link moves focus to main content.
+- Phone, WhatsApp, and email links use correct destinations.
+- Unknown routes return an accessible 404 page.
+
+### Homepage
+
+- Primary and audience CTAs reach the correct waitlist context.
+- Pricing presets and range input update the amount and kWh consistently.
+- FAQ controls reveal the matching answers.
+- Carousel boundaries, captions, touch scrolling, and keyboard controls work.
+- Time-sensitive evidence and pricing show the approved dates and caveats.
+
+### Waitlist
+
+- Each role selects correctly.
+- Buyer-only fields appear and disappear correctly.
+- Query parameters preselect only allowed values.
+- Required, invalid, duplicate, offline, timeout, and server-error states preserve entered values.
+- Location permission accepted, denied, unavailable, and inaccurate paths remain usable.
+- One activation produces at most one accepted submission.
+- Success displays the implemented reference and next steps.
+
+## Responsive matrix
+
+Test at 320×568, 375×812, 390×844, 768×1024, 1280×720, and 1440×900. Check zoom at 200% and 400%. No essential content may be clipped or require horizontal page scrolling.
+
+## Browser matrix
+
+- Current and previous major Chrome
+- Current and previous Edge
+- Current and previous Firefox
+- Current and previous Safari
+- Current Chrome on Android
+- Current Safari on iOS
+
+## Accessibility
+
+Execute the manual and assistive-technology matrix in [Accessibility](ACCESSIBILITY.md). Automated checks may supplement but not replace manual testing.
+
+## Performance
+
+- Measure Core Web Vitals on representative mobile hardware and Nigerian network conditions.
+- Confirm the hero image is correctly sized and prioritised.
+- Confirm below-fold field images remain lazy-loaded.
+- Set budgets for JavaScript, CSS, fonts, image weight, and request count after collecting a baseline.
+
+## Security and privacy
+
+- Validate and encode all inputs server-side.
+- Confirm rate limiting and duplicate protection.
+- Verify that personal data never appears in URLs, client logs, analytics, or error reports.
+- Check security headers, dependency findings, secret scanning, and production source maps.
+- Verify consent version and timestamp storage.
+
+## Content tests
+
+- Prices, locations, dates, counts, app status, contact details, and legal links match approved sources.
+- No AI illustration is presented as field evidence.
+- No field photograph implies a customer result without supporting evidence.
+- Nigerian English, currency, phone numbers, and geographic terminology are consistent.
+
+## Release blockers
+
+- Failed or duplicate waitlist submissions
+- Missing consent or privacy link
+- Broken primary CTA
+- Keyboard trap or inaccessible required field
+- Incorrect price or service-availability claim
+- Personal data exposed to analytics or logs
+- Critical electrical-safety misinformation
+
+## Related documents
+
+See [Components](COMPONENTS.md), [Form specification](FORM_SPECIFICATION.md), and [Privacy and data](PRIVACY_AND_DATA.md).
+# SolarPeer 360 Documentation
+
+This directory contains a product, design, content, operations, safety, privacy, SEO, analytics, and QA documentation baseline for the public SolarPeer 360 website at <https://solarpeer360.vercel.app/>.
+
+The baseline was prepared from the public website reviewed on 22 September 2026. It describes what the site currently communicates and separates observed facts from recommendations or items that require internal confirmation. It is not a substitute for signed engineering, electrical-safety, legal, privacy, or regulatory documentation.
+
+## Product and experience
+
+- [Product requirements](PRODUCT_REQUIREMENTS.md)
+- [User flows](USER_FLOWS.md)
+- [Information architecture](INFORMATION_ARCHITECTURE.md)
+- [UX guidelines](UX_GUIDELINES.md)
+- [Form specification](FORM_SPECIFICATION.md)
+- [Roadmap](ROADMAP.md)
+
+## Design and content
+
+- [Design system](DESIGN.md)
+- [Brand guidelines](BRAND_GUIDELINES.md)
+- [Component inventory](COMPONENTS.md)
+- [Content guide](CONTENT_GUIDE.md)
+- [Accessibility requirements](ACCESSIBILITY.md)
+
+## Trust, operations, and data
+
+- [Trust and safety](TRUST_AND_SAFETY.md)
+- [Pilot operations](PILOT_OPERATIONS.md)
+- [Privacy and data](PRIVACY_AND_DATA.md)
+
+## Growth and quality
+
+- [SEO and discovery](SEO_AND_DISCOVERY.md)
+- [Analytics plan](ANALYTICS_PLAN.md)
+- [QA test plan](QA_TEST_PLAN.md)
+
+## Project records
+
+- [Decisions](DECISIONS.md)
+- [Changelog](CHANGELOG.md)
+
+## Documentation rules
+
+1. Mark unverified internal details as `TBD` instead of guessing.
+2. Date claims that can become stale, including pilot locations, prices, deployment counts, and app availability.
+3. Keep customer-facing claims traceable to evidence.
+4. Record material product or design choices in `DECISIONS.md`.
+5. Update affected documents in the same change as the product or website.
+
+## Current public baseline
+
+- Pilot interest is being collected in Lagos, Niger State, and FCT Abuja.
+- The public price assumption is ₦250 per kWh and is not presented as final.
+- Buyers may pay in cash or by transfer according to the proposed pilot design.
+- The Android app is not publicly downloadable.
+- The site states that five field deployments were completed in Minna, Niger State.
+- The public waitlist supports buyers, solar owners, installers, and cluster partners.
+
+Review these statements before any release because they are time-sensitive.
+# Roadmap
+
+## Prioritisation model
+
+Priorities reflect user risk, trust, conversion impact, and dependency order. Dates require team capacity and are therefore not assigned here.
+
+## Now: pilot-readiness foundation
+
+1. Publish named company and team information that can be verified.
+2. Document provider verification, installer standards, equipment ownership, maintenance, fault response, and complaints.
+3. Finalise privacy, consent, retention, vendor, and data-access controls.
+4. Define pilot community-selection criteria and contact timelines.
+5. Confirm price, commission, meter, hub, deposit, refund, and receipt terms.
+6. Add WhatsApp as an above-the-fold secondary CTA.
+7. Reduce homepage length by 25–35% without removing material conditions.
+8. Change the pricing presets to a radio group and add Pricing to primary navigation.
+9. Add canonical URLs, social-sharing image metadata, sitemap, and verified structured data.
+10. Implement and test the full waitlist error and success states.
+
+## Next: controlled pilot operations
+
+1. Build internal lead review and community-clustering workflow.
+2. Create separate qualification checklists for buyers, solar owners, installers, and cluster partners.
+3. Approve assessment, installation, commissioning, activation, and incident templates.
+4. Establish receipt, balance, dispute, and reconciliation procedures.
+5. Add appliance examples for each power limit using reviewed assumptions.
+6. Publish a dedicated safety and verification page.
+7. Implement privacy-safe funnel analytics and operational qualification metrics.
+8. Establish support service targets and cross-channel case references.
+
+## Later: validated expansion
+
+1. Publish dated pilot outcomes with methodology and limitations.
+2. Introduce participant app access only after meter readiness and secure onboarding.
+3. Add self-service balance, usage, receipt, and support features based on pilot evidence.
+4. Expand locations using documented technical, demand, and operational criteria.
+5. Build installer capacity and quality monitoring.
+6. Add role-specific public pages only when evidence supports distinct content.
+
+## Do not build yet
+
+- Public app download before participant onboarding is ready
+- Online payment before reconciliation, refund, fraud, and dispute controls
+- Nationwide availability claims
+- Public savings calculator without defensible appliance, tariff, and generator assumptions
+- Social proof that cannot be verified or used with consent
+
+## Exit criteria for pilot readiness
+
+- Safety and operating policies approved by responsible professionals
+- Privacy notice and data map match the implementation
+- Waitlist submissions are reliable, consented, deduplicated, and recoverable
+- Community and participant qualification process is staffed
+- Installation, commissioning, support, and incident procedures are rehearsed
+- Public claims are evidence-backed and dated
+- QA release blockers in [QA test plan](QA_TEST_PLAN.md) are clear
+
+## Related documents
+
+See [Product requirements](PRODUCT_REQUIREMENTS.md), [Pilot operations](PILOT_OPERATIONS.md), and [Decisions](DECISIONS.md).
+# SEO and Discovery
+
+## Objectives
+
+Help Nigerian users, community organisers, installers, partners, and journalists find accurate information about the SolarPeer pilot. Search presentation must reflect pilot status and must not imply nationwide service availability.
+
+## Current baseline
+
+The reviewed site includes unique titles, meta descriptions, Open Graph titles and descriptions, a Twitter summary card, and `og:locale=en_NG`. The homepage did not expose a canonical URL, Open Graph image, Twitter image, or JSON-LD structured data during the review.
+
+## Page targets
+
+| Page | Search intent | Suggested title direction |
+|---|---|---|
+| Home | Shared/prepaid solar energy in Nigeria | Prepaid solar energy from a nearby provider · SolarPeer 360 |
+| Pilot | Join a local solar pilot | Join the SolarPeer pilot waitlist |
+| About | Company and operating stage | About SolarPeer 360 |
+| Help | Eligibility, price, supply, and contact | SolarPeer help and pilot questions |
+| App | Official app availability | Official SolarPeer Android app status |
+| Privacy | Data use and participant rights | SolarPeer privacy notice |
+
+Keep titles below roughly 60 characters where practical and descriptions around 140–160 characters without truncating material qualifications.
+
+## Technical requirements
+
+- Add a self-referencing canonical URL to every indexable page.
+- Publish `robots.txt` and an XML sitemap.
+- Add one branded social image of at least 1200 by 630 pixels.
+- Add `og:image`, image dimensions, and equivalent Twitter metadata.
+- Return correct 404 and redirect status codes.
+- Avoid indexing query-parameter variants of the waitlist.
+- Use stable, lowercase URLs and permanent redirects for moved content.
+- Preserve meaningful server-rendered headings and links.
+
+## Structured data
+
+Use schema.org only for verifiable public information:
+
+- `Organization` with official name, URL, logo, contact point, and verified address when publishable.
+- `WebSite` for site identity.
+- `FAQPage` only when questions and answers are visible on the same indexed page and current search-engine policy permits it.
+- Do not use `Product`, review ratings, service area, or offers until the public facts and eligibility support them.
+
+## Content opportunities
+
+- What kWh and watts mean for shops and homes
+- How a solar-site assessment works
+- What appliances fit 500 W, 1,000 W, and 1,500 W limits
+- How solar owners protect their own reserve
+- Pilot updates by dated community or field activity
+
+Every article should lead to the appropriate waitlist role and display the pilot status.
+
+## Local discovery
+
+Use consistent naming for Lagos, Niger State, and FCT Abuja. Do not create city landing pages until each page contains genuinely distinct eligibility, evidence, and contact information.
+
+## Measurement
+
+Track indexed pages, branded and non-branded queries, click-through rate, organic waitlist conversions, broken links, duplicate metadata, and changes in misleading-query traffic.
+
+## Related documents
+
+See [Content guide](CONTENT_GUIDE.md), [Information architecture](INFORMATION_ARCHITECTURE.md), and [Analytics plan](ANALYTICS_PLAN.md).
+# Trust and Safety
+
+## Scope
+
+SolarPeer connects energy infrastructure, people, payments, and personal data. Trust and safety therefore covers electrical work, equipment, participant verification, claims, money handling, privacy, incident response, and public communication.
+
+This document defines product requirements only. Qualified Nigerian electrical, legal, privacy, insurance, and regulatory professionals must approve the operating policy before deployment.
+
+## Safety principles
+
+1. No connection before site assessment and approval.
+2. A solar owner's essential reserve takes priority over shared energy.
+3. Buyer power limits must reflect assessed appliances and cable capacity.
+4. Only approved installers may install, commission, alter, or remove equipment.
+5. Meters, receipts, and operating records must be understandable to both sides.
+6. A participant must be able to report a hazard without using the app.
+7. Commercial pressure must never override a safety stop.
+
+## Verification
+
+### Solar owners
+
+Verify identity, authority over the premises and system, equipment condition, battery and inverter capacity, existing loads, available reserve, cable route, and consent to ongoing monitoring or inspection.
+
+### Buyers
+
+Verify identity and location, intended appliances, required power limit, safe wiring, meter position, and understanding of supply limitations.
+
+### Installers
+
+Verify identity, qualifications, insurance where applicable, references, service area, equipment competence, incident history, safety procedures, and signed operating obligations. Required credentials are `TBD` pending professional review.
+
+### Cluster partners
+
+Verify authority to organise the named community and prohibit claims that imply guaranteed selection, employment, partnership, investment, or free installation.
+
+## Installation controls
+
+- Document assessment, design, approvals, materials, protective devices, cable route, commissioning tests, photographs, and sign-off.
+- Give each participant an emergency isolation and contact procedure.
+- Tag equipment with an identifier and support contact.
+- Record any later alteration and require re-assessment when loads change materially.
+
+## Commercial trust
+
+- Publish current price status and effective date.
+- Issue receipts to buyer and solar owner for every sale.
+- State commission, fees, refunds, failed-payment treatment, and dispute process in signed terms.
+- Do not accept public-web payments until the transaction, reconciliation, refund, and fraud controls are approved.
+
+## Incident severity
+
+| Level | Example | Response |
+|---|---|---|
+| Critical | Shock, fire, smoke, exposed live conductor | Tell people to keep clear, contact emergency services where needed, isolate only if safe, alert safety lead immediately |
+| High | Overheating, repeated protective trip, damaged cable | Suspend affected supply and dispatch an approved installer |
+| Medium | Meter mismatch, unexplained credit loss | Preserve records, investigate, and pause disputed settlement if policy allows |
+| Low | App, receipt, or information issue | Normal support workflow |
+
+Response owners, phone trees, service targets, and report templates are `TBD`.
+
+## Public trust requirements
+
+Before wider launch, publish named leadership, company registration details, provider-verification steps, installer standards, fault reporting, equipment ownership, warranties, data practices, and complaint escalation.
+
+## Related documents
+
+See [Pilot operations](PILOT_OPERATIONS.md), [Privacy and data](PRIVACY_AND_DATA.md), and [Content guide](CONTENT_GUIDE.md).
+# User Flows
+
+## Shared acquisition flow
+
+```text
+Search, referral, field outreach, or WhatsApp
+  -> Homepage or role-specific link
+  -> Understand service and pilot status
+  -> Choose role
+  -> Complete waitlist or contact the team
+  -> Receive reference or conversation handoff
+  -> Internal qualification
+  -> Site or cluster assessment
+```
+
+## Buyer flow
+
+1. Visitor sees that they can buy measured solar energy without owning panels.
+2. Visitor selects shop, student residence, or home.
+3. Visitor reviews price assumptions, power limits, and availability constraints.
+4. Visitor chooses `I need reliable power` on the waitlist.
+5. The form asks buyer context and whether a nearby solar owner is known.
+6. Visitor provides name, mobile number, state, community, optional location and notes, then consents to pilot contact.
+7. System validates the entry and returns a reference.
+8. Operations groups the entry with nearby demand and begins qualification.
+
+Failure paths: invalid number, unsupported state, missing consent, duplicate submission, location denial, network failure, or no viable nearby cluster. Each path must preserve the submission and explain what happens next.
+
+## Solar-owner flow
+
+1. Visitor learns that household reserve and assessed spare capacity come first.
+2. Visitor reviews the proposed buyer price and SolarPeer commission assumption.
+3. Visitor selects `I own a solar system`.
+4. Buyer-only questions disappear.
+5. Visitor provides contact and location details, plus optional system information in notes.
+6. Operations screens the system before arranging an assessment.
+
+Future versions should collect system capacity, battery type, current load, installer history, and permission to inspect through a dedicated qualification form rather than expanding the public waitlist.
+
+## Installer flow
+
+1. Installer reads the expected role: assessment, meter installation, commissioning, and support.
+2. Installer joins with the installer role.
+3. Operations verifies identity, qualifications, service area, safety practices, and conflicts of interest.
+4. Approved installers receive a separate onboarding process and signed terms.
+
+## Cluster-partner flow
+
+1. Community leader, campus association, or estate manager learns that clustered interest affects deployment priority.
+2. Partner joins with the cluster-partner role and identifies the area represented.
+3. Operations verifies authority to organise, expected participant count, and communication channels.
+4. Partner receives approved outreach materials and a non-misleading explanation of pilot status.
+
+## Support flow
+
+```text
+Question
+  -> FAQ or Help
+  -> Call, WhatsApp, or email
+  -> Identity and issue classification
+  -> Answer, escalation, or incident process
+  -> Resolution record
+```
+
+Urgent electrical hazards must bypass ordinary support queues and follow [Trust and safety](TRUST_AND_SAFETY.md).
+
+## Related documents
+
+See [Form specification](FORM_SPECIFICATION.md), [Pilot operations](PILOT_OPERATIONS.md), and [Analytics plan](ANALYTICS_PLAN.md).
+# UX Guidelines
+
+## Experience principles
+
+1. **Explain before asking.** Visitors should understand the exchange, its limits, and the pilot stage before providing personal information.
+2. **Earn trust with evidence.** Use dates, locations, people, process details, and clear uncertainty instead of promotional claims.
+3. **Design for low attention and mobile data.** Essential pages must remain understandable on a small screen, over a slow connection, and during interruptions.
+4. **Use familiar choices.** Cash, transfer, WhatsApp, mobile numbers, and community names are more useful than account-heavy workflows during the pilot.
+5. **Never hide material conditions.** Price status, assessment requirements, supply limitations, and consent must sit beside the relevant decision.
+
+## Navigation
+
+- Keep the primary navigation to five information choices plus one CTA.
+- Recommended order: How it works, Who it is for, Pricing, About, Help, Join the pilot.
+- Preserve a skip link as the first keyboard-focusable item.
+- On mobile, keep the menu button visible and expose its expanded state.
+- Do not open same-site navigation in a new tab.
+
+## Homepage journey
+
+The homepage should answer five questions in order:
+
+1. What is SolarPeer?
+2. Is it for someone like me?
+3. How does energy and payment move?
+4. What might it cost, and what are the limits?
+5. Why should I trust this pilot enough to join?
+
+The current site answers these questions but takes too long to do so. Target a 25–35% reduction in homepage length by combining repeated pilot disclaimers, shortening audience cards, and moving extended FAQs to Help.
+
+## Calls to action
+
+- Primary: `Join the pilot waitlist`
+- Secondary: `Chat with the pilot team on WhatsApp`
+- Informational: `See how it works`
+
+Use one primary CTA per content region. Keep wording consistent from entry point to form completion. Replace the final form label `Submit interest` with `Join the waitlist` unless testing shows a clearer alternative.
+
+## Forms
+
+- Ask the participant role first and reveal only relevant questions.
+- Put high-effort or sensitive questions after the visitor understands why they are needed.
+- Preserve entered values when validation fails.
+- Validate on blur for formatting problems and on submit for missing required fields.
+- Place an error summary above the form and inline messages beside fields.
+- Never make location permission a condition of joining.
+- Provide a success reference that users can copy or screenshot.
+
+## Feedback
+
+- A button must visibly acknowledge activation within 100ms.
+- Network actions show a loading label and prevent duplicate submissions.
+- Success messages state what happened and when contact may occur.
+- Error messages explain recovery in plain language. Avoid “Something went wrong” without a next step.
+
+## Mobile behaviour
+
+- Maintain 20px minimum page gutters at narrow widths.
+- Use 44px minimum interaction targets.
+- Avoid fixed elements that cover form fields or browser controls.
+- Keep the primary CTA visible without forcing the entire hero into one screen.
+- Support interrupted sessions if data retention is approved in [Privacy and data](PRIVACY_AND_DATA.md).
+
+## Related documents
+
+See [User flows](USER_FLOWS.md), [Information architecture](INFORMATION_ARCHITECTURE.md), [Form specification](FORM_SPECIFICATION.md), and [Accessibility](ACCESSIBILITY.md).
