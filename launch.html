@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ✏️ Replace [Brand Name] with final brand before going live -->
+  <title>Service Pre-launch</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    crossorigin="anonymous"
+  />
+
+  <style>
+    /* ================================================================
+       0. DESIGN TOKENS
+       ================================================================ */
+    :root {
+      /* Surfaces */
+      --bg:             #080d14;
+      --bg-hero:        #0a1020;
+      --surface:        #0f1826;
+      --surface-card:   #121f32;
+      --surface-modal:  #0f1a2e;
+      --surface-input:  #0c1623;
+      --border:         rgba(56, 189, 248, 0.1);
+      --border-strong:  rgba(56, 189, 248, 0.22);
+      --border-focus:   rgba(56, 189, 248, 0.7);
+      --border-error:   rgba(248, 113, 113, 0.65);
+
+      /* Text */
+      --text-primary:   #e8f0fe;
+      --text-secondary: #7ea8cc;
+      --text-muted:     #3e5a78;
+
+      /* Accent */
+      --accent:         #38bdf8;
+      --accent-hover:   #7dd3fc;
+      --accent-pressed: #0ea5e9;
+      --accent-glow:    rgba(56, 189, 248, 0.2);
+      --accent-dim:     rgba(56, 189, 248, 0.08);
+      --accent-success: #34d399;
+      --accent-error:   #f87171;
+
+      /* Layout */
+      --gutter:         1rem;
+      --container:      880px;
+      --container-wide: 960px;
+      --radius:         14px;
+      --radius-sm:      8px;
+      --radius-full:    9999px;
+
+      /* Motion */
+      --ease:           cubic-bezier(0.4, 0, 0.2, 1);
+      --dur-fast:       150ms;
+      --dur-mid:        220ms;
+      --dur-slow:       320ms;
+
+      /* Font */
+      --font: "Pretendard Variable", "Pretendard", "Inter", system-ui,
+              -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    /* ================================================================
+       1. RESET & BASE
+       ================================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 100%; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ================================================================
+       2. SKIP LINK
+       ================================================================ */
+    .skip-link {
+      position: absolute; top: -100%; left: 0;
+      padding: 0.5rem 1rem;
+      background: var(--accent); color: var(--bg);
+      font-weight: 700; border-radius: var(--radius-sm);
+      z-index: 300;
+      transition: top var(--dur-fast) var(--ease);
+    }
+    .skip-link:focus { top: 0.5rem; }
+
+    /* ================================================================
+       3. CONTAINER
+       ================================================================ */
+    .container {
+      width: 100%;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* ================================================================
+       4. SUBTLE AMBIENT TOP GRADIENT (no overflow)
+       ================================================================ */
+    .hero-bg {
+      background:
+        radial-gradient(ellipse 70% 50% at 50% -10%, rgba(56, 189, 248, 0.08) 0%, transparent 70%),
+        var(--bg-hero);
+      padding: 4rem 0 3.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ================================================================
+       5. LOGO / BRAND
+       ================================================================ */
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+    /* ✏️ PLACEHOLDER: Replace with <img> once final logo asset is ready */
+    .logo__mark {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--accent) 0%, #0ea5e9 100%);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .logo__mark svg { width: 20px; height: 20px; color: var(--bg); }
+    .logo__name {
+      font-size: 1rem; font-weight: 700;
+      color: var(--text-primary); letter-spacing: -0.01em;
+    }
+
+    /* ================================================================
+       6. HERO / HEADLINE
+       ================================================================ */
+    .hero { text-align: center; }
+
+    .hero__label {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-full);
+      padding: 0.3em 0.9em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero__headline {
+      font-size: clamp(1.75rem, 5.5vw, 3rem);
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 1.25rem;
+    }
+    .hero__headline em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero__copy {
+      font-size: 1rem; color: var(--text-secondary); line-height: 1.75;
+      max-width: 560px; margin: 0 auto 3rem;
+    }
+
+    /* ================================================================
+       7. VALUE CARDS
+       ================================================================ */
+    .cards {
+      display: grid; grid-template-columns: 1fr; gap: 1rem;
+      margin-bottom: 0;
+    }
+    .card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.5rem;
+      transition:
+        border-color var(--dur-mid) var(--ease),
+        transform var(--dur-mid) var(--ease),
+        box-shadow var(--dur-mid) var(--ease);
+    }
+    .card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    .card__icon {
+      width: 36px; height: 36px; margin-bottom: 0.9rem;
+      color: var(--accent);
+    }
+    .card__title {
+      font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
+      margin-bottom: 0.4rem; letter-spacing: -0.01em;
+    }
+    .card__desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.65; }
+
+    /* ================================================================
+       8. SECTION SHARED
+       ================================================================ */
+    .section { padding: 4rem 0; }
+    .section__label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem;
+    }
+    .section__heading {
+      font-size: clamp(1.3rem, 3vw, 1.7rem); font-weight: 700;
+      letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.5rem;
+    }
+    .section__sub {
+      font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 2rem;
+    }
+
+    /* ================================================================
+       9. FORM
+       ================================================================ */
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .form-group { margin-bottom: 1.25rem; }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: 0.4rem;
+    }
+    .form-label__req {
+      color: var(--accent-error); margin-left: 0.15em;
+      font-size: 0.8rem;
+    }
+
+    .form-input {
+      display: block; width: 100%;
+      padding: 0.7rem 0.9rem;
+      font-family: var(--font); font-size: 0.95rem; color: var(--text-primary);
+      background: var(--surface-input);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      outline: none;
+      transition:
+        border-color var(--dur-fast) var(--ease),
+        box-shadow var(--dur-fast) var(--ease);
+      caret-color: var(--accent);
+    }
+    .form-input::placeholder { color: var(--text-muted); }
+    .form-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+    .form-input[aria-invalid="true"] {
+      border-color: var(--border-error);
+      box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.12);
+    }
+
+    .form-error {
+      display: none;
+      align-items: center; gap: 0.35rem;
+      margin-top: 0.4rem;
+      font-size: 0.8rem; font-weight: 500; color: var(--accent-error);
+    }
+    .form-error.visible { display: flex; }
+    .form-error svg { flex-shrink: 0; }
+
+    /* Global submit error */
+    .form-submit-error {
+      display: none;
+      margin-bottom: 1rem; padding: 0.75rem 1rem;
+      background: rgba(248, 113, 113, 0.08);
+      border: 1px solid rgba(248, 113, 113, 0.25);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem; color: var(--accent-error); line-height: 1.5;
+    }
+    .form-submit-error.visible { display: block; }
+
+    .form-privacy {
+      font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;
+      margin-top: 1rem; text-align: center;
+    }
+
+    /* ================================================================
+       10. SUBMIT BUTTON
+       ================================================================ */
+    .btn-submit {
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      width: 100%; padding: 0.85rem 1.5rem;
+      min-height: 48px;
+      font-family: var(--font); font-size: 1rem; font-weight: 700;
+      color: var(--bg); background: var(--accent);
+      border: none; border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition:
+        background var(--dur-fast) var(--ease),
+        box-shadow var(--dur-mid) var(--ease),
+        transform var(--dur-fast) var(--ease),
+        opacity var(--dur-fast) var(--ease);
+    }
+    .btn-submit:hover:not(:disabled) {
+      background: var(--accent-hover);
+      box-shadow: 0 0 24px var(--accent-glow);
+      transform: translateY(-1px);
+    }
+    .btn-submit:active:not(:disabled) {
+      background: var(--accent-pressed); transform: translateY(0); box-shadow: none;
+    }
+    .btn-submit:focus-visible {
+      outline: 3px solid var(--border-focus); outline-offset: 3px;
+    }
+    .btn-submit:disabled {
+      opacity: 0.55; cursor: not-allowed; transform: none;
+    }
+
+    .btn-submit__spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(8, 13, 20, 0.3);
+      border-top-color: var(--bg);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .btn-submit.loading .btn-submit__spinner { display: block; }
+    .btn-submit.loading .btn-submit__text { display: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ================================================================
+       11. DIVIDER
+       ================================================================ */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* ================================================================
+       12. FAQ ACCORDION
+       ================================================================ */
+    .faq { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .faq__item {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color var(--dur-fast) var(--ease);
+    }
+    .faq__item[data-open="true"] { border-color: var(--border-strong); }
+
+    .faq__trigger {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+      width: 100%; padding: 1.1rem 1.25rem;
+      font-family: var(--font); font-size: 0.925rem; font-weight: 600;
+      color: var(--text-primary); background: transparent;
+      border: none; cursor: pointer; text-align: left;
+      transition: color var(--dur-fast) var(--ease);
+    }
+    .faq__trigger:hover { color: var(--accent); }
+    .faq__trigger:focus-visible {
+      outline: 2px solid var(--border-focus); outline-offset: -2px;
+    }
+
+    .faq__chevron {
+      width: 18px; height: 18px; flex-shrink: 0; color: var(--text-secondary);
+      transition: transform var(--dur-mid) var(--ease), color var(--dur-fast) var(--ease);
+    }
+    .faq__item[data-open="true"] .faq__chevron {
+      transform: rotate(180deg); color: var(--accent);
+    }
+
+    .faq__panel {
+      max-height: 0; overflow: hidden;
+      transition: max-height var(--dur-slow) var(--ease);
+    }
+    .faq__panel-inner {
+      padding: 0 1.25rem 1.1rem;
+      font-size: 0.875rem; color: var(--text-secondary); line-height: 1.75;
+    }
+
+    /* ================================================================
+       13. MODAL BACKDROP
+       ================================================================ */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(4, 8, 18, 0.75);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity var(--dur-mid) var(--ease);
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+    /* ================================================================
+       14. MODAL DIALOG — the beautiful confirmation popup
+       ================================================================ */
+    .modal {
+      background: var(--surface-modal);
+      border: 1px solid var(--border-strong);
+      border-radius: 20px;
+      padding: 2.5rem 2rem 2rem;
+      width: 100%; max-width: 420px;
+      text-align: center;
+      box-shadow:
+        0 0 0 1px rgba(56, 189, 248, 0.08),
+        0 24px 64px rgba(0, 0, 0, 0.55),
+        0 0 60px rgba(56, 189, 248, 0.06);
+      transform: translateY(20px) scale(0.97);
+      transition:
+        transform var(--dur-slow) var(--ease),
+        opacity var(--dur-slow) var(--ease);
+      opacity: 0;
+      position: relative;
+    }
+    .modal-backdrop.open .modal {
+      transform: translateY(0) scale(1); opacity: 1;
+    }
+
+    /* Success icon ring */
+    .modal__icon-ring {
+      width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 1.5rem;
+      background: rgba(52, 211, 153, 0.1);
+      border: 2px solid rgba(52, 211, 153, 0.3);
+      display: grid; place-items: center;
+      position: relative;
+    }
+    /* Animated outer pulse ring */
+    .modal__icon-ring::before {
+      content: "";
+      position: absolute; inset: -8px; border-radius: 50%;
+      border: 1px solid rgba(52, 211, 153, 0.15);
+      animation: pulse-ring 2s ease-out infinite;
+    }
+    @keyframes pulse-ring {
+      0%   { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.35); }
+    }
+    .modal__check-icon { width: 32px; height: 32px; color: var(--accent-success); }
+
+    .modal__heading {
+      font-size: 1.4rem; font-weight: 800;
+      letter-spacing: -0.02em; color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .modal__copy {
+      font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65;
+      margin-bottom: 1.75rem;
+    }
+    .modal__copy strong { color: var(--text-primary); font-weight: 600; }
+
+    /* Modal glow separator */
+    .modal__separator {
+      height: 1px; margin: 0 -2rem 1.75rem;
+      background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+    }
+
+    .btn-modal-done {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.75rem 2.5rem; min-height: 48px; min-width: 48px;
+      font-family: var(--font); font-size: 0.95rem; font-weight: 700;
+      color: var(--bg); background: var(--accent-success);
+      border: none; border-radius: var(--radius-sm);
+      cursor: pointer; width: 100%;
+      transition:
+        background var(--dur-fast) var(--ease),
+        box-shadow var(--dur-mid) var(--ease),
+        transform var(--dur-fast) var(--ease);
+    }
+    .btn-modal-done:hover {
+      background: #6ee7b7;
+      box-shadow: 0 0 20px rgba(52, 211, 153, 0.3);
+      transform: translateY(-1px);
+    }
+    .btn-modal-done:active { transform: translateY(0); box-shadow: none; }
+    .btn-modal-done:focus-visible {
+      outline: 3px solid rgba(52, 211, 153, 0.6); outline-offset: 3px;
+    }
+
+    /* ================================================================
+       15. FOOTER
+       ================================================================ */
+    .footer {
+      text-align: center; padding: 2rem var(--gutter) 3rem;
+      font-size: 0.78rem; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ================================================================
+       16. RESPONSIVE — TABLET (≥640 px)
+       ================================================================ */
+    @media (min-width: 640px) {
+      :root { --gutter: 2rem; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .hero-bg { padding: 5rem 0 4rem; }
+    }
+
+    /* ================================================================
+       17. RESPONSIVE — DESKTOP (≥ 960 px)
+       ================================================================ */
+    @media (min-width: 960px) {
+      :root { --gutter: 2.5rem; }
+      .cards { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ================================================================
+       18. REDUCED MOTION
+       ================================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+      .card:hover { transform: none; }
+      .btn-submit:hover { transform: none; }
+      .modal-backdrop.open .modal { transform: none; }
+      .modal__icon-ring::before { animation: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#waitlist-form">Skip to waitlist form</a>
+
+  <!-- ================================================================
+       TOP — Venture introduction
+       ================================================================ -->
+  <div class="hero-bg">
+    <main>
+      <section class="hero" aria-labelledby="hero-headline">
+        <div class="container">
+
+          <!-- Logo placeholder -->
+          <div class="logo" aria-label="Brand logo placeholder">
+            <!-- ✏️ PLACEHOLDER: Replace entire .logo with final brand logo <img> when available -->
+            <div class="logo__mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+            </div>
+            <span class="logo__name">
+              <!-- ✏️ PLACEHOLDER: [Brand Name] -->
+              SolarResolve
+            </span>
+          </div>
+
+          <p class="hero__label">Service Pre-launch &nbsp;·&nbsp; Early Access</p>
+
+          <h1 class="hero__headline" id="hero-headline">
+            Be first to experience a smarter way<br>
+            to <em>understand your solar system.</em>
+          </h1>
+
+          <p class="hero__copy">
+            SolarResolve is preparing a practical decision-support service that helps
+            Nigerian solar owners understand declining performance, identify plausible
+            causes, and prepare for a productive technician conversation — with less
+            confusion, fewer unnecessary costs, and a clear next step.
+            Join the waitlist for launch updates and early-access opportunities.
+          </p>
+
+          <!-- Value-proposition cards -->
+          <div class="cards" role="list" aria-label="Key benefits">
+
+            <article class="card" role="listitem">
+              <svg class="card__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                   stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              <h2 class="card__title">Clearer Decisions</h2>
+              <p class="card__desc">
+                Turn confusing inverter readings, error codes, and conflicting technician
+                advice into a structured, understandable next step.
+              </p>
+            </article>
+
+            <article class="card" role="listitem">
+              <svg class="card__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                   stroke-linejoin="round">
+                <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+              <h2 class="card__title">Less Friction</h2>
+              <p class="card__desc">
+                Upload a photo of your display, describe what changed, and receive a
+                structured assessment — without needing technical expertise or jargon.
+              </p>
+            </article>
+
+            <article class="card" role="listitem">
+              <svg class="card__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                   stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <h2 class="card__title">Built for Real Needs</h2>
+              <p class="card__desc">
+                Shaped around the actual experience of Nigerian solar owners — not a
+                generic chatbot or a replacement for your qualified technician.
+              </p>
+            </article>
+
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================================================================
+       MIDDLE — Waitlist form
+       ================================================================ -->
+  <section class="section" id="waitlist" aria-labelledby="form-heading">
+    <div class="container">
+      <p class="section__label" style="text-align:center;">Early Access</p>
+      <h2 class="section__heading" id="form-heading" style="text-align:center;">
+        Join the Waitlist
+      </h2>
+      <p class="section__sub" style="text-align:center;">
+        Be among the first to try SolarResolve when early access opens.
+      </p>
+
+      <div class="form-card">
+
+        <!-- Global submission error banner -->
+        <div
+          class="form-submit-error"
+          id="form-submit-error"
+          role="alert"
+          aria-live="assertive"
+        >
+          <!-- Populated by JS -->
+        </div>
+
+        <form id="waitlist-form" novalidate aria-label="Waitlist signup form">
+
+          <!-- Name field -->
+          <div class="form-group">
+            <label class="form-label" for="field-name">
+              Name <span class="form-label__req" aria-hidden="true">*</span>
+            </label>
+            <input
+              class="form-input"
+              id="field-name"
+              type="text"
+              name="name"
+              autocomplete="name"
+              placeholder="e.g. Idris Thaabit"
+              required
+              aria-required="true"
+              aria-describedby="error-name"
+            />
+            <p class="form-error" id="error-name" role="alert" aria-live="polite">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span id="error-name-text">Enter your name.</span>
+            </p>
+          </div>
+
+          <!-- Email field -->
+          <div class="form-group">
+            <label class="form-label" for="field-email">
+              Email address <span class="form-label__req" aria-hidden="true">*</span>
+            </label>
+            <input
+              class="form-input"
+              id="field-email"
+              type="email"
+              name="email"
+              autocomplete="email"
+              inputmode="email"
+              placeholder="e.g. you@example.com"
+              required
+              aria-required="true"
+              aria-describedby="error-email"
+            />
+            <p class="form-error" id="error-email" role="alert" aria-live="polite">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span id="error-email-text">Enter your email address.</span>
+            </p>
+          </div>
+
+          <!-- Submit CTA -->
+          <button class="btn-submit" type="submit" id="btn-submit">
+            <span class="btn-submit__text">Join the Waitlist</span>
+            <span class="btn-submit__spinner" aria-hidden="true"></span>
+            <span class="sr-only" aria-live="polite" id="btn-status"></span>
+          </button>
+
+          <!-- Privacy notice -->
+          <p class="form-privacy">
+            We'll use your details only for early-access and launch updates.
+            You can unsubscribe at any time.
+            <!--
+              ✏️ PROTOTYPE NOTE: No data is stored or transmitted in this prototype.
+              A real submission endpoint must be connected before public deployment.
+            -->
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ================================================================
+       BOTTOM — FAQ accordion
+       ================================================================ -->
+  <section class="section" aria-labelledby="faq-heading">
+    <div class="container">
+      <p class="section__label" style="text-align:center;">FAQ</p>
+      <h2 class="section__heading" id="faq-heading" style="text-align:center; margin-bottom:1.5rem;">
+        Common Questions
+      </h2>
+
+      <ul class="faq" id="faq-list" aria-label="Frequently asked questions">
+
+        <!-- FAQ 1 -->
+        <li class="faq__item" id="faq-item-1">
+          <button
+            class="faq__trigger"
+            id="faq-trigger-1"
+            aria-expanded="false"
+            aria-controls="faq-panel-1"
+          >
+            What is SolarResolve?
+            <svg class="faq__chevron" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="faq__panel" id="faq-panel-1" role="region" aria-labelledby="faq-trigger-1">
+            <div class="faq__panel-inner">
+              SolarResolve is a new decision-support service designed to help Nigerian
+              solar owners understand declining battery performance, identify plausible
+              causes, and prepare a structured brief for their technician — without
+              needing deep technical knowledge. More product details will be shared as
+              early access approaches.
+            </div>
+          </div>
+        </li>
+
+        <!-- FAQ 2 -->
+        <li class="faq__item" id="faq-item-2">
+          <button
+            class="faq__trigger"
+            id="faq-trigger-2"
+            aria-expanded="false"
+            aria-controls="faq-panel-2"
+          >
+            When will early access begin?
+            <svg class="faq__chevron" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="faq__panel" id="faq-panel-2" role="region" aria-labelledby="faq-trigger-2">
+            <div class="faq__panel-inner">
+              The launch date has not been announced yet. Waitlist members will receive
+              updates when testing begins and early-access invitations become available.
+              Joining the waitlist ensures you hear first.
+            </div>
+          </div>
+        </li>
+
+        <!-- FAQ 3 -->
+        <li class="faq__item" id="faq-item-3">
+          <button
+            class="faq__trigger"
+            id="faq-trigger-3"
+            aria-expanded="false"
+            aria-controls="faq-panel-3"
+          >
+            What happens after I join?
+            <svg class="faq__chevron" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="faq__panel" id="faq-panel-3" role="region" aria-labelledby="faq-trigger-3">
+            <div class="faq__panel-inner">
+              We'll use the name and email you provide to send relevant launch updates and,
+              where applicable, early-access invitations. We will not share your details
+              with third parties or use them for unrelated purposes. You can unsubscribe
+              at any time.
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer class="footer">
+    <p>
+      &copy; 2026 SolarResolve &nbsp;&mdash;&nbsp;
+      ✏️ Contact and privacy links pending final configuration.
+    </p>
+    <!-- ✏️ Add privacy policy link here before collecting real personal data -->
+  </footer>
+
+  <!-- ================================================================
+       SUCCESS MODAL
+       ================================================================ -->
+  <div
+    class="modal-backdrop"
+    id="modal-backdrop"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-heading"
+    aria-describedby="modal-copy"
+    hidden
+  >
+    <div class="modal" id="modal-dialog">
+
+      <!-- Success icon with animated ring -->
+      <div class="modal__icon-ring" aria-hidden="true">
+        <svg class="modal__check-icon" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+
+      <h2 class="modal__heading" id="modal-heading">You're on the waitlist!</h2>
+
+      <div class="modal__separator" aria-hidden="true"></div>
+
+      <p class="modal__copy" id="modal-copy">
+        Thanks, <strong id="modal-first-name">there</strong>. We'll let you know
+        when early access is ready — keep an eye on your inbox.
+      </p>
+
+      <button class="btn-modal-done" id="btn-modal-done" type="button">
+        Done
+      </button>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN-READER ONLY UTILITY
+       ================================================================ -->
+  <style>
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+  </style>
+
+  <!-- ================================================================
+       JAVASCRIPT — Validation, modal, accordion
+       ================================================================ -->
+  <script>
+    /* ----------------------------------------------------------------
+       ✏️ PROTOTYPE CONFIG
+       In prototype mode (SIMULATE_SUCCESS = true), the form does NOT
+       send data anywhere. Set to false and wire ENDPOINT before launch.
+    ---------------------------------------------------------------- */
+    const CONFIG = {
+      SIMULATE_SUCCESS: true,       // ← set false when backend is ready
+      SIMULATE_DELAY_MS: 1400,      // ← realistic loading feel
+      ENDPOINT: '/api/v1/waitlist', // ← real API endpoint for production
+    };
+
+    /* ----------------------------------------------------------------
+       ELEMENT REFS
+    ---------------------------------------------------------------- */
+    const form          = document.getElementById('waitlist-form');
+    const nameInput     = document.getElementById('field-name');
+    const emailInput    = document.getElementById('field-email');
+    const nameError     = document.getElementById('error-name');
+    const nameErrorText = document.getElementById('error-name-text');
+    const emailError    = document.getElementById('error-email');
+    const emailErrorText= document.getElementById('error-email-text');
+    const submitBtn     = document.getElementById('btn-submit');
+    const submitErr     = document.getElementById('form-submit-error');
+    const backdrop      = document.getElementById('modal-backdrop');
+    const modalDialog   = document.getElementById('modal-dialog');
+    const modalDoneBtn  = document.getElementById('btn-modal-done');
+    const modalFirstName= document.getElementById('modal-first-name');
+    const btnStatus     = document.getElementById('btn-status');
+
+    let submittedSuccessfully = false;
+
+    /* ----------------------------------------------------------------
+       VALIDATION HELPERS
+    ---------------------------------------------------------------- */
+    function isValidEmail(v) {
+      // Basic RFC-style pattern — server must also validate
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+    }
+
+    function showFieldError(input, errorEl, errorTextEl, msg) {
+      input.setAttribute('aria-invalid', 'true');
+      errorTextEl.textContent = msg;
+      errorEl.classList.add('visible');
+    }
+
+    function clearFieldError(input, errorEl) {
+      input.removeAttribute('aria-invalid');
+      errorEl.classList.remove('visible');
+    }
+
+    function validateName() {
+      const v = nameInput.value.trim();
+      if (!v) {
+        showFieldError(nameInput, nameError, nameErrorText, 'Enter your name.');
+        return false;
+      }
+      clearFieldError(nameInput, nameError);
+      return true;
+    }
+
+    function validateEmail() {
+      const v = emailInput.value.trim();
+      if (!v) {
+        showFieldError(emailInput, emailError, emailErrorText, 'Enter your email address.');
+        return false;
+      }
+      if (!isValidEmail(v)) {
+        showFieldError(emailInput, emailError, emailErrorText,
+          'Enter a valid email address, such as name@example.com.');
+        return false;
+      }
+      clearFieldError(emailInput, emailError);
+      return true;
+    }
+
+    /* Inline validation on blur (not on initial mount) */
+    nameInput.addEventListener('blur',  () => { if (nameInput.dataset.touched)  validateName(); });
+    emailInput.addEventListener('blur', () => { if (emailInput.dataset.touched) validateEmail(); });
+    nameInput.addEventListener('input',  () => { nameInput.dataset.touched = '1';  if (nameInput.dataset.touched)  validateName(); });
+    emailInput.addEventListener('input', () => { emailInput.dataset.touched = '1'; if (emailInput.dataset.touched) validateEmail(); });
+
+    /* ----------------------------------------------------------------
+       SUBMIT STATE HELPERS
+    ---------------------------------------------------------------- */
+    function setLoading(on) {
+      if (on) {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+        btnStatus.textContent = 'Joining…';
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        btnStatus.textContent = '';
+      }
+    }
+
+    function showSubmitError(msg) {
+      submitErr.textContent = msg;
+      submitErr.classList.add('visible');
+    }
+
+    function clearSubmitError() {
+      submitErr.textContent = '';
+      submitErr.classList.remove('visible');
+    }
+
+    /* ----------------------------------------------------------------
+       MODAL MANAGEMENT
+    ---------------------------------------------------------------- */
+    let previouslyFocused = null;
+    const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+    function openModal(firstName) {
+      // Personalise copy
+      modalFirstName.textContent = firstName || 'there';
+
+      // Show
+      backdrop.hidden = false;
+      // Trigger CSS transition on next frame
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => backdrop.classList.add('open'));
+      });
+
+      // Focus trap: remember previous focus, move into modal
+      previouslyFocused = document.activeElement;
+      modalDoneBtn.focus();
+
+      // Prevent background scroll
+      document.body.style.overflow = 'hidden';
+
+      // Trap focus inside modal
+      backdrop.addEventListener('keydown', trapFocus);
+    }
+
+    function closeModal() {
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+      backdrop.removeEventListener('keydown', trapFocus);
+
+      // Wait for transition, then hide
+      const duration = parseFloat(
+        getComputedStyle(backdrop).transitionDuration
+      ) * 1000 || 220;
+
+      setTimeout(() => {
+        backdrop.hidden = true;
+        // Restore focus to submit button
+        if (previouslyFocused) previouslyFocused.focus();
+        else submitBtn.focus();
+      }, duration);
+    }
+
+    function trapFocus(e) {
+      if (e.key !== 'Tab') return;
+      const focusable = [...modalDialog.querySelectorAll(FOCUSABLE)].filter(
+        el => !el.disabled && el.offsetParent !== null
+      );
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    }
+
+    // Escape closes modal
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !backdrop.hidden) closeModal();
+    });
+
+    // Backdrop click outside modal closes
+    backdrop.addEventListener('click', e => {
+      if (e.target === backdrop) closeModal();
+    });
+
+    modalDoneBtn.addEventListener('click', closeModal);
+
+    /* ----------------------------------------------------------------
+       SIMULATE / FETCH SUBMISSION
+    ---------------------------------------------------------------- */
+    function submitToWaitlist(name, email) {
+      if (CONFIG.SIMULATE_SUCCESS) {
+        // PROTOTYPE: resolve after artificial delay, no network call
+        return new Promise(resolve =>
+          setTimeout(() => resolve({ ok: true, duplicate: false }), CONFIG.SIMULATE_DELAY_MS)
+        );
+      }
+
+      // PRODUCTION: real fetch
+      return fetch(CONFIG.ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email }),
+      }).then(async res => {
+        const data = await res.json().catch(() => ({}));
+        if (res.status === 409) return { ok: true, duplicate: true };
+        if (!res.ok) return { ok: false };
+        return { ok: true, duplicate: false };
+      }).catch(() => ({ ok: false }));
+    }
+
+    /* ----------------------------------------------------------------
+       FORM SUBMIT HANDLER
+    ---------------------------------------------------------------- */
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+
+      if (submittedSuccessfully) return; // Guard duplicate submit
+
+      // Mark fields as touched
+      nameInput.dataset.touched  = '1';
+      emailInput.dataset.touched = '1';
+
+      const nameOk  = validateName();
+      const emailOk = validateEmail();
+
+      if (!nameOk || !emailOk) {
+        // Focus first invalid field
+        if (!nameOk) nameInput.focus();
+        else emailInput.focus();
+        return;
+      }
+
+      clearSubmitError();
+      setLoading(true);
+
+      const firstName = nameInput.value.trim().split(/\s+/)[0];
+      const email     = emailInput.value.trim();
+
+      try {
+        const result = await submitToWaitlist(firstName, email);
+
+        if (result.ok) {
+          submittedSuccessfully = true;
+          setLoading(false);
+
+          if (result.duplicate) {
+            // Reuse modal with different copy
+            modalFirstName.textContent = firstName;
+            document.getElementById('modal-heading').textContent =
+              'You\'re already on the list!';
+            document.getElementById('modal-copy').innerHTML =
+              'We already have your details, <strong>' + firstName + '</strong>. We\'ll keep you updated.';
+          } else {
+            // Reset modal copy in case of re-use scenario
+            document.getElementById('modal-heading').textContent = 'You\'re on the waitlist!';
+            document.getElementById('modal-copy').innerHTML =
+              'Thanks, <strong id="modal-first-name">' + firstName + '</strong>. ' +
+              'We\'ll let you know when early access is ready — keep an eye on your inbox.';
+          }
+
+          openModal(firstName);
+
+        } else {
+          setLoading(false);
+          showSubmitError('We couldn\'t add you to the waitlist just now. Please try again.');
+        }
+
+      } catch {
+        setLoading(false);
+        showSubmitError('We couldn\'t add you to the waitlist just now. Please try again.');
+      }
+    });
+
+    /* ----------------------------------------------------------------
+       FAQ ACCORDION — single-open policy
+    ---------------------------------------------------------------- */
+    const faqItems = document.querySelectorAll('.faq__item');
+
+    faqItems.forEach(item => {
+      const trigger = item.querySelector('.faq__trigger');
+      const panel   = item.querySelector('.faq__panel');
+      const inner   = item.querySelector('.faq__panel-inner');
+
+      trigger.addEventListener('click', () => {
+        const isOpen = item.dataset.open === 'true';
+
+        // Close all other items first
+        faqItems.forEach(other => {
+          if (other !== item) collapseItem(other);
+        });
+
+        if (isOpen) {
+          collapseItem(item);
+        } else {
+          expandItem(item);
+        }
+      });
+    });
+
+    function expandItem(item) {
+      const trigger = item.querySelector('.faq__trigger');
+      const panel   = item.querySelector('.faq__panel');
+      const inner   = item.querySelector('.faq__panel-inner');
+
+      item.dataset.open = 'true';
+      trigger.setAttribute('aria-expanded', 'true');
+      panel.style.maxHeight = inner.scrollHeight + 'px';
+    }
+
+    function collapseItem(item) {
+      const trigger = item.querySelector('.faq__trigger');
+      const panel   = item.querySelector('.faq__panel');
+
+      item.dataset.open = 'false';
+      trigger.setAttribute('aria-expanded', 'false');
+      panel.style.maxHeight = '0';
+    }
+  </script>
+</body>
+</html>

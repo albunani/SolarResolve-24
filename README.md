@@ -159,26 +159,27 @@ AI-generated code must not introduce secrets, silently expand scope, weaken safe
 - [x] Primary MVP scenario selected
 - [x] MVP requirements documented
 - [x] Workspace role and planned hierarchy defined
-- [ ] Technical architecture selected
-- [ ] AI and API schemas designed
-- [ ] Safety policy formalized
-- [ ] Application scaffold created
+- [x] Technical architecture selected
+- [x] AI and API schemas designed
+- [x] Safety policy formalized
+- [x] Application scaffold created
 - [ ] MVP implemented and tested
 - [ ] Public deployment completed
 - [ ] Demo and submission materials prepared
 
-## Next milestone
+## Active remediation workflow
 
-Create `docs/TECHNICAL_DESIGN.md` to select the technology stack and define:
+The current milestone is to make the complete MVP user loop pass independently verified acceptance testing before deployment or scope expansion.
 
-- system architecture and data flow;
-- frontend and backend boundaries;
-- API endpoints and structured schemas;
-- AI model integration;
-- deterministic safety enforcement;
-- storage and image-retention decisions;
-- testing and evaluation strategy; and
-- deployment approach.
+Use these documents in order:
+
+1. [Remediation roadmap](./REMEDIATION_ROADMAP.md) — repair order, phase gates, and ownership.
+2. [Antigravity remediation prompt V2](./ANTIGRAVITY_REMEDIATION_PROMPT_V2.md) — active implementation instructions.
+3. `WORK_REPORT_REMEDIATION_V2.md` — Antigravity creates this after completing the prompt.
+4. [Independent revalidation checklist](./REVALIDATION_CHECKLIST.md) — Codex uses this to audit the result.
+5. `VALIDATION_REMEDIATION_V2.md` — Codex creates this after the independent audit.
+
+Do not begin deployment, live-AI integration, or other scope expansion until the independent validation marks every Must-Have criterion as Pass.
 
 ## Working agreements
 
@@ -188,4 +189,3 @@ Create `docs/TECHNICAL_DESIGN.md` to select the technology stack and define:
 - Record major decisions in `CONVERSATION_HISTORY.md`.
 - Prefer small, testable changes over large generated code dumps.
 - Do not merge or deploy behavior that cannot be explained or verified.
-

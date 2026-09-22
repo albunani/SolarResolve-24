@@ -1,0 +1,106 @@
+"""Deterministic hazard policy shared by input validation and result processing.
+
+This is the single source of truth for hazard detection. Do not duplicate
+hazard strings across components.
+"""
+
+import re
+from dataclasses import dataclass, field
+
+# ---------------------------------------------------------------------------
+# Hazard flag definitions
+# ---------------------------------------------------------------------------
+HAZARD_FLAGS = [
+    {"id": "smoke_or_fire", "label": "Smoke or fire"},
+    {"id": "burning_smell", "label": "Burning smell"},
+    {"id": "battery_damage", "label": "Battery swelling, leaking, hissing, cracking, or physical damage"},
+    {"id": "exposed_conductors", "label": "Exposed or sparking conductors"},
+    {"id": "electric_shock", "label": "Electric shock"},
+    {"id": "severe_heat", "label": "Severe or unusual heat"},
+    {"id": "water_ingress", "label": "Water entering electrical equipment"},
+]
+
+HAZARD_IDS = frozenset(h["id"] for h in HAZARD_FLAGS)
+
+ESCALATION_MESSAGE = (
+    "Keep a safe distance. Do not touch, open, disconnect, probe, or attempt "
+    "to repair the equipment. Contact a qualified solar/electrical professional "
+    "or emergency service as appropriate."
+)
+
+# ---------------------------------------------------------------------------
+# Late-stage text scanning — deterministic keyword rules
+# ---------------------------------------------------------------------------
+_HAZARD_SYNONYMS: dict[str, list[str]] = {
+    "smoke_or_fire": ["smoke", "fire", "flames", "burning", "on fire", "smouldering", "smoldering"],
+    "burning_smell": ["burning smell", "acrid", "smell of burning", "chemical smell", "melting smell"],
+    "battery_damage": [
+        "swelling", "swollen", "leaking", "hissing", "cracking", "bulging",
+        "battery damage", "battery leak", "expanding", "puffed up",
+    ],
+    "exposed_conductors": ["exposed wire", "sparking", "bare wire", "arcing", "spark", "exposed conductor"],
+    "electric_shock": ["electric shock", "got shocked", "electrocuted", "tingling", "zapped"],
+    "severe_heat": ["extremely hot", "severe heat", "too hot to touch", "overheating", "melting"],
+    "water_ingress": ["water inside", "water ingress", "flooded", "water damage", "water entering", "wet inside"],
+}
+
+_compiled_patterns: dict[str, re.Pattern[str]] = {}
+for _hid, _terms in _HAZARD_SYNONYMS.items():
+    _pattern = "|".join(re.escape(t) for t in _terms)
+    _compiled_patterns[_hid] = re.compile(_pattern, re.IGNORECASE)
+
+
+_NEGATION_PATTERN = re.compile(r"\b(?:no|not|without|never)\b(?:(?!except|but|however|only)[^\.,;!\?]){0,40}\s*$", re.IGNORECASE)
+
+def scan_text_for_hazards(text: str) -> list[str]:
+    """Return list of hazard IDs found in free text via deterministic keyword matching."""
+    found: list[str] = []
+    if not text:
+        return found
+        
+    text_lower = text.lower()
+    for hid, pattern in _compiled_patterns.items():
+        for match in pattern.finditer(text_lower):
+            start = match.start()
+            prefix = text_lower[max(0, start - 40):start]
+            if _NEGATION_PATTERN.search(prefix):
+                continue
+            found.append(hid)
+            break
+    return found
+
+
+# ---------------------------------------------------------------------------
+# Prohibited action detection
+# ---------------------------------------------------------------------------
+PROHIBITED_VERBS = [
+    "open", "unscrew", "remove cover", "disassemble",
+    "touch terminal", "touch conductor", "handle wire",
+    "disconnect", "reconnect", "detach", "unplug battery",
+    "bypass", "bridge", "short", "jumper", "probe",
+    "measure voltage", "use multimeter", "use voltmeter",
+    "alter setting", "change firmware", "update firmware",
+    "change charging voltage", "modify configuration",
+]
+
+_prohibited_pattern = re.compile(
+    "|".join(re.escape(v) for v in PROHIBITED_VERBS), re.IGNORECASE
+)
+
+
+def contains_prohibited_action(text: str) -> bool:
+    """Return True if text contains a prohibited action verb."""
+    if not text:
+        return False
+    return bool(_prohibited_pattern.search(text))
+
+
+def filter_safe_output(text: str) -> str:
+    """If text contains prohibited actions, replace with safe fallback."""
+    if contains_prohibited_action(text):
+        return (
+            "This recommendation has been blocked because it may involve "
+            "an unsafe action. Please consult a qualified solar/electrical "
+            "professional for physical inspection or repair."
+        )
+    return text
