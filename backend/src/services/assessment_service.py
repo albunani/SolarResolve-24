@@ -7,7 +7,7 @@ logic and a synthetic demo adapter. The AI adapter slot is clearly separated.
 from __future__ import annotations
 
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from src.models.assessment import (
     AssessmentResult,
@@ -29,10 +29,8 @@ from src.safety.hazard_policy import (
     ESCALATION_MESSAGE,
     contains_definitive_diagnosis,
     contains_prohibited_action,
-    filter_safe_output,
     scan_text_for_hazards,
 )
-
 
 MINIMUM_EVIDENCE_FIELDS = 3  # description + at least 2 of: runtimes, pattern, charging
 
@@ -74,7 +72,7 @@ def build_assessment(
     if late_hazards:
         return AssessmentResult(
             assessment_id=f"eval-{int(time.time())}",
-            generated_at=datetime.now(timezone.utc).isoformat(),
+            generated_at=datetime.now(UTC).isoformat(),
             status=AssessmentStatus.urgent_safety_escalation,
             summary=ESCALATION_MESSAGE,
             known_facts=[],
@@ -106,7 +104,7 @@ def build_assessment(
             missing_items.append(ResultGap(label="Whether battery reaches full charge"))
         return AssessmentResult(
             assessment_id=f"eval-{int(time.time())}",
-            generated_at=datetime.now(timezone.utc).isoformat(),
+            generated_at=datetime.now(UTC).isoformat(),
             status=AssessmentStatus.more_information_needed,
             summary="There is not enough evidence to produce a meaningful assessment. Please provide additional observations.",
             known_facts=_build_known_facts(evidence, image_observations),
@@ -131,13 +129,14 @@ def build_assessment(
     missing = _build_missing(evidence)
     
     # 3. LLM generation
+    import logging
+
     from src.services.ai_provider import (
         ProviderOutputError,
         ProviderUnavailableError,
         get_ai_provider,
     )
     from src.services.prompts import build_provider_prompt
-    import logging
 
     logger = logging.getLogger(__name__)
     provider = get_ai_provider()
@@ -159,8 +158,7 @@ def build_assessment(
             for cause in draft.possible_causes:
                 fields_to_check.append(cause.description)
                 fields_to_check.append(cause.category)
-            for check in draft.safe_checks:
-                fields_to_check.append(check)
+            fields_to_check.extend(draft.safe_checks)
 
             for field_text in fields_to_check:
                 if contains_prohibited_action(field_text):
@@ -212,7 +210,7 @@ def build_assessment(
 
     return AssessmentResult(
         assessment_id=f"eval-{int(time.time())}",
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=datetime.now(UTC).isoformat(),
         status=AssessmentStatus.professional_inspection_recommended
             if any(c.confidence == CauseConfidenceLabel.more_consistent for c in causes)
             else AssessmentStatus.safe_observations_recommended,

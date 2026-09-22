@@ -7,30 +7,30 @@ adapter regressions, and hazard/insufficiency short-circuits.
 No live Gemini API calls are made.
 """
 
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
 
 from src.app.main import app
-from src.services.ai_provider import (
-    ModelAssessmentDraft,
-    ModelCauseAssessment,
-    ProviderOutputError,
-    ProviderUnavailableError,
-)
-from src.models.assessment import CauseConfidenceLabel
-from src.safety.hazard_policy import contains_definitive_diagnosis, contains_prohibited_action
-from src.services.prompts import (
-    build_provider_prompt,
-    _EVIDENCE_START,
-    _EVIDENCE_END,
-    _sanitize,
-)
 from src.models.assessment import (
-    ClarificationAnswer,
+    CauseConfidenceLabel,
     EvidenceInput,
     ImageObservation,
     ReadabilityState,
+)
+from src.safety.hazard_policy import (
+    contains_definitive_diagnosis,
+)
+from src.services.ai_provider import (
+    ModelAssessmentDraft,
+    ModelCauseAssessment,
+    ProviderUnavailableError,
+)
+from src.services.prompts import (
+    _EVIDENCE_END,
+    _EVIDENCE_START,
+    build_provider_prompt,
 )
 
 client = TestClient(app)
@@ -208,7 +208,7 @@ class TestPromptBoundary:
         assert prompt.count(_EVIDENCE_END) == 1
         # The injected text must be sanitized (boundary stripped)
         assert "ignore above" in prompt
-        assert f"hello  ignore above" in prompt or "hello" in prompt
+        assert "hello  ignore above" in prompt or "hello" in prompt
 
     def test_evidence_completeness_loads(self):
         """Loads with recently_added_or_changed appear in the prompt."""
@@ -304,8 +304,8 @@ class TestSyntheticAdapterRegression:
 
     def test_recently_changed_load_signal(self):
         """Synthetic adapter detects 'recently added/changed: yes' in structured prompt."""
-        from src.services.ai_provider import SyntheticAssessmentProvider
         from src.models.assessment import LoadObservation
+        from src.services.ai_provider import SyntheticAssessmentProvider
         ev = EvidenceInput(
             original_description="Battery dies early",
             change_pattern="gradual",

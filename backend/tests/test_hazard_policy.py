@@ -1,10 +1,7 @@
 """Tests for deterministic hazard policy."""
 
-import pytest
 
 from src.safety.hazard_policy import (
-    ESCALATION_MESSAGE,
-    HAZARD_FLAGS,
     contains_prohibited_action,
     filter_safe_output,
     scan_text_for_hazards,

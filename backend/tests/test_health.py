@@ -5,7 +5,6 @@ Uses FastAPI's synchronous TestClient (backed by httpx) per the Day 3 spec.
 No async tests are needed for the health route.
 """
 
-import pytest
 from fastapi.testclient import TestClient
 
 from src.app.main import app

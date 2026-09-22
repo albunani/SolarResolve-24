@@ -6,19 +6,18 @@ No live Gemini API calls are made.
 """
 
 import json
+from unittest.mock import MagicMock
+
 import pytest
-from unittest.mock import MagicMock, patch
 
 from src.services.ai_provider import (
     GeminiAssessmentProvider,
     ModelAssessmentDraft,
-    ModelCauseAssessment,
     ProviderOutputError,
     ProviderUnavailableError,
     SyntheticAssessmentProvider,
     get_ai_provider,
 )
-from src.models.assessment import CauseConfidenceLabel
 
 
 # -----------------------------------------------------------------------
