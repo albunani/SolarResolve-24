@@ -87,7 +87,7 @@ PROHIBITED_VERBS = [
 ]
 
 _prohibited_pattern = re.compile(
-    "|".join(re.escape(v) for v in PROHIBITED_VERBS), re.IGNORECASE,
+    r"\b(" + "|".join(re.escape(v) for v in PROHIBITED_VERBS) + r")\b", re.IGNORECASE
 )
 
 

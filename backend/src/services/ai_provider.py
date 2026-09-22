@@ -175,7 +175,7 @@ class GeminiAssessmentProvider:
 
         config = types.GenerateContentConfig(
             response_mime_type="application/json",
-            response_schema=ModelAssessmentDraft.model_json_schema(),
+            response_schema=ModelAssessmentDraft,
             system_instruction=DAY4_SYSTEM_INSTRUCTION,
             temperature=0.2,
         )
@@ -213,14 +213,16 @@ class GeminiAssessmentProvider:
                             "Rate limit or service unavailable"
                         ) from exc
                     time.sleep(base_delay * (2 ** attempt))
+                elif "400" in error_str or "INVALID_ARGUMENT" in error_str:
+                    raise ProviderOutputError(f"Invalid request to provider: {error_str}") from exc
                 else:
                     raise ProviderUnavailableError(
-                        "Provider API error"
+                        f"Provider API error: {error_str}"
                     ) from exc
 
             except Exception as exc:
                 raise ProviderOutputError(
-                    f"Failed to parse provider response: {exc.__class__.__name__}"
+                    f"Failed to parse provider response: {exc.__class__.__name__}: {exc}"
                 ) from exc
 
 
@@ -239,7 +241,7 @@ def get_ai_provider() -> AssessmentAIProvider:
             raise ProviderUnavailableError(
                 "GEMINI_API_KEY is required when AI_PROVIDER=gemini"
             )
-        model = "gemini-2.5-flash"
+        model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
         timeout_seconds = int(os.environ.get("AI_TIMEOUT_SECONDS", "20"))
         return GeminiAssessmentProvider(api_key, model, timeout_seconds)
 
