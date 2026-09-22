@@ -1,4 +1,4 @@
-﻿"""Deterministic hazard policy shared by input validation and result processing.
+"""Deterministic hazard policy shared by input validation and result processing.
 
 This is the single source of truth for hazard detection. Do not duplicate
 hazard strings across components.
@@ -114,6 +114,8 @@ DEFINITIVE_DIAGNOSIS_TERMS = [
     "replace immediately",
     # Definitive causality
     "the cause is", "the problem is", "the fault is",
+    "is the cause", "root cause is",
+    "caused the", "caused this", "caused by", "proves that", "proves the",
     "confirmed diagnosis", "definitive diagnosis",
     "certainly", "definitely failed", "without doubt",
 ]

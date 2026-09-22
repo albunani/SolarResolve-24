@@ -117,7 +117,7 @@ export default function ClarificationScreen() {
             <p style={{ color: '#ef4444', fontWeight: 'bold', marginBottom: '0.5rem' }}>{error}</p>
             <div style={{ display: 'flex', gap: '1rem' }}>
               <button className="primary-cta" onClick={handleGenerate}>Retry</button>
-              <button className="secondary-btn" onClick={() => { setError(null); dispatch({ type: 'CLEAR_ERROR' }); navigate('/image-evidence'); }}>Edit Evidence</button>
+              <button className="secondary-btn" onClick={() => { setError(null); dispatch({ type: 'CLEAR_ERROR' }); navigate('/intake'); }}>Edit Evidence</button>
             </div>
           </div>
         )}
@@ -167,7 +167,7 @@ export default function ClarificationScreen() {
         </section>
 
         <div className="form-actions">
-          <button className="secondary-btn" onClick={() => navigate('/image-evidence')}>Back / Edit Evidence</button>
+          <button className="secondary-btn" onClick={() => navigate('/intake')}>Back / Edit Evidence</button>
           <button className="primary-cta" onClick={handleGenerate} disabled={loading}>Generate Assessment</button>
         </div>
       </main>

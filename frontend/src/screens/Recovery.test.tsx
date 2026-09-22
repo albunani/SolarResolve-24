@@ -1,4 +1,4 @@
-﻿import { render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import App from '../App';
@@ -52,12 +52,13 @@ describe('D4V3-001 Recovery Flow', () => {
     // @ts-expect-error test
     expect(await screen.findByText(/Temporarily unavailable/i)).toBeInTheDocument();
 
-    // Click Edit Evidence
+    // Click Edit Evidence in the error panel
     const editBtns = screen.getAllByRole('button', { name: /Edit Evidence/i });
     await user.click(editBtns[0]);
 
-    // Back on Image Evidence, click Back to go to Intake
-    await user.click(screen.getByRole('button', { name: /Back/i }));
+    // Verify we navigated directly to the Intake screen
+    // @ts-expect-error test
+    expect(await screen.findByRole('heading', { name: /Evidence Intake/i })).toBeInTheDocument();
 
     // Verify Intake form is still populated
     // @ts-expect-error test

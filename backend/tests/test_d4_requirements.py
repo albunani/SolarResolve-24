@@ -79,6 +79,15 @@ class TestDefinitiveDiagnosis:
         "definitely failed",
         "without doubt",
         "confirmed diagnosis",
+        "The battery is faulty and must be replaced.",
+        "Battery failure is confirmed.",
+        "The inverter has definitely failed.",
+        "The battery is the cause.",
+        "The cause is the battery.",
+        "The battery caused the shutdown.",
+        "This proves the battery caused the problem.",
+        "The inverter caused the failure.",
+        "The root cause is battery degradation.",
     ])
     def test_diagnosis_phrase_detected(self, phrase):
         assert contains_definitive_diagnosis(phrase), f"Missed: {phrase!r}"
@@ -94,6 +103,9 @@ class TestDefinitiveDiagnosis:
         "The battery may be faulty, but this cannot be confirmed remotely.",
         "The battery is not defective.",
         "A battery fault is one possible explanation.",
+        "There is no evidence that the battery has failed.",
+        "Could the battery be the cause?",
+        "If the battery has failed, a technician should confirm it before replacement.",
     ])
     def test_safe_phrase_not_flagged(self, safe_phrase):
         assert not contains_definitive_diagnosis(safe_phrase), f"False positive: {safe_phrase!r}"
@@ -168,6 +180,19 @@ class TestWholeDraftSafety:
         assert mock_provider.generate_assessment_draft.call_count == 2
         # Body must not contain the rejected model text
         assert "faulty" not in r.text.lower()
+
+    @patch("src.services.ai_provider.get_ai_provider")
+    def test_two_unsafe_causal_drafts_returns_502(self, mock_get):
+        """A causal diagnosis draft also triggers 502 with no leakage."""
+        mock_provider = MagicMock()
+        mock_get.return_value = mock_provider
+        draft_bad = _safe_draft(summary="The battery is the cause.")
+        mock_provider.generate_assessment_draft.return_value = draft_bad
+
+        r = client.post("/api/v1/assessments/t/generate", json={"evidence": _minimal_evidence()})
+        assert r.status_code == 502
+        assert mock_provider.generate_assessment_draft.call_count == 2
+        assert "cause" not in r.text.lower()
 
 
 # -----------------------------------------------------------------------
