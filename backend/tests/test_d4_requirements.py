@@ -89,6 +89,11 @@ class TestDefinitiveDiagnosis:
         "A qualified technician should inspect",
         "The evidence is more consistent with incomplete charging",
         "Cannot assess without professional inspection",
+        "There is insufficient evidence to determine whether the inverter has failed.",
+        "Ask a technician whether the battery needs replacement.",
+        "The battery may be faulty, but this cannot be confirmed remotely.",
+        "The battery is not defective.",
+        "A battery fault is one possible explanation.",
     ])
     def test_safe_phrase_not_flagged(self, safe_phrase):
         assert not contains_definitive_diagnosis(safe_phrase), f"False positive: {safe_phrase!r}"

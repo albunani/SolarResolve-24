@@ -18,9 +18,10 @@ export default function ClarificationScreen() {
   const { state, dispatch } = useAssessment();
   const evidence = state.evidence;
 
-  const [answers, setAnswers] = useState<ClarificationAnswer[]>(
-    TARGETED_QUESTIONS.map(q => ({ question: q, answer: '' })),
-  );
+  const [answers, setAnswers] = useState<ClarificationAnswer[]>(() => {
+    const existing = new Map(state.clarificationAnswers.map(a => [a.question, a.answer]));
+    return TARGETED_QUESTIONS.map(q => ({ question: q, answer: existing.get(q) || '' }));
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

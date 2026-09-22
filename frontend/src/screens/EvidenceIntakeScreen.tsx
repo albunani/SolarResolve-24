@@ -16,30 +16,12 @@ function parseNumeric(val: string): number | null {
 
 export default function EvidenceIntakeScreen() {
   const navigate = useNavigate();
-  const { dispatch } = useAssessment();
+  const { state, dispatch } = useAssessment();
   const formRef = useRef<HTMLFormElement>(null);
 
   const [form, setForm] = useState<EvidenceFormData>({
-    originalDescription: '',
-    previousRuntimeValue: '',
-    previousRuntimeUnit: 'hours',
-    currentRuntimeValue: '',
-    currentRuntimeUnit: 'hours',
-    changePattern: '',
-    changeBegan: '',
-    warningOrError: '',
-    reachesFullCharge: '',
-    daytimeChargingChange: '',
-    approximateAge: '',
-    inverterBrand: '',
-    inverterModel: '',
-    batteryBrand: '',
-    batteryModel: '',
-    batteryChemistry: '',
-    panelCapacity: '',
-    recentMaintenance: '',
-    manualDisplayReading: '',
-    loads: [{ ...EMPTY_LOAD }],
+    ...state.evidence,
+    loads: state.evidence.loads.length > 0 ? state.evidence.loads : [{ ...EMPTY_LOAD }],
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});

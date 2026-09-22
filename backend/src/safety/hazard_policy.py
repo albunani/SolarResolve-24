@@ -1,4 +1,4 @@
-"""Deterministic hazard policy shared by input validation and result processing.
+﻿"""Deterministic hazard policy shared by input validation and result processing.
 
 This is the single source of truth for hazard detection. Do not duplicate
 hazard strings across components.
@@ -28,7 +28,7 @@ ESCALATION_MESSAGE = (
 )
 
 # ---------------------------------------------------------------------------
-# Late-stage text scanning — deterministic keyword rules
+# Late-stage text scanning â€” deterministic keyword rules
 # ---------------------------------------------------------------------------
 _HAZARD_SYNONYMS: dict[str, list[str]] = {
     "smoke_or_fire": ["smoke", "fire", "flames", "burning", "on fire", "smouldering", "smoldering"],
@@ -122,12 +122,25 @@ _definitive_pattern = re.compile(
     "|".join(re.escape(v) for v in DEFINITIVE_DIAGNOSIS_TERMS), re.IGNORECASE,
 )
 
+_SAFE_CONTEXT_PATTERN = re.compile(
+    r"\b(?:no|not|without|never|whether|if|may|might|could|possible|insufficient|ask|consult|check|determine|verify|evaluate|technician|professional|electrician)\b(?:(?!except|but|however|only|and must|and needs|and requires)[^\.,;!\?]){0,60}\s*$",
+    re.IGNORECASE,
+)
+
 
 def contains_definitive_diagnosis(text: str) -> bool:
-    """Return True if text contains definitive diagnosis claims."""
+    """Return True if text contains definitive diagnosis claims, ignoring safe contexts."""
     if not text:
         return False
-    return bool(_definitive_pattern.search(text))
+
+    text_lower = text.lower()
+    for match in _definitive_pattern.finditer(text_lower):
+        start = match.start()
+        prefix = text_lower[max(0, start - 60):start]
+        if _SAFE_CONTEXT_PATTERN.search(prefix):
+            continue
+        return True
+    return False
 
 
 # ---------------------------------------------------------------------------
