@@ -79,7 +79,7 @@ The MVP must:
 
 - make it easy for a non-technical user to report declining battery runtime;
 - collect enough structured evidence to improve the next decision;
-- visibly demonstrate useful image and language AI capabilities;
+- visibly demonstrate useful language AI capabilities (image upload deferred for v2);
 - separate observed facts from AI-generated possibilities;
 - communicate uncertainty instead of claiming a definitive diagnosis;
 - recommend only low-risk user actions;

@@ -93,7 +93,7 @@ The first screen may offer structured issue choices such as:
 
 The AI will:
 
-1. extract visible information from uploaded images;
+1. extract visible information (Deferred to v2);
 2. convert the user's description into structured facts;
 3. identify missing information;
 4. ask targeted follow-up questions;
@@ -292,7 +292,7 @@ For the competition, the experience must also be publicly accessible, easy to de
 ### In scope for the competition
 
 - one structured performance-problem journey;
-- image and text input;
+- text input (image upload deferred);
 - targeted AI questions;
 - structured assessment;
 - responsible-AI and safety guardrails;

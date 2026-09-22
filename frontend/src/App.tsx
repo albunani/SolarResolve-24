@@ -2,11 +2,8 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Navigation, Footer } from './components/Navigation';
 import LandingScreen from './screens/LandingScreen';
-import WaitlistScreen from './screens/WaitlistScreen';
-import OutcomeScreen from './screens/OutcomeScreen';
 import HelpScreen from './screens/HelpScreen';
 import PolicyScreen from './screens/PolicyScreen';
-import AppAvailabilityScreen from './screens/AppAvailabilityScreen';
 import NotFoundScreen from './screens/NotFoundScreen';
 
 // Keeping the old assessment screens available under a separate path
@@ -26,12 +23,9 @@ const App: React.FC = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingScreen />} />
-        <Route path="/pilot" element={<WaitlistScreen />} />
-        <Route path="/pilot/result" element={<OutcomeScreen />} />
         <Route path="/help" element={<HelpScreen />} />
         <Route path="/about" element={<HelpScreen />} /> {/* Placeholder for about */}
         <Route path="/policies/:document" element={<PolicyScreen />} />
-        <Route path="/app" element={<AppAvailabilityScreen />} />
 
         {/* Legacy Battery Assessment Routes */}
         <Route path="/assessment" element={<HomeScreen />} />

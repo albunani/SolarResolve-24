@@ -7,25 +7,19 @@ const HelpScreen: React.FC = () => {
       <div className="card">
         <h2>Frequently Asked Questions</h2>
         <div style={{ marginBottom: 'var(--space-4)' }}>
-          <h3>Is there a deposit?</h3>
-          <p>No, there are no hidden deposits. Final terms will be presented before any installation happens.</p>
+          <h3>Is SolarResolve a replacement for a technician?</h3>
+          <p>No, SolarResolve provides decision support to help you communicate effectively with a professional, but does not replace physical inspection.</p>
         </div>
         <div style={{ marginBottom: 'var(--space-4)' }}>
-          <h3>How much does it cost?</h3>
-          <p>The current pilot assumption is ₦250 per kWh. You only pay for what you use, upfront.</p>
-        </div>
-        <div style={{ marginBottom: 'var(--space-4)' }}>
-          <h3>Is this available nationwide?</h3>
-          <p>No, this is a controlled pilot in Lagos, Niger State, and FCT Abuja. We are actively reviewing communities with clustered interest.</p>
+          <h3>What should I do if I see smoke or sparks?</h3>
+          <p>Keep a safe distance, do not touch the equipment, and immediately contact a qualified solar/electrical professional or emergency services.</p>
         </div>
       </div>
       
       <div className="card" style={{ marginTop: 'var(--space-8)' }}>
-        <h2>Contact the Pilot Team</h2>
+        <h2>Contact Support</h2>
         <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li style={{ marginBottom: 'var(--space-2)' }}><strong>WhatsApp:</strong> +234 800 123 4567</li>
-          <li style={{ marginBottom: 'var(--space-2)' }}><strong>Phone:</strong> 0800 SOLARPEER</li>
-          <li style={{ marginBottom: 'var(--space-2)' }}><strong>Email:</strong> pilot@solarpeer360.com</li>
+          <li style={{ marginBottom: 'var(--space-2)' }}><strong>Email:</strong> support@solarresolve.com</li>
         </ul>
       </div>
     </div>
