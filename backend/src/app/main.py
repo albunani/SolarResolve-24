@@ -26,7 +26,7 @@ app = FastAPI(
 
 # ---------------------------------------------------------------------------
 # CORS — allow the Vite dev server and future production origins.
-# Adjust CORS_ORIGINS via environment variable before deploying.
+# (Force build commit to ensure Railway pulls latest)
 # ---------------------------------------------------------------------------
 app.add_middleware(
     CORSMiddleware,
