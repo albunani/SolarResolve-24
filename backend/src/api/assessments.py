@@ -131,11 +131,11 @@ def generate_assessment(
         result = build_assessment(evidence, clarifications, image_observations)
         return result
     except ProviderUnavailableError as e:
-        logger.error(f"AI timeout/rate limit: {e.__class__.__name__}")
-        raise HTTPException(status_code=503, detail="AI Provider is temporarily overloaded. Please try again.")
+        logger.error(f"AI timeout/rate limit: {e.__class__.__name__} - {str(e)}")
+        raise HTTPException(status_code=503, detail=f"AI Error: {str(e)}")
     except ProviderOutputError as e:
-        logger.error(f"AI provider error: {e.__class__.__name__}")
-        raise HTTPException(status_code=502, detail="AI Provider encountered an error. Please try again later.")
+        logger.error(f"AI provider error: {e.__class__.__name__} - {str(e)}")
+        raise HTTPException(status_code=502, detail=f"AI Output Error: {str(e)}")
 
 
 # ---------------------------------------------------------------------------
@@ -151,8 +151,8 @@ def inline_generate_assessment(
         result = build_assessment(evidence, clarifications, image_observations)
         return result
     except ProviderUnavailableError as e:
-        logger.error(f"AI timeout/rate limit: {e.__class__.__name__}")
-        raise HTTPException(status_code=503, detail="AI Provider is temporarily overloaded. Please try again.")
+        logger.error(f"AI timeout/rate limit: {e.__class__.__name__} - {str(e)}")
+        raise HTTPException(status_code=503, detail=f"AI Error: {str(e)}")
     except ProviderOutputError as e:
-        logger.error(f"AI provider error: {e.__class__.__name__}")
-        raise HTTPException(status_code=502, detail="AI Provider encountered an error. Please try again later.")
+        logger.error(f"AI provider error: {e.__class__.__name__} - {str(e)}")
+        raise HTTPException(status_code=502, detail=f"AI Output Error: {str(e)}")
