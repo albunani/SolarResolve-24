@@ -12,10 +12,10 @@ export const Navigation: React.FC = () => {
         </Link>
         <nav>
           <Link to="/#how-it-works">How it works</Link>
-          <Link to="/#pricing">Pricing</Link>
+          <Link to="/#safety">Safety First</Link>
           <Link to="/about">About</Link>
           <Link to="/help">Help</Link>
-          <Link to="/pilot" className="primary-cta">Join the pilot</Link>
+          <Link to="/safety-check" className="primary-cta">Assess my battery</Link>
         </nav>
       </div>
     </header>

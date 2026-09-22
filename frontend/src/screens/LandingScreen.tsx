@@ -9,12 +9,12 @@ const LandingScreen: React.FC = () => {
       <section style={{ backgroundColor: 'var(--color-forest-900)', color: 'var(--color-white)', padding: 'var(--space-12) 0' }}>
         <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-8)', alignItems: 'center' }}>
           <div>
-            <h1 style={{ color: 'var(--color-solar-500)' }}>Reliable power from the solar system next door</h1>
+            <h1 style={{ color: 'var(--color-solar-500)' }}>Turn your solar observations into a clear assessment.</h1>
             <p style={{ fontSize: '20px', marginBottom: 'var(--space-6)' }}>
-              Join the SolarResolve pilot to buy measured, prepaid solar energy directly from your neighbors. No deposits. No hidden fees.
+              SolarResolve provides safety-aware decision support for declining battery runtimes. Organize your evidence before you spend money.
             </p>
             <div style={{ display: 'flex', gap: 'var(--space-4)' }}>
-              <Link to="/pilot" className="primary-cta">Join the pilot</Link>
+              <Link to="/safety-check" className="primary-cta">Assess my battery</Link>
               <Link to="/help" className="secondary-cta" style={{ borderColor: 'var(--color-white)', color: 'var(--color-white)' }}>Help & Contact</Link>
             </div>
           </div>
@@ -24,29 +24,29 @@ const LandingScreen: React.FC = () => {
         </div>
       </section>
 
-      {/* Pilot Status */}
+      {/* Scope Status */}
       <section style={{ padding: 'var(--space-4) 0', backgroundColor: 'var(--color-solar-500)', color: 'var(--color-forest-900)' }}>
         <div className="container">
-          <strong>Pilot Status (Sep 2026):</strong> Currently collecting waitlist interest in Lagos, Niger State, and FCT Abuja. 
-          The public price assumption is ₦250 per kWh and is not presented as final.
+          <strong>Supported Scenario:</strong> This tool is currently designed exclusively for <strong>declining battery runtime</strong> 
+          (e.g., your battery used to last until morning, but now shuts down early).
         </div>
       </section>
 
       {/* How it works */}
       <section id="how-it-works" className="container" style={{ marginTop: 'var(--space-12)' }}>
-        <h2>How sharing works</h2>
+        <h2>How the assessment works</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 'var(--space-6)' }}>
           <div className="card">
-            <h3>1. The Hub</h3>
-            <p>An existing solar owner gets an approved hub installed, connected to their panels and battery.</p>
+            <h3>1. The Observation</h3>
+            <p>You notice your battery is shutting down early, not charging fully, or acting strangely compared to when it was new.</p>
           </div>
           <div className="card">
-            <h3>2. The Connection</h3>
-            <p>A smart meter is installed at your shop or home, connected by cable to the nearby hub.</p>
+            <h3>2. The Intake</h3>
+            <p>Answer a few safe questions about your setup and optionally provide a photo of your inverter display.</p>
           </div>
           <div className="card">
-            <h3>3. The Power</h3>
-            <p>You pay for electricity (kWh) upfront, just like standard prepaid meters. The solar owner's reserve is always protected.</p>
+            <h3>3. The Assessment</h3>
+            <p>Get a clear, technician-ready brief and recommended safety checks without doing any dangerous physical probing.</p>
           </div>
         </div>
       </section>
@@ -56,39 +56,33 @@ const LandingScreen: React.FC = () => {
         <h2>Who is SolarResolve for?</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-6)' }}>
           <div className="card" style={{ borderTop: '4px solid var(--color-grid-green)' }}>
-            <h3>For Buyers</h3>
-            <p>Keep lights, refrigeration, and small equipment running without buying your own solar system. Pay for what you use.</p>
-            <Link to="/pilot?interest=buyer" className="primary-cta" style={{ marginTop: 'var(--space-4)' }}>Join as a buyer</Link>
+            <h3>For System Owners</h3>
+            <p>Understand why your battery is dying early without getting shocked or paying for unnecessary replacements.</p>
+            <Link to="/safety-check" className="primary-cta" style={{ marginTop: 'var(--space-4)' }}>Start an assessment</Link>
           </div>
           <div className="card" style={{ borderTop: '4px solid var(--color-solar-500)' }}>
-            <h3>For Solar Owners</h3>
-            <p>Earn from measured spare energy without risking your household supply. Become an Energy CEO in your community.</p>
-            <Link to="/pilot?interest=solar_owner" className="primary-cta" style={{ marginTop: 'var(--space-4)' }}>Join as a solar owner</Link>
+            <h3>For Technicians</h3>
+            <p>Get a structured, formatted brief with load calculations and change patterns from your clients before you arrive on site.</p>
+            <Link to="/about" className="primary-cta" style={{ marginTop: 'var(--space-4)' }}>Learn more</Link>
           </div>
         </div>
       </section>
 
-      {/* Pricing Context */}
-      <section id="pricing" className="container" style={{ marginTop: 'var(--space-16)' }}>
-        <h2>Pilot Pricing Context</h2>
+      {/* Safety Context */}
+      <section id="safety" className="container" style={{ marginTop: 'var(--space-16)' }}>
+        <h2>Urgent Safety Reminder</h2>
         <div className="card">
-          <p><strong>Proposed Pilot Price:</strong> ₦250 per kWh (Assumption only, final terms provided before activation).</p>
+          <p>
+            If you see smoke, fire, severe heat, battery swelling, or exposed wiring, 
+            <strong> stop immediately</strong>. Do not use this tool. Keep a safe distance 
+            and contact emergency help or a qualified professional.
+          </p>
           <p style={{ marginTop: 'var(--space-2)' }}>
-            <strong>What is a Power Limit?</strong><br />
-            You buy energy in kWh, but your connection has a maximum power limit in Watts (e.g., 500W, 1000W). 
-            This determines how many appliances you can run at the same time safely.
+            <strong>Decision Support Only</strong><br />
+            SolarResolve provides <em>decision support</em>. It does <strong>not</strong> provide a confirmed professional 
+            diagnosis or replace a qualified solar technician.
           </p>
         </div>
-      </section>
-
-      {/* Trust & Evidence */}
-      <section className="container" style={{ marginTop: 'var(--space-16)' }}>
-        <h2>Trust & Verification</h2>
-        <p>
-          Every site undergoes a rigorous technical assessment before any connection is made. Only approved installers 
-          may install, commission, or alter equipment. All transactions are securely metered.
-        </p>
-        <Link to="/about" style={{ display: 'inline-block', marginTop: 'var(--space-2)' }}>Read more about our operations</Link>
       </section>
     </div>
   );
