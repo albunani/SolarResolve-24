@@ -82,7 +82,7 @@ export default function ClarificationScreen() {
       const imageObs = state.imageObservations.length > 0 ? state.imageObservations : undefined;
       const result = await generateAssessment(payload, clarifs.length ? clarifs : undefined, imageObs);
       dispatch({ type: 'SET_RESULT', result });
-      navigate('/assessment');
+      navigate('/assessment/results');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'An unexpected error occurred.';
       setError(msg);
