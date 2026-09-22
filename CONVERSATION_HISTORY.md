@@ -580,3 +580,9 @@ Antigravity requested eight decisions before beginning Day 3 implementation.
 - Created `ANTIGRAVITY_REMEDIATION_PROMPT_V2.md` as the active implementation prompt; the original remediation prompt remains historical.
 - Created `REVALIDATION_CHECKLIST.md` for the independent post-remediation audit.
 - Defined the next evidence files: Antigravity must produce `WORK_REPORT_REMEDIATION_V2.md`, after which Codex will produce `VALIDATION_REMEDIATION_V2.md`.
+
+## 2026-09-22 — Independent V2 remediation revalidation
+
+**User request:** Review `WORK_REPORT_REMEDIATION_V2.md`, independently revalidate the implementation, and skip anything already completed.
+
+**Outcome:** Performed a read-only audit against `PROJECT.md`. Confirmed 24 of 26 Must-Have acceptance criteria as Pass and left two as Manual Check. Backend tests passed 48/48 and the principal browser flows passed, including every hazard option, late-hazard escalation, validation, route protection, insufficient evidence, service-failure recovery, and technician brief rendering. The frontend release gates are not green: the production build has three TypeScript errors, the frontend suite passes 7/8 tests, and lint reports five warnings. Created `VALIDATION_REMEDIATION_V2.md` with evidence, reproduction steps, priorities, and an incremental revalidation plan that skips previously confirmed work.

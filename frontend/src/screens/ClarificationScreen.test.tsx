@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import ClarificationScreen from './ClarificationScreen';
 import * as ContextModule from '../context/AssessmentContext';
 import * as ApiModule from '../services/api';
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 describe('ClarificationScreen', () => {
   beforeEach(() => {

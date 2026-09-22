@@ -2,8 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import AssessmentScreen from './AssessmentScreen';
-import { AssessmentProvider } from '../context/AssessmentContext';
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 const mockResult = {
   assessment_id: 'test-123',
@@ -27,7 +26,7 @@ const mockResult = {
   technician_brief: { generated_text: 'Test Brief Text' }
 };
 
-const renderWithContext = (ui: React.ReactNode, stateOverrides = {}) => {
+const renderWithContext = (ui: React.ReactNode) => {
   // We need to initialize the context with some state to simulate having a result
   // The easiest way is to mock the context if we can't easily seed it, but AssessmentProvider uses useReducer.
   // We can just render a mock provider instead, or actually interact with the app.
@@ -102,6 +101,6 @@ describe('AssessmentScreen', () => {
     // Verify new assessment reset
     const newBtn = screen.getByRole('button', { name: /Start New Assessment/i });
     await user.click(newBtn);
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'RESET_FLOW' });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: 'RESET' });
   });
 });

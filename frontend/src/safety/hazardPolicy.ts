@@ -43,7 +43,7 @@ for (const [hid, terms] of Object.entries(HAZARD_SYNONYMS)) {
   compiledPatterns.set(hid, new RegExp(pattern, 'i'));
 }
 
-const negationPattern = /\b(?:no|not|without|never)\b(?:(?!except|but|however|only)[^\.,;!\?]){0,40}\s*$/i;
+const negationPattern = /\b(?:no|not|without|never)\b(?:(?!except|but|however|only)[^.,;!?]){0,40}\s*$/i;
 
 export function scanTextForHazards(text: string): string[] {
   if (!text) return [];
