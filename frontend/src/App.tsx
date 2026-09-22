@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Navigation, Footer } from './components/Navigation';
 import LandingScreen from './screens/LandingScreen';
 import WaitlistScreen from './screens/WaitlistScreen';
@@ -21,53 +21,51 @@ import { RouteGuard } from './context/RouteGuard';
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <AssessmentProvider>
-        <Navigation />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<LandingScreen />} />
-          <Route path="/pilot" element={<WaitlistScreen />} />
-          <Route path="/pilot/result" element={<OutcomeScreen />} />
-          <Route path="/help" element={<HelpScreen />} />
-          <Route path="/about" element={<HelpScreen />} /> {/* Placeholder for about */}
-          <Route path="/policies/:document" element={<PolicyScreen />} />
-          <Route path="/app" element={<AppAvailabilityScreen />} />
+    <AssessmentProvider>
+      <Navigation />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<LandingScreen />} />
+        <Route path="/pilot" element={<WaitlistScreen />} />
+        <Route path="/pilot/result" element={<OutcomeScreen />} />
+        <Route path="/help" element={<HelpScreen />} />
+        <Route path="/about" element={<HelpScreen />} /> {/* Placeholder for about */}
+        <Route path="/policies/:document" element={<PolicyScreen />} />
+        <Route path="/app" element={<AppAvailabilityScreen />} />
 
-          {/* Legacy Battery Assessment Routes */}
-          <Route path="/assessment" element={<HomeScreen />} />
-          <Route path="/safety-check" element={<SafetyCheckScreen />} />
-          
-          <Route path="/intake" element={
-            <RouteGuard requiredStep="hazard_complete">
-              <EvidenceIntakeScreen />
-            </RouteGuard>
-          } />
+        {/* Legacy Battery Assessment Routes */}
+        <Route path="/assessment" element={<HomeScreen />} />
+        <Route path="/safety-check" element={<SafetyCheckScreen />} />
+        
+        <Route path="/intake" element={
+          <RouteGuard requiredStep="hazard_complete">
+            <EvidenceIntakeScreen />
+          </RouteGuard>
+        } />
 
-          <Route path="/image-evidence" element={
-            <RouteGuard requiredStep="intake_complete">
-              <ImageEvidenceScreen />
-            </RouteGuard>
-          } />
-          
-          <Route path="/clarification" element={
-            <RouteGuard requiredStep="image_complete">
-              <ClarificationScreen />
-            </RouteGuard>
-          } />
-          
-          <Route path="/assessment/results" element={
-            <RouteGuard requiredStep="result_ready">
-              <AssessmentScreen />
-            </RouteGuard>
-          } />
+        <Route path="/image-evidence" element={
+          <RouteGuard requiredStep="intake_complete">
+            <ImageEvidenceScreen />
+          </RouteGuard>
+        } />
+        
+        <Route path="/clarification" element={
+          <RouteGuard requiredStep="image_complete">
+            <ClarificationScreen />
+          </RouteGuard>
+        } />
+        
+        <Route path="/assessment/results" element={
+          <RouteGuard requiredStep="result_ready">
+            <AssessmentScreen />
+          </RouteGuard>
+        } />
 
-          {/* 404 */}
-          <Route path="*" element={<NotFoundScreen />} />
-        </Routes>
-        <Footer />
-      </AssessmentProvider>
-    </BrowserRouter>
+        {/* 404 */}
+        <Route path="*" element={<NotFoundScreen />} />
+      </Routes>
+      <Footer />
+    </AssessmentProvider>
   );
 };
 
