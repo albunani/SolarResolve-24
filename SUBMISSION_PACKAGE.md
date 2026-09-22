@@ -1,6 +1,6 @@
-﻿# Submission Package: SolarResolve
+# Submission Package: SolarResolve
 
-**One-sentence pitch:** SolarResolve safely diagnoses residential solar battery declines using Gemini AI before a technician rolls a truck.
+**One-sentence pitch:** SolarResolve provides a safety-aware assessment for residential solar battery declines using Gemini AI before a technician rolls a truck.
 
 **Problem statement:** When a home solar battery begins failing, determining whether the issue is natural aging, an environmental hazard, or a configuration error is nearly impossible for non-experts. Technicians waste hours on misdiagnosed service calls, while hazardous failures can cause severe property damage if mishandled by homeowners.
 
@@ -23,7 +23,7 @@
 
 **Public demo URL:** https://solar-resolve-24.vercel.app
 
-**GitHub URL:** <Insert Repository URL>
+**GitHub URL:** https://github.com/albunani/SolarResolve-24
 
 **60-second demo narration:** 
 "Meet SolarResolve. When your battery runtime drops, you shouldn't open the electrical panel. Instead, you enter what you know: previous runtime, current runtime, and any new appliances. Our system immediately checks for electrical hazards. If it's safe, Gemini Flash evaluates the evidence and isolates what is known versus what is missing. It provides a structured, uncertain diagnosis and a technician-ready brief. No jargon, no dangerous advice, just a clean path to repair."
