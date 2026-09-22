@@ -5,15 +5,19 @@
 }
 
 .home-header {
+  background-color: var(--primary-dark);
+  color: #FFFFFF;
   text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  border-radius: var(--radius-lg);
   margin-bottom: var(--space-md);
-  padding: var(--space-xl) 0;
+  box-shadow: var(--shadow-md);
 }
 
 .brand-title {
   font-size: 3rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: #FFFFFF;
   margin-bottom: var(--space-sm);
   line-height: 1.1;
 }
@@ -24,7 +28,7 @@
 
 .value-prop {
   font-size: 1.25rem;
-  color: var(--text-secondary);
+  color: #D9E2DC;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -36,7 +40,7 @@
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .scope-section h2,
@@ -62,12 +66,12 @@
 }
 
 .urgent-safety-reminder {
-  border-color: rgba(239, 68, 68, 0.2);
-  background-color: rgba(239, 68, 68, 0.05);
+  border-color: rgba(194, 59, 59, 0.2); /* Fault Red */
+  background-color: rgba(194, 59, 59, 0.05);
 }
 
 .urgent-safety-reminder h3 {
-  color: #ef4444;
+  color: var(--color-error);
 }
 
 .cta-container {
@@ -77,14 +81,14 @@
 }
 
 .primary-cta {
-  background-color: var(--accent-primary);
-  color: var(--text-dark);
+  background-color: var(--primary-brand);
+  color: #FFFFFF;
   font-size: 1.125rem;
   font-weight: 700;
   padding: 1rem 2.5rem;
   border: none;
-  border-radius: 9999px; /* Pill shape */
-  box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.39);
+  border-radius: var(--radius-md); 
+  box-shadow: var(--shadow-md);
   cursor: pointer;
   transition: all 0.2s ease;
   display: inline-flex;
@@ -93,9 +97,9 @@
 }
 
 .primary-cta:hover {
-  background-color: var(--accent-hover);
+  background-color: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+  box-shadow: var(--shadow-lg);
 }
 
 .primary-cta:active {

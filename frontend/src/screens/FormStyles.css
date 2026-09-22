@@ -10,18 +10,22 @@
 
 .form-header {
   margin-bottom: var(--space-sm);
+  background-color: var(--primary-dark);
+  color: #FFFFFF;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
 }
 
 .form-header h1 {
   font-size: 2.25rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: #FFFFFF;
   margin-bottom: var(--space-sm);
   line-height: 1.2;
 }
 
 .form-header p {
-  color: var(--text-secondary);
+  color: #D9E2DC;
   font-size: 1.1rem;
 }
 
@@ -33,12 +37,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-section:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
@@ -66,13 +70,13 @@
   padding: 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: #FFFFFF;
   transition: all 0.2s;
 }
 
 .checkbox-label:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-color: var(--text-secondary);
+  background-color: var(--bg-main);
+  border-color: var(--primary-brand);
 }
 
 .checkbox-text {
@@ -107,7 +111,7 @@ input[type="text"],
 input[type="number"],
 select,
 textarea {
-  background-color: #0f172a; /* Darker than surface */
+  background-color: #FFFFFF;
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -121,8 +125,8 @@ input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+  border-color: var(--primary-brand);
+  box-shadow: 0 0 0 3px rgba(11, 77, 59, 0.15);
 }
 
 textarea {
@@ -131,11 +135,11 @@ textarea {
 }
 
 .input-error {
-  border-color: #ef4444 !important;
+  border-color: var(--color-error) !important;
 }
 
 .error-text {
-  color: #ef4444;
+  color: var(--color-error);
   font-size: 0.85rem;
   margin-top: -0.25rem;
 }
@@ -150,19 +154,18 @@ textarea {
 
 .secondary-btn {
   background-color: transparent;
-  color: var(--text-primary);
+  color: var(--primary-brand);
   font-size: 1rem;
   font-weight: 600;
   padding: 0.875rem 2rem;
-  border: 1px solid var(--border-color);
-  border-radius: 9999px;
+  border: 1px solid var(--primary-brand);
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .secondary-btn:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-color: var(--text-secondary);
+  background-color: rgba(11, 77, 59, 0.05);
 }
 
 .secondary-btn:active {
@@ -171,18 +174,18 @@ textarea {
 
 /* Escalation State */
 .escalation-container {
-  border-color: rgba(239, 68, 68, 0.3);
-  background-color: rgba(239, 68, 68, 0.1);
+  border-color: rgba(194, 59, 59, 0.3);
+  background-color: rgba(194, 59, 59, 0.05);
   box-shadow: none;
 }
 
 .escalation-container h2 {
-  color: #ef4444;
-  border-bottom-color: rgba(239, 68, 68, 0.2);
+  color: var(--color-error);
+  border-bottom-color: rgba(194, 59, 59, 0.2);
 }
 
 .escalation-text {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #ef4444;
+  color: var(--color-error);
 }
