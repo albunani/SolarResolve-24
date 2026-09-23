@@ -18,8 +18,8 @@ export const Navigation: React.FC = () => {
           <span aria-hidden="true">{menuOpen ? '×' : '☰'}</span>
         </button>
         <nav id="primary-navigation" className={menuOpen ? 'is-open' : ''}>
-          <a onClick={closeMenu} href="#how-it-works" style={{ color: '#FFF', fontWeight: 600 }}>How it works</a>
-          <a onClick={closeMenu} href="#safety" style={{ color: '#FFF', fontWeight: 600 }}>Safety First</a>
+          <a onClick={closeMenu} href="/#how-it-works" style={{ color: '#FFF', fontWeight: 600 }}>How it works</a>
+          <Link onClick={closeMenu} to="/safety-guidance" style={{ color: '#FFF', fontWeight: 600 }}>Safety First</Link>
           <Link onClick={closeMenu} to="/help" style={{ color: '#FFF', fontWeight: 600 }}>Help</Link>
           <Link onClick={closeMenu} to="/safety-check" className="primary-cta" style={{ background: 'var(--sr-saffron)', color: 'var(--sr-energy-ink)', fontWeight: 700, borderRadius: 'var(--sr-radius-control)' }}>
             Assess my battery

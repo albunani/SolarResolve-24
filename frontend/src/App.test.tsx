@@ -55,4 +55,35 @@ describe('SolarResolve MVP - Day 3', () => {
     // @ts-expect-error test
     expect(screen.getByRole('link', { name: /Start mandatory safety check/i })).toBeInTheDocument();
   });
+
+  it('opens safety guidance from the header on another route', async () => {
+    render(
+      <MemoryRouter initialEntries={['/help']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('link', { name: 'Safety First' }));
+
+    // @ts-expect-error test
+    expect(screen.getByRole('heading', { name: /Stop first. Assess only when it is safe./i })).toBeInTheDocument();
+  });
+
+  it('gives every header action a real destination from the help page', () => {
+    render(
+      <MemoryRouter initialEntries={['/help']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    // @ts-expect-error test
+    expect(screen.getByRole('link', { name: 'How it works' })).toHaveAttribute('href', '/#how-it-works');
+    // @ts-expect-error test
+    expect(screen.getByRole('link', { name: 'Safety First' })).toHaveAttribute('href', '/safety-guidance');
+    // @ts-expect-error test
+    expect(screen.getByRole('link', { name: 'Help' })).toHaveAttribute('href', '/help');
+    // @ts-expect-error test
+    expect(screen.getByRole('link', { name: 'Assess my battery' })).toHaveAttribute('href', '/safety-check');
+  });
 });

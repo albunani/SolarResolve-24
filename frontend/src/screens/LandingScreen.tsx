@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import homeBatteryImage from '../assets/solarresolve-home-battery.png';
 
 type LoadChange = 'yes' | 'no' | 'unsure';
 
@@ -47,6 +48,21 @@ const LandingScreen: React.FC = () => {
       </section>
 
       <section className="landing-scope-bar" aria-label="Current supported scenario"><div className="container landing-scope-content"><span className="landing-scope-icon" aria-hidden="true">◎</span><p><strong>Currently supported:</strong> declining battery runtime, such as a battery that used to last until morning but now shuts down much earlier.</p><a href="#scope">What this does not cover <span aria-hidden="true">↗</span></a></div></section>
+
+      <section className="landing-battery-visual" aria-labelledby="battery-visual-heading">
+        <div className="container landing-battery-visual-grid">
+          <div className="landing-battery-visual-copy">
+            <p className="landing-kicker">Your system, treated with care</p>
+            <h2 id="battery-visual-heading">A clearer record starts with what you can safely observe.</h2>
+            <p>SolarResolve is for noticing changes around your home energy system—not opening it, testing it, or trying to repair it yourself.</p>
+            <Link to="/safety-guidance" className="landing-text-link">Know the safety boundaries <span aria-hidden="true">→</span></Link>
+          </div>
+          <figure className="landing-battery-figure">
+            <img src={homeBatteryImage} alt="A closed, professionally installed home battery and inverter in a tidy home utility area." />
+            <figcaption>Illustrative image, not a real customer's installation. Never open or handle electrical equipment to collect information.</figcaption>
+          </figure>
+        </div>
+      </section>
 
       <section className="landing-runtime-section" aria-labelledby="runtime-heading"><div className="container landing-runtime-grid">
         <div className="landing-section-intro"><p className="landing-kicker">A useful first check</p><h2 id="runtime-heading">Put the change into words and numbers.</h2><p>Your runtime change is useful evidence for a technician. It is not, on its own, proof that any component has failed.</p><div className="landing-mini-rule" aria-hidden="true"><span /><span /><span /></div></div>
