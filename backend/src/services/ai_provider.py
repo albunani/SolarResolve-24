@@ -178,9 +178,10 @@ class GeminiAssessmentProvider:
             response_schema=ModelAssessmentDraft,
             system_instruction=DAY4_SYSTEM_INSTRUCTION,
             temperature=0.2,
+            thinking_config=types.ThinkingConfig(thinking_budget=0),
         )
 
-        max_retries = 3
+        max_retries = 1
         base_delay = 2.0
         
         for attempt in range(max_retries):
