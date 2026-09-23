@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Navigation, Footer } from './components/Navigation';
+import ScrollToTop from './components/ScrollToTop';
 import LandingScreen from './screens/LandingScreen';
 import HelpScreen from './screens/HelpScreen';
 import PolicyScreen from './screens/PolicyScreen';
@@ -20,6 +21,7 @@ import { RouteGuard } from './context/RouteGuard';
 const App: React.FC = () => {
   return (
     <AssessmentProvider>
+      <ScrollToTop />
       <Navigation />
       <Routes>
         {/* Public Routes */}

@@ -51,6 +51,8 @@ export default function SafetyCheckScreen() {
     setError('');
   };
 
+  const hasSelection = Object.values(selected).some(Boolean) || noneObserved;
+
   const handleContinue = () => {
     const activeHazards = Object.entries(selected).filter(([, v]) => v).map(([k]) => k);
     if (!activeHazards.length && !noneObserved) {
@@ -151,13 +153,18 @@ export default function SafetyCheckScreen() {
             <button
               className="primary-cta"
               onClick={handleContinue}
+              disabled={!hasSelection}
+              aria-disabled={!hasSelection}
               style={{
-                background: 'var(--sr-saffron)',
-                color: 'var(--sr-energy-ink)',
+                background: hasSelection ? 'var(--sr-saffron)' : 'var(--sr-soft-line)',
+                color: hasSelection ? 'var(--sr-energy-ink)' : 'var(--sr-muted)',
                 fontWeight: 700,
                 borderRadius: 'var(--sr-radius-control)',
                 padding: '10px 24px',
-                minHeight: '44px'
+                minHeight: '44px',
+                cursor: hasSelection ? 'pointer' : 'not-allowed',
+                opacity: hasSelection ? 1 : 0.65,
+                transition: 'all 0.2s ease',
               }}
             >
               Continue
