@@ -37,4 +37,22 @@ describe('SolarResolve MVP - Day 3', () => {
     // @ts-expect-error test
     expect(screen.getByText(/Before we continue, please confirm whether any of the following urgent hazards are present/i)).toBeInTheDocument();
   });
+
+  it('opens public safety guidance from the landing page', async () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('link', { name: /Read the safety guidance/i }));
+
+    // @ts-expect-error test
+    expect(screen.getByRole('heading', { name: /Stop first. Assess only when it is safe./i })).toBeInTheDocument();
+    // @ts-expect-error test
+    expect(screen.getByText(/Do not touch, open, disconnect, reconnect, probe, or attempt to repair/i)).toBeInTheDocument();
+    // @ts-expect-error test
+    expect(screen.getByRole('link', { name: /Start mandatory safety check/i })).toBeInTheDocument();
+  });
 });

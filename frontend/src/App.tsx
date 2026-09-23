@@ -4,6 +4,7 @@ import { Navigation, Footer } from './components/Navigation';
 import LandingScreen from './screens/LandingScreen';
 import HelpScreen from './screens/HelpScreen';
 import PolicyScreen from './screens/PolicyScreen';
+import SafetyGuidanceScreen from './screens/SafetyGuidanceScreen';
 import NotFoundScreen from './screens/NotFoundScreen';
 
 // Keeping the old assessment screens available under a separate path
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         <Route path="/" element={<LandingScreen />} />
         <Route path="/help" element={<HelpScreen />} />
         <Route path="/about" element={<HelpScreen />} /> {/* Placeholder for about */}
+        <Route path="/safety-guidance" element={<SafetyGuidanceScreen />} />
         <Route path="/policies/:document" element={<PolicyScreen />} />
 
         {/* Legacy Battery Assessment Routes */}

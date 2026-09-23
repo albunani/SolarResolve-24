@@ -833,3 +833,179 @@ button:focus-visible, a:focus-visible {
   margin-top: 24px;
   font-family: var(--sr-font-data);
 }
+
+/* Safety guidance page */
+.safety-guidance-page {
+  background: var(--sr-warm-ground);
+}
+
+.safety-guidance-hero {
+  background: var(--sr-earth);
+  color: var(--sr-on-earth);
+  padding: 86px 0 70px;
+}
+
+.safety-guidance-hero-grid {
+  align-items: end;
+  display: grid;
+  gap: 44px;
+  grid-template-columns: minmax(0, .95fr) minmax(340px, .7fr);
+}
+
+.safety-guidance-hero h1 {
+  color: var(--sr-on-earth);
+  font-size: clamp(38px, 5vw, 66px);
+  letter-spacing: -.045em;
+  line-height: 1.02;
+  max-width: 760px;
+}
+
+.safety-guidance-hero p:not(.sr-eyebrow) {
+  color: var(--sr-on-earth-muted);
+  font-size: 18px;
+  line-height: 1.62;
+  margin-top: 18px;
+  max-width: 680px;
+}
+
+.safety-guidance-alert {
+  align-items: flex-start;
+  background: rgba(249, 233, 231, .1);
+  border: 1px solid rgba(249, 233, 231, .28);
+  border-radius: var(--sr-radius-card);
+  display: flex;
+  gap: 16px;
+  padding: 22px;
+}
+
+.safety-guidance-alert h2 {
+  color: var(--sr-on-earth);
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.safety-guidance-alert p {
+  font-size: 15px !important;
+  margin-top: 0 !important;
+}
+
+.safety-guidance-content {
+  padding: 74px 0 96px;
+}
+
+.safety-guidance-layout {
+  align-items: start;
+  display: grid;
+  gap: 34px;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+}
+
+.safety-guidance-main {
+  display: grid;
+  gap: 18px;
+}
+
+.safety-guidance-panel {
+  background: var(--sr-surface);
+  border: 1px solid var(--sr-soft-line);
+  border-radius: var(--sr-radius-card);
+  box-shadow: var(--sr-shadow-card);
+  padding: 30px;
+}
+
+.safety-guidance-panel-danger {
+  background: var(--sr-danger-tint);
+  border-color: rgba(179, 58, 58, .28);
+}
+
+.safety-guidance-panel h2,
+.safety-guidance-side h2 {
+  color: var(--sr-earth);
+  font-size: clamp(24px, 3vw, 34px);
+  letter-spacing: -.03em;
+  line-height: 1.12;
+}
+
+.safety-guidance-list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin-top: 22px;
+  padding: 0;
+}
+
+.safety-guidance-list li {
+  color: var(--sr-energy-ink);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-left: 28px;
+  position: relative;
+}
+
+.safety-guidance-list li::before {
+  background: var(--sr-saffron);
+  border-radius: 50%;
+  content: '';
+  height: 8px;
+  left: 3px;
+  position: absolute;
+  top: 10px;
+  width: 8px;
+}
+
+.safety-guidance-panel-danger .safety-guidance-list li::before {
+  background: var(--sr-danger);
+}
+
+.safety-guidance-side {
+  display: grid;
+  gap: 18px;
+  position: sticky;
+  top: 98px;
+}
+
+.safety-guidance-side p,
+.safety-guidance-note p {
+  color: var(--sr-muted);
+  font-size: 15px;
+  line-height: 1.62;
+}
+
+.safety-guidance-cta {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.safety-guidance-note {
+  background: var(--sr-surface-subtle);
+  border: 1px solid var(--sr-soft-line);
+  border-radius: var(--sr-radius-card);
+  padding: 24px;
+}
+
+@media (max-width: 860px) {
+  .safety-guidance-hero-grid,
+  .safety-guidance-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .safety-guidance-side {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .safety-guidance-hero {
+    padding: 58px 0 52px;
+  }
+
+  .safety-guidance-content {
+    padding: 48px 0 70px;
+  }
+
+  .safety-guidance-alert,
+  .safety-guidance-panel,
+  .safety-guidance-note {
+    padding: 20px;
+  }
+}

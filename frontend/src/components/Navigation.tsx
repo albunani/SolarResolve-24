@@ -54,6 +54,7 @@ export const Footer: React.FC = () => {
             <h4 style={{ color: '#FFF', fontSize: '15px', marginBottom: '12px', fontFamily: 'var(--sr-font-heading)' }}>Contact & Policies</h4>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14px' }}>
               <li style={{ color: 'var(--sr-on-earth-muted)' }}>Email: support@solarresolve.com</li>
+              <li><Link to="/safety-guidance" style={{ color: 'var(--sr-on-earth-muted)' }}>Safety guidance</Link></li>
               <li><Link to="/policies/privacy" style={{ color: 'var(--sr-on-earth-muted)' }}>Privacy notice</Link></li>
               <li><Link to="/policies/terms" style={{ color: 'var(--sr-on-earth-muted)' }}>Website terms</Link></li>
             </ul>
