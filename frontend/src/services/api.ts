@@ -65,7 +65,7 @@ export async function generateAssessment(
       clarifications,
       image_observations: imageObservations,
     }),
-    signal: AbortSignal.timeout(30000),
+    signal: AbortSignal.timeout(60000),
   });
 
   if (!response.ok) {

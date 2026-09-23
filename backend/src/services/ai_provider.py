@@ -242,7 +242,7 @@ def get_ai_provider() -> AssessmentAIProvider:
                 "GEMINI_API_KEY is required when AI_PROVIDER=gemini"
             )
         model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
-        timeout_seconds = int(os.environ.get("AI_TIMEOUT_SECONDS", "20"))
+        timeout_seconds = int(os.environ.get("AI_TIMEOUT_SECONDS", "60"))
         return GeminiAssessmentProvider(api_key, model, timeout_seconds)
 
     raise ProviderUnavailableError(f"Unknown AI_PROVIDER: {provider_type}")
