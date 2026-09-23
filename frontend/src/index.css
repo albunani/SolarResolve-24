@@ -233,7 +233,7 @@ button:focus-visible, a:focus-visible {
   .logo-container img { height: 34px; }
   .navigation-menu-toggle { display: inline-flex; }
   .app-header nav {
-    background: var(--color-forest-900);
+    background: var(--sr-earth);
     border-top: 1px solid rgba(255, 255, 255, .18);
     display: none;
     flex-direction: column;
