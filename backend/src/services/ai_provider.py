@@ -181,7 +181,7 @@ class GeminiAssessmentProvider:
             thinking_config=types.ThinkingConfig(thinking_budget=0),
         )
 
-        max_retries = 1
+        max_retries = 3
         base_delay = 2.0
         
         for attempt in range(max_retries):
