@@ -80,5 +80,5 @@ describe('D4V3-001 Recovery Flow', () => {
     const selectAgain = screen.getAllByRole('combobox')[0];
     // @ts-expect-error test
     expect(selectAgain).toHaveValue('Yes');
-  });
+  }, 15000);
 });

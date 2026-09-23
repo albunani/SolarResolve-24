@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 100" role="img" aria-labelledby="title desc">
+  <title id="title">SolarResolve official monochrome logo</title>
+  <desc id="desc">A single-color wide battery and focused lens beside the SolarResolve wordmark.</desc>
+  <g transform="translate(8 10)" fill="none" stroke="#2B211D">
+    <rect x="5" y="18" width="76" height="45" rx="11" stroke-width="7"/>
+    <path d="M81 31h9v20h-9z" fill="#2B211D" stroke="none"/>
+    <circle cx="38" cy="40" r="14" stroke-width="5"/>
+    <circle cx="38" cy="40" r="6.5" fill="#2B211D" stroke="none"/>
+    <path d="m48 50 14 12" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <text x="117" y="61" fill="#2B211D" font-family="General Sans, Source Sans 3, Segoe UI, sans-serif" font-size="36" font-weight="700" letter-spacing="-1.4">SolarResolve</text>
+</svg>

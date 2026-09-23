@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 84" role="img" aria-labelledby="title desc">
+  <title id="title">SolarResolve official icon</title>
+  <desc id="desc">A wide earth-brown battery containing a saffron solar lens.</desc>
+  <rect x="7" y="19" width="76" height="45" rx="11" fill="none" stroke="#4A2D22" stroke-width="7"/>
+  <path d="M83 32h10v20H83z" fill="#4A2D22"/>
+  <circle cx="40" cy="41" r="14" fill="none" stroke="#4A2D22" stroke-width="5"/>
+  <circle cx="40" cy="41" r="6.5" fill="#F2C14E"/>
+  <path d="m50 51 14 12" fill="none" stroke="#4A2D22" stroke-width="6" stroke-linecap="round"/>
+</svg>

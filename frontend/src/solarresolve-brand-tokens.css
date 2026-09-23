@@ -1,0 +1,64 @@
+:root {
+  /* Official SolarResolve identity: V2 Wide Evidence + P6 Earth & Saffron */
+  --sr-earth: #4A2D22;
+  --sr-earth-dark: #352018;
+  --sr-earth-subtle: #24140E;
+  --sr-saffron: #F2C14E;
+  --sr-saffron-hover: #E5B33D;
+  --sr-saffron-active: #D4A22C;
+  --sr-saffron-glow: rgba(242, 193, 78, 0.18);
+  --sr-warm-ground: #FBF7EF;
+  --sr-surface: #FFFFFF;
+  --sr-surface-subtle: #F5EFE4;
+  --sr-energy-ink: #2B211D;
+  --sr-muted: #766962;
+  --sr-subtle: #9D9089;
+  --sr-soft-line: #E2D9D1;
+  --sr-on-earth: #FFFFFF;
+  --sr-on-earth-muted: #D6CBC5;
+  --sr-on-saffron: #2B211D; /* STRICT: Dark text on Saffron */
+
+  --sr-success: #397A55;
+  --sr-success-tint: #E9F4ED;
+  --sr-information: #2F6E7C;
+  --sr-information-tint: #E8F2F4;
+  --sr-warning: #B76A00;
+  --sr-warning-tint: #FFF3D7;
+  --sr-danger: #B33A3A;
+  --sr-danger-tint: #F9E9E7;
+  --sr-focus-ring: #2867B2;
+
+  --sr-font-heading: 'General Sans', 'Source Sans 3', 'Segoe UI', -apple-system, sans-serif;
+  --sr-font-body: 'Source Sans 3', 'Segoe UI', -apple-system, sans-serif;
+  --sr-font-data: 'Geist Mono', 'Cascadia Mono', Consolas, monospace;
+
+  --sr-radius-control: 8px;
+  --sr-radius-card: 12px;
+  --sr-radius-panel: 16px;
+  --sr-radius-pill: 999px;
+  --sr-shadow-card: 0 1px 3px rgba(43, 33, 29, 0.06), 0 8px 24px rgba(43, 33, 29, 0.08);
+  --sr-shadow-lift: 0 4px 12px rgba(43, 33, 29, 0.1), 0 16px 40px rgba(43, 33, 29, 0.12);
+
+  /* Legacy variable mappings for backward compatibility */
+  --color-forest-900: var(--sr-earth);
+  --color-grid-green: var(--sr-earth-dark);
+  --color-solar-500: var(--sr-saffron);
+  --color-ink-900: var(--sr-energy-ink);
+  --color-cream-050: var(--sr-warm-ground);
+  --color-white: var(--sr-surface);
+  --color-focus-blue: var(--sr-focus-ring);
+  --color-rust: var(--sr-danger);
+  --color-bronze: #B8895D;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --font-body: var(--sr-font-body);
+  --font-heading: var(--sr-font-heading);
+}
