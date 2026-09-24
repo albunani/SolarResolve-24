@@ -1,195 +1,67 @@
-# my-project
+# ?? SolarResolve
 
-## Project objective
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-success)](https://solar-resolve-24.vercel.app/)
+[![MIT Open Learning](https://img.shields.io/badge/3MTT%20x%20MIT-Innovation%20Challenge-blue)](#)
 
-> **Foundational Web Service Development using AI Coding Tools**
+> **AI-Powered Safety & Diagnostic Support for Home Solar Systems**
 
-`my-project` is the central workspace for designing, building, testing, and documenting an AI-assisted web service. Its initial product is a solar decision-support MVP for Nigerian solar owners, currently using **SolarResolve** as a working name.
+SolarResolve is a safety-first decision support tool built to bridge the communication gap between homeowners and solar technicians. It was built for the **3MTT x MIT Open Learning Universal AI Innovation Challenge**.
 
-The service will help a user describe declining solar-battery performance, submit relevant evidence, receive a carefully limited AI-supported assessment, and create a structured brief for a qualified technician.
+## ?? The Problem
+Homeowners relying on solar battery systems frequently experience drops in performance. Lacking technical expertise, attempting a DIY diagnosis is incredibly dangerous (risk of electric shock, chemical leaks, or fire). Calling a professional for initial triage is expensive and slow.
 
-## Foundational role of this workspace
+## ?? The Solution
+SolarResolve safely guides users through a non-technical symptom checklist. Using **Google Gemini 3.6 Flash** and strict backend guardrails, it translates messy human complaints into a highly structured, professional "Technician Brief" that can be handed straight to a professional�preventing users from taking dangerous physical actions.
 
-This repository is the project's single source of truth. It brings together:
+## ?? Key Features
+*   **Deterministic Safety Checks:** A hard-coded hazard scanner intercepts inputs before the AI is invoked, immediately halting the flow if extreme danger (e.g. smoke, sparks, swelling) is detected.
+*   **Structured AI Output:** Leverages strict Pydantic schemas to force the LLM to cleanly categorize Known Facts, Missing Information, Plausible Causes, and Safety Constraints.
+*   **Safe AI Guardrails:** The AI is specifically prompted *never* to recommend physical interventions (e.g., "open the inverter").
+*   **Actionable Technician Brief:** Generates a ready-to-copy diagnostic brief to send to professionals, saving diagnostic time and money.
 
-- product intent and scope;
-- functional, safety, privacy, and AI requirements;
-- application and service code;
-- prompts, schemas, and deterministic guardrails;
-- automated tests and evaluation cases;
-- deployment configuration;
-- technical and user documentation; and
-- a chronological record of important decisions.
+## ??? Tech Stack
+*   **Frontend:** React, Vite, TypeScript, React Router
+*   **Backend:** Python, FastAPI, Pydantic
+*   **AI Integration:** Google GenAI SDK (`gemini-3.6-flash`)
+*   **Deployment:** Vercel (Frontend), Railway (Backend)
 
-The first development phase should establish a dependable web-service foundation before expanding product scope. That foundation includes clear module boundaries, validated inputs and outputs, safe AI integration, testable behavior, secure configuration, useful error handling, and repeatable local and production environments.
+## ?? Architecture & AI Integration
+Unlike basic chatbots, SolarResolve uses a highly constrained, safety-first LLM architecture:
+1. **Intake:** The user fills out a structured React form, providing qualitative and quantitative data.
+2. **Validation:** The Python backend performs Regex/keyword checks for hazards (`src/safety/hazard_policy.py`).
+3. **LLM Generation:** The `google-genai` SDK queries Gemini 3.6 Flash, strictly enforcing `response_schema=ModelAssessmentDraft`. We explicitly disable `thinking_config` to reduce latency and prevent hallucinated technical steps.
+4. **Presentation:** The frontend renders the structured JSON into a beautiful, readable report.
 
-## Product direction
+## ?? Running Locally
 
-The core product transformation is:
+### Prerequisites
+* Python 3.10+
+* Node.js 18+
+* Google Gemini API Key
 
-> **Solar uncertainty → structured evidence → informed action**
+### Backend Setup
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
 
-The first MVP focuses on one scenario:
+# Set Environment Variables
+export GEMINI_API_KEY="your_api_key_here"
+export AI_PROVIDER="gemini"
+export GEMINI_MODEL="gemini-3.6-flash"
 
-> A solar owner's battery previously lasted through the night but now runs down much earlier.
-
-The user provides a description, basic system information, appliance usage, and—when available—a photograph of an inverter or battery display. The service organizes the evidence, asks targeted questions, explains plausible cause categories without claiming a definitive remote diagnosis, recommends only safe observations, and generates a technician-ready brief.
-
-For complete product and MVP definitions, see:
-
-- [Project concept](./PROJECT_CONCEPT.md)
-- [MVP requirements](./requirement.md)
-- [Homepage and landing-page requirements](./docs/SOLARRESOLVE_HOMEPAGE_REQUIREMENTS.md)
-- [Official homepage designer handoff](./docs/DESIGNER_HANDOFF.md)
-- [Day 4 AI integration specification](./DAY4_AI_INTEGRATION.md)
-- [Antigravity Day 4 implementation prompt](./ANTIGRAVITY_DAY4_PROMPT.md)
-- [Conversation and decision history](./CONVERSATION_HISTORY.md)
-
-## Development principles
-
-### 1. Build a narrow, complete journey
-
-The initial release prioritizes one polished battery-runtime assessment flow over incomplete support for many fault types.
-
-### 2. Keep AI outputs grounded
-
-Case-specific output must be based on confirmed user input, confirmed image observations, approved domain guidance, and explicit safety rules. The system must clearly separate facts from possibilities.
-
-### 3. Treat safety as application logic
-
-Electrical hazard screening, prohibited procedures, professional escalation, and honest uncertainty are functional requirements—not merely disclaimers added to generated text.
-
-### 4. Protect user information
-
-The service should collect the minimum necessary data, disclose retention behavior, protect credentials, and avoid unnecessary storage of uploaded images.
-
-### 5. Keep behavior testable
-
-Prompts, response schemas, validation rules, and safety policies should be versioned and evaluated against normal, ambiguous, unsafe, and adversarial cases.
-
-### 6. Use AI coding tools with human oversight
-
-AI coding tools may help generate, explain, refactor, test, and document code. Their output must still be reviewed, tested, and checked against the approved project requirements before acceptance.
-
-## Planned folder hierarchy
-
-The exact framework is not yet selected. The following structure defines the intended separation of responsibilities and may be adjusted in the technical design.
-
-```text
-my-project/
-├── README.md                    # Project entry point and workspace guide
-├── PROJECT_CONCEPT.md           # Product thesis, users, scope, and vision
-├── requirement.md               # MVP functional and non-functional requirements
-├── CONVERSATION_HISTORY.md      # Chronological decisions and project history
-├── .env.example                 # Documented environment variables; no secrets
-├── .gitignore                   # Files excluded from version control
-├── docs/
-│   ├── TECHNICAL_DESIGN.md      # Architecture, data flow, and design decisions
-│   ├── SAFETY_POLICY.md         # Hazard rules, refusals, and escalation behavior
-│   ├── PRIVACY.md               # Data collection, processing, and retention
-│   └── API.md                   # Web-service interface documentation
-├── src/
-│   ├── app/                     # Application setup and service entry point
-│   ├── api/                     # HTTP routes, request parsing, and responses
-│   ├── domain/                  # Solar assessment rules and core business logic
-│   ├── ai/                      # Model client, prompts, schemas, and grounding
-│   ├── safety/                  # Deterministic hazard and output guardrails
-│   ├── services/                # Assessment and technician-brief orchestration
-│   ├── storage/                 # Case and upload persistence abstractions
-│   ├── ui/                      # Web interface components when kept in one app
-│   └── config/                  # Typed configuration and environment handling
-├── tests/
-│   ├── unit/                    # Isolated business-logic tests
-│   ├── integration/             # API, AI-adapter, and storage integration tests
-│   ├── safety/                  # Hazard, refusal, and escalation tests
-│   ├── evaluation/              # AI quality and consistency test cases
-│   └── fixtures/                # Synthetic inputs, images, and expected outputs
-├── public/                      # Static public assets
-├── scripts/                     # Development, evaluation, and maintenance tasks
-└── deployment/                  # Hosting and deployment configuration
+# Start the FastAPI server
+uvicorn src.app.main:app --reload
 ```
 
-Only the root documentation files currently exist. Implementation folders should be introduced when the technology stack and architecture are approved; empty directories do not need to be created in advance.
+### Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## Intended service boundaries
+## ?? License
+This project is licensed under the MIT License.
 
-The finished foundation should keep these concerns separate:
-
-| Area | Responsibility |
-| --- | --- |
-| Web interface | Guide the user through intake, evidence review, and results |
-| API layer | Validate requests and provide stable service responses |
-| Domain layer | Represent cases, evidence, assessment categories, and actions |
-| AI layer | Interpret text and images and produce schema-constrained output |
-| Safety layer | Apply deterministic hazard rules and prevent unsafe guidance |
-| Service layer | Coordinate intake, assessment, and technician-brief generation |
-| Storage layer | Control optional persistence and data-retention behavior |
-| Test/evaluation layer | Verify software correctness, AI quality, and safety behavior |
-
-## Expected MVP capabilities
-
-- Guided declining-battery-runtime intake
-- Urgent electrical-hazard screening
-- Plain-language problem descriptions
-- Optional inverter or battery-display image upload
-- AI-assisted extraction with user confirmation
-- Targeted follow-up questions
-- Structured evidence review
-- Plausible cause categories with explicit uncertainty
-- Safe observations and prohibited-action guidance
-- Recommended next action
-- Copyable or downloadable technician brief
-- Synthetic sample case for public demonstration
-- Mobile-responsive public deployment
-
-## AI-assisted development workflow
-
-AI coding tools should be used as accelerators within a controlled workflow:
-
-1. Start from an approved requirement or technical-design item.
-2. Ask the tool for a small, reviewable change.
-3. Inspect generated code for correctness, security, and scope.
-4. Run formatting, static analysis, and relevant automated tests.
-5. Test safety-critical and AI behavior with adversarial cases.
-6. Record material architecture or product decisions.
-7. Commit only code that can be explained and maintained.
-
-AI-generated code must not introduce secrets, silently expand scope, weaken safety rules, or replace validation with unstructured model judgment.
-
-## Current project status
-
-- [x] Challenge requirements captured
-- [x] Product concept defined
-- [x] Primary MVP scenario selected
-- [x] MVP requirements documented
-- [x] Workspace role and planned hierarchy defined
-- [x] Technical architecture selected
-- [x] AI and API schemas designed
-- [x] Safety policy formalized
-- [x] Application scaffold created
-- [ ] MVP implemented and tested
-- [ ] Public deployment completed
-- [ ] Demo and submission materials prepared
-
-## Active remediation workflow
-
-The current milestone is to make the complete MVP user loop pass independently verified acceptance testing before deployment or scope expansion.
-
-Use these documents in order:
-
-1. [Remediation roadmap](./REMEDIATION_ROADMAP.md) — repair order, phase gates, and ownership.
-2. [Antigravity remediation prompt V2](./ANTIGRAVITY_REMEDIATION_PROMPT_V2.md) — active implementation instructions.
-3. `WORK_REPORT_REMEDIATION_V2.md` — Antigravity creates this after completing the prompt.
-4. [Independent revalidation checklist](./REVALIDATION_CHECKLIST.md) — Codex uses this to audit the result.
-5. `VALIDATION_REMEDIATION_V2.md` — Codex creates this after the independent audit.
-
-Do not begin deployment, live-AI integration, or other scope expansion until the independent validation marks every Must-Have criterion as Pass.
-
-## Working agreements
-
-- Keep secrets out of the repository.
-- Use synthetic or deliberately anonymized data in demonstrations and tests.
-- Update requirements before implementing meaningful scope changes.
-- Record major decisions in `CONVERSATION_HISTORY.md`.
-- Prefer small, testable changes over large generated code dumps.
-- Do not merge or deploy behavior that cannot be explained or verified.
